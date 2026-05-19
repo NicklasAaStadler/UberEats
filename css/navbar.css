@@ -1,0 +1,59 @@
+.navbar {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--background-color);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.3rem;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar-venstre {
+    display: flex;
+    align-items: center;
+    gap: 5rem;
+}
+
+.navbar-venstre ul {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.navbar-højre {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.navbar-logo img {
+    height: 90px;
+}
+
+.kurv-icon i {
+    font-size: 1.3rem;
+    color: var(--text-color);
+}
+
+.login-knap {
+    background-color: var(--secondary-color);
+    color: var(--primary-color) !important;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+}
+
+
+
