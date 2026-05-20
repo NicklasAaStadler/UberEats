@@ -47,9 +47,9 @@
 
   const locationEl = document.getElementById('nav-location');
   if (locationEl) {
-    fetch('https://ip-api.com/json')
+    fetch('https://ipapi.co/json/')
       .then(r => r.json())
-      .then(d => { locationEl.textContent = d.city || 'Ukendt by'; })
+      .then(d => { locationEl.textContent = d.city || d.region || 'Ukendt by'; })
       .catch(()  => { locationEl.textContent = 'Location'; });
   }
 
