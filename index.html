@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/hero.css">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
     <nav class="navbar">
@@ -23,11 +24,11 @@
                     <li><a href="#">Mine ordrer</a></li>
                 </ul>
             </div>
-
+            
             <ul class="navbar-højre">
                 <li><a href="#">Location</a></li>
-                <li><a href="#" class="kurv-icon"><i class="fa-solid fa-basket-shopping"></i></a></li>
-                <li><a href="#" class="login-knap">Log ind</a></li>
+                <li><a href="kurv.html" class="kurv-icon"><i class="fa-solid fa-basket-shopping"></i><span class="kurv-badge" id="kurv-badge"></span></a></li>
+                <li id="nav-auth"><a href="login.html" class="login-knap">Log ind</a></li>
             </ul>
         </div>
     </nav>
@@ -38,15 +39,14 @@
             <!-- Venstre: tekst og knapper -->
             <div class="hero-tekst">
                 <h1 class="hero-overskrift">
-                    <span class="hero-citationstegn"></span>Få rabat som studerende</span>
+                    Få rabat som studerende
                 </h1>
                 <p class="hero-beskrivelse">
                     Spar op til 40% hos 5 restauranter nær dig.<br>
                     Verificér med WAYF på 30 sek.
                 </p>
                 <div class="hero-knapper">
-                    <a href="#" class="hero-knap-primær">Verificér nu →</a>
-                    <a href="#" class="hero-knap-sekundær">Se tilbud</a>
+                    <a href="login.html?verif=1" class="hero-knap-primær">Verificér nu →</a>
                 </div>
             </div>
 
@@ -161,219 +161,7 @@
     <div class="restauranter-container">
         <h2 class="restauranter-titel">Populært i Aarhus</h2>
 
-        <div class="restauranter-grid">
-
-            <!-- Kort 1 -->
-            <a href="restaurant.html" class="restaurant-kort">
-                <div class="kort-billede-wrapper">
-                    <img src="img/wagamama/waga2.jpg" alt="Wagamama">
-                    <button class="favorit-knap aktiv" aria-label="Tilføj til favoritter">
-                        <i class="fa-solid fa-heart"></i>
-                    </button>
-                </div>
-                <div class="kort-info">
-                    <h3>Wagamama</h3>
-                    <p class="kort-kategori">Asiatisk · Japansk</p>
-                    <p class="kort-meta">
-                        <span><i class="fa-solid fa-star"></i> 4.6</span>
-                        <span class="dot">·</span>
-                        <span>20–30 min.</span>
-                        <span class="dot">·</span>
-                        <span>$$</span>
-                    </p>
-                </div>
-            </a>
-
-            <!-- Kort 2 -->
-            <a href="restaurant.html" class="restaurant-kort">
-                <div class="kort-billede-wrapper">
-                    <img src="img/pizza notte/pizza-notte2.jpg" alt="Pizza Notte">
-                    <button class="favorit-knap aktiv" aria-label="Tilføj til favoritter">
-                        <i class="fa-solid fa-heart"></i>
-                    </button>
-                </div>
-                <div class="kort-info">
-                    <h3>Pizza Notte</h3>
-                    <p class="kort-kategori">Pizza · Italiensk</p>
-                    <p class="kort-meta">
-                        <span><i class="fa-solid fa-star"></i> 4.4</span>
-                        <span class="dot">·</span>
-                        <span>15–30 min.</span>
-                        <span class="dot">·</span>
-                        <span>$$</span>
-                    </p>
-                </div>
-            </a>
-
-            <!-- Kort 3 -->
-            <a href="restaurant.html" class="restaurant-kort">
-                <div class="kort-billede-wrapper">
-                    <img src="img/sushi lovers/sushi2.jpg" alt="Sushi Lovers">
-                    <button class="favorit-knap" aria-label="Tilføj til favoritter">
-                        <i class="fa-regular fa-heart"></i>
-                    </button>
-                </div>
-                <div class="kort-info">
-                    <h3>Sushi Lovers</h3>
-                    <p class="kort-kategori">Sushi · Japansk</p>
-                    <p class="kort-meta">
-                        <span><i class="fa-solid fa-star"></i> 4.7</span>
-                        <span class="dot">·</span>
-                        <span>25–35 min.</span>
-                        <span class="dot">·</span>
-                        <span>$$$</span>
-                    </p>
-                </div>
-            </a>
-
-            <!-- Kort 4 -->
-            <a href="restaurant.html" class="restaurant-kort">
-                <div class="kort-billede-wrapper">
-                    <img src="img/Smash Burger/burger2.jpg" alt="Burger Joint">
-                    <button class="favorit-knap" aria-label="Tilføj til favoritter">
-                        <i class="fa-regular fa-heart"></i>
-                    </button>
-                </div>
-                <div class="kort-info">
-                    <h3>Burger Joint</h3>
-                    <p class="kort-kategori">Burger · USA</p>
-                    <p class="kort-meta">
-                        <span><i class="fa-solid fa-star"></i> 4.8</span>
-                        <span class="dot">·</span>
-                        <span>30–40 min.</span>
-                        <span class="dot">·</span>
-                        <span>$$</span>
-                    </p>
-                </div>
-            </a>
-
-            <!-- Kort 5 -->
-            <a href="restaurant.html" class="restaurant-kort">
-                <div class="kort-billede-wrapper">
-                    <img src="img/Pho Vietnam/pho3.jpg" alt="Thai Garden">
-                    <button class="favorit-knap" aria-label="Tilføj til favoritter">
-                        <i class="fa-regular fa-heart"></i>
-                    </button>
-                </div>
-                <div class="kort-info">
-                    <h3>Thai Garden</h3>
-                    <p class="kort-kategori">Thai · Asiatisk</p>
-                    <p class="kort-meta">
-                        <span><i class="fa-solid fa-star"></i> 4.5</span>
-                        <span class="dot">·</span>
-                        <span>25–40 min.</span>
-                        <span class="dot">·</span>
-                        <span>$$</span>
-                    </p>
-                </div>
-            </a>
-
-            <!-- Kort 6 -->
-            <a href="restaurant.html" class="restaurant-kort">
-                <div class="kort-billede-wrapper">
-                    <img src="img/Pasta Basta/pasta2.jpg" alt="Pasta Basta">
-                    <button class="favorit-knap" aria-label="Tilføj til favoritter">
-                        <i class="fa-regular fa-heart"></i>
-                    </button>
-                </div>
-                <div class="kort-info">
-                    <h3>Pasta Basta</h3>
-                    <p class="kort-kategori">Pasta · Italiensk</p>
-                    <p class="kort-meta">
-                        <span><i class="fa-solid fa-star"></i> 4.3</span>
-                        <span class="dot">·</span>
-                        <span>20–35 min.</span>
-                        <span class="dot">·</span>
-                        <span>$$</span>
-                    </p>
-                </div>
-            </a>
-
-            <!-- Kort 7 -->
-            <a href="restaurant.html" class="restaurant-kort">
-                <div class="kort-billede-wrapper">
-                    <img src="img/Taco Loco/taco2.jpg" alt="Taco Loco">
-                    <button class="favorit-knap" aria-label="Tilføj til favoritter">
-                        <i class="fa-regular fa-heart"></i>
-                    </button>
-                </div>
-                <div class="kort-info">
-                    <h3>Taco Loco</h3>
-                    <p class="kort-kategori">Tacos · Mexicansk</p>
-                    <p class="kort-meta">
-                        <span><i class="fa-solid fa-star"></i> 4.2</span>
-                        <span class="dot">·</span>
-                        <span>15–25 min.</span>
-                        <span class="dot">·</span>
-                        <span>$</span>
-                    </p>
-                </div>
-            </a>
-
-            <!-- Kort 8 -->
-            <a href="restaurant.html" class="restaurant-kort">
-                <div class="kort-billede-wrapper">
-                    <img src="img/Pho Vietnam/pho3.jpg" alt="Pho Vietnam">
-                    <button class="favorit-knap" aria-label="Tilføj til favoritter">
-                        <i class="fa-regular fa-heart"></i>
-                    </button>
-                </div>
-                <div class="kort-info">
-                    <h3>Pho Vietnam</h3>
-                    <p class="kort-kategori">Pho · Vietnamesisk</p>
-                    <p class="kort-meta">
-                        <span><i class="fa-solid fa-star"></i> 4.6</span>
-                        <span class="dot">·</span>
-                        <span>20–30 min.</span>
-                        <span class="dot">·</span>
-                        <span>$$</span>
-                    </p>
-                </div>
-            </a>
-
-            <!-- Kort 9 -->
-            <a href="restaurant.html" class="restaurant-kort">
-                <div class="kort-billede-wrapper">
-                    <img src="img/green bowl/green2.jpg" alt="Green Bowl">
-                    <button class="favorit-knap" aria-label="Tilføj til favoritter">
-                        <i class="fa-regular fa-heart"></i>
-                    </button>
-                </div>
-                <div class="kort-info">
-                    <h3>Green Bowl</h3>
-                    <p class="kort-kategori">Sundt · Bowl</p>
-                    <p class="kort-meta">
-                        <span><i class="fa-solid fa-star"></i> 4.9</span>
-                        <span class="dot">·</span>
-                        <span>20–30 min.</span>
-                        <span class="dot">·</span>
-                        <span>$$</span>
-                    </p>
-                </div>
-            </a>
-
-            <!-- Kort 10 -->
-            <a href="restaurant.html" class="restaurant-kort">
-                <div class="kort-billede-wrapper">
-                    <img src="img/Smash Burger/burger4.jpg" alt="Smash Burger">
-                    <button class="favorit-knap" aria-label="Tilføj til favoritter">
-                        <i class="fa-regular fa-heart"></i>
-                    </button>
-                </div>
-                <div class="kort-info">
-                    <h3>Smash Burger</h3>
-                    <p class="kort-kategori">Burger · Amerikansk</p>
-                    <p class="kort-meta">
-                        <span><i class="fa-solid fa-star"></i> 4.5</span>
-                        <span class="dot">·</span>
-                        <span>15–25 min.</span>
-                        <span class="dot">·</span>
-                        <span>$</span>
-                    </p>
-                </div>
-            </a>
-
-        </div>
+        <div class="restauranter-grid" id="restauranter-grid"></div>
     </div>
 </section>
 
@@ -458,5 +246,8 @@
 </footer>
 
 
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
 </body>
 </html>

@@ -28,7 +28,7 @@ ul {
 /* ===== HERO SEKTION ===== */
 
 .hero {
-    background-color: var(--student-color);
+    background-color: #1a73e8b7;
     padding: 4rem 2rem;
     min-height: 340px;
 }
@@ -78,7 +78,7 @@ ul {
     text-decoration: none;
     padding: 0.75rem 1.6rem;
     border-radius: 2rem;
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: 600;
     transition: background-color 0.2s;
 }
@@ -87,21 +87,7 @@ ul {
     background-color: #04a855;
 }
 
-.hero-knap-sekundær {
-    background-color: transparent;
-    color: #fff;
-    text-decoration: none;
-    padding: 0.75rem 1.6rem;
-    border-radius: 2rem;
-    border: 2px solid #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: background-color 0.2s, color 0.2s;
-}
 
-.hero-knap-sekundær:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-}
 
 /* --- Højre billede --- */
 .hero-billede-wrapper {
@@ -250,6 +236,12 @@ ul {
     border-color: #999;
 }
 
+.pill.aktiv {
+    background-color: #111;
+    color: #fff;
+    border-color: #111;
+}
+
 
 
 .pill.tilbud {
@@ -300,6 +292,23 @@ ul {
 .kategori span {
     font-size: 0.9rem;
     color: var(--text-color);
+}
+
+.kategori.aktiv .kategori-cirkel {
+    box-shadow: 0 0 0 3px var(--brand-color);
+}
+
+.kategori.aktiv span {
+    color: var(--brand-color);
+    font-weight: 700;
+}
+
+.ingen-resultater {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 0;
+    color: #888;
+    font-size: 1rem;
 }
 
 
@@ -534,3 +543,60 @@ ul {
     color: #444;
 }
 
+
+/* --- Login side --- */
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f6f6f6;
+    }
+    .login-box {
+      background: var(--student-color);
+      padding: 2.5rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      width: 100%;
+      max-width: 380px;
+    }
+    .login-box h1 {
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .login-box input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 0.85rem;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .login-box button:hover { background: #333; }
+    .error-msg {
+      color: #e00;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      text-align: center;
+      min-height: 1.2rem;
+    }
+    .hint {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: #888;
+      text-align: center;
+    }

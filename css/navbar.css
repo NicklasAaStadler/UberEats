@@ -43,9 +43,29 @@
     height: 90px;
 }
 
+.kurv-icon {
+    position: relative;
+}
+
 .kurv-icon i {
     font-size: 1.3rem;
     color: var(--text-color);
+}
+
+.kurv-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: var(--brand-color);
+    color: #fff;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .login-knap {
@@ -54,6 +74,7 @@
     padding: 0.5rem 1rem;
     border-radius: 2rem;
 }
+
 
 
 

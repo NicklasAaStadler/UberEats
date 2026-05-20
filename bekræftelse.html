@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant – UberEats</title>
+    <title>Ordre bekræftet – UberEats</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/components.css">
@@ -27,60 +27,45 @@
             </div>
             <ul class="navbar-højre">
                 <li><a href="#">Location</a></li>
-                <li><a href="kurv.html" class="kurv-icon"><i class="fa-solid fa-basket-shopping"></i><span class="kurv-badge" id="kurv-badge"></span></a></li>
+                <li><a href="kurv.html" class="kurv-icon">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <span class="kurv-badge" id="kurv-badge"></span>
+                </a></li>
                 <li id="nav-auth"><a href="login.html" class="login-knap">Log ind</a></li>
             </ul>
         </div>
     </nav>
 
-    <div id="restaurant-content">
-
-        <div class="restaurant-hero">
-            <img id="restaurant-hero-img" src="" alt="">
-        </div>
-
-        <div class="restaurant-info-bar">
-            <div class="restaurant-info-container">
-                <a href="index.html" class="tilbage-link">
-                    <i class="fa-solid fa-arrow-left"></i> Tilbage
-                </a>
-                <h1 id="restaurant-navn"></h1>
-                <p id="restaurant-kategori" class="restaurant-kategori-tekst"></p>
-                <p id="restaurant-description" class="restaurant-beskrivelse"></p>
-                <div class="restaurant-meta">
-                    <span><i class="fa-solid fa-star"></i> <span id="restaurant-rating"></span></span>
-                    <span class="dot">·</span>
-                    <span><i class="fa-regular fa-clock"></i> <span id="restaurant-delivery"></span></span>
-                    <span class="dot">·</span>
-                    <span id="restaurant-price"></span>
-                </div>
+    <!-- Flow bar: steps 1+2 done (no links), step 3 active -->
+    <div class="flow-bar-wrapper">
+        <div class="flow-bar">
+            <div class="flow-steg faerdig">
+                <div class="flow-steg-cirkel"><i class="fa-solid fa-check"></i></div>
+                <span>Kurv</span>
             </div>
-        </div>
-
-        <div class="restaurant-content-layout">
-
-            <div class="menu-container">
-                <div id="restaurant-menu"></div>
+            <div class="flow-linje faerdig"></div>
+            <div class="flow-steg faerdig">
+                <div class="flow-steg-cirkel"><i class="fa-solid fa-check"></i></div>
+                <span>Betaling</span>
             </div>
-
-            <aside class="cart-sidebar">
-                <div class="cart-header">
-                    <h3>Din kurv</h3>
-                </div>
-                <p class="cart-tom" id="cart-tom">Tilføj retter for at starte din ordre.</p>
-                <div id="cart-items"></div>
-                <div class="cart-footer" id="cart-footer">
-                    <div class="cart-total-linje">
-                        <span>Total</span>
-                        <span id="cart-total">0 kr.</span>
-                    </div>
-                    <button class="cart-checkout-knap" onclick="window.location.href='kurv.html'">
-                        Gå til kurv →
-                    </button>
-                </div>
-            </aside>
+            <div class="flow-linje faerdig"></div>
+            <div class="flow-steg aktiv">
+                <div class="flow-steg-cirkel">3</div>
+                <span>Bekræftelse</span>
+            </div>
+            <div class="flow-linje"></div>
+            <div class="flow-steg">
+                <div class="flow-steg-cirkel">4</div>
+                <span>Levering</span>
+            </div>
         </div>
     </div>
+
+    <main class="bekræftelse-side">
+        <div class="bekræftelse-container" id="bekræftelse-content">
+            <!-- filled by renderBekræftelsePage() -->
+        </div>
+    </main>
 
     <footer class="footer">
         <div class="footer-container">
