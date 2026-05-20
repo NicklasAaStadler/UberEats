@@ -45,6 +45,14 @@
     `;
   }
 
+  const locationEl = document.getElementById('nav-location');
+  if (locationEl) {
+    fetch('https://ip-api.com/json')
+      .then(r => r.json())
+      .then(d => { locationEl.textContent = d.city || 'Ukendt by'; })
+      .catch(()  => { locationEl.textContent = 'Location'; });
+  }
+
   if (role === 'student') {
     const hero = document.querySelector('.hero');
     if (hero) hero.style.display = 'none';
