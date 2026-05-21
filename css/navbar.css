@@ -36,7 +36,6 @@
 
 .navbar a {
     text-decoration: none;
-    color: var(--text-color);
 }
 
 .navbar-logo img {
@@ -68,12 +67,67 @@
     justify-content: center;
 }
 
+#nav-auth {
+    visibility: hidden;
+}
+
 .login-knap {
     background-color: var(--secondary-color);
     color: var(--primary-color) !important;
     padding: 0.5rem 1rem;
     border-radius: 2rem;
 }
+
+/* Profil nav link */
+.nav-profil-knap {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.nav-profil-knap:hover,
+.nav-profil-knap.aktiv {
+    color: var(--brand-color);
+}
+
+.nav-profil-knap.aktiv {
+    font-weight: 700;
+}
+
+/* Right-side user area */
+.nav-bruger {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.nav-student-badge {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--student-color);
+    border: 1.5px solid var(--student-color);
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.nav-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #111;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
 
 
 

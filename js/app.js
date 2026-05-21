@@ -49,10 +49,13 @@ function renderHomepage() {
     return;
   }
 
+  const isStudent = localStorage.getItem('role') === 'student';
+
   grid.innerHTML = sortList(filtered).map(r => `
     <a href="restaurant.html?id=${r.id}" class="restaurant-kort">
       <div class="kort-billede-wrapper">
         <img src="${r.image}" alt="${r.name}" loading="lazy">
+        ${isStudent && r.studierabat ? `<span class="spar-badge">Spar ${r.studierabat}%</span>` : ''}
         <button class="favorit-knap${r.favorite ? ' aktiv' : ''}"
                 aria-label="Tilføj til favoritter"
                 onclick="toggleFavorit(event, '${r.id}')">
@@ -112,10 +115,12 @@ function initCategoryFilters() {
   });
 }
 
-function toggleFavorit(event, id) {
+async function toggleFavorit(event, id) {
   event.preventDefault();
+  const result = await sbToggleFavorite(id);
+  if (result === null) { window.location.href = 'login.html'; return; }
   const r = restaurants.find(r => r.id === id);
-  r.favorite = !r.favorite;
+  if (r) r.favorite = result;
   renderHomepage();
 }
 
@@ -124,9 +129,10 @@ function toggleFavorit(event, id) {
 
 let currentRestaurant = null;
 
-function renderRestaurantPage() {
+async function renderRestaurantPage() {
   const params = new URLSearchParams(window.location.search);
-  currentRestaurant = restaurants.find(r => r.id === params.get('id'));
+  currentRestaurant = await sbGetRestaurantWithMenu(params.get('id'));
+  if (currentRestaurant) localStorage.setItem('ue-restaurant-id', currentRestaurant.id);
 
   const content = document.getElementById('restaurant-content');
   if (!currentRestaurant) {
@@ -374,7 +380,7 @@ function renderCheckoutPage() {
 
 // ===== BEKRÆFTELSE PAGE =====
 
-function renderBekræftelsePage() {
+async function renderBekræftelsePage() {
   const el = document.getElementById('bekræftelse-content');
   if (!el) return;
 
@@ -397,6 +403,7 @@ function renderBekræftelsePage() {
   // Only save + clear cart on first load (not on refresh)
   if (!localStorage.getItem('ue-last-order')) {
     localStorage.setItem('ue-last-order', JSON.stringify(order));
+    await sbSaveOrder(localStorage.getItem('ue-restaurant-id'), order.items, total);
     cart = [];
     saveCart();
     updateNavbarBadge();
@@ -460,16 +467,24 @@ function renderBekræftelsePage() {
 
 updateNavbarBadge();
 
-if (document.getElementById('restauranter-grid')) {
-  renderHomepage();
-  initCategoryFilters();
-  initPillFilters();
-} else if (document.getElementById('restaurant-menu')) {
-  renderRestaurantPage();
-} else if (document.getElementById('kurv-indhold')) {
-  renderKurvPage();
-} else if (document.getElementById('checkout-items')) {
-  renderCheckoutPage();
-} else if (document.getElementById('bekræftelse-content')) {
-  renderBekræftelsePage();
-}
+(async () => {
+  const [rawRestaurants, favIds] = await Promise.all([
+    sbGetRestaurants(),
+    sbGetFavorites(),
+  ]);
+  restaurants = rawRestaurants.map(r => ({ ...r, favorite: favIds.includes(r.id) }));
+
+  if (document.getElementById('restauranter-grid')) {
+    renderHomepage();
+    initCategoryFilters();
+    initPillFilters();
+  } else if (document.getElementById('restaurant-menu')) {
+    await renderRestaurantPage();
+  } else if (document.getElementById('kurv-indhold')) {
+    renderKurvPage();
+  } else if (document.getElementById('checkout-items')) {
+    renderCheckoutPage();
+  } else if (document.getElementById('bekræftelse-content')) {
+    await renderBekræftelsePage();
+  }
+})();

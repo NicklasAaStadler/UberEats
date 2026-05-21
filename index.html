@@ -52,7 +52,7 @@
 
             <!-- Højre: billede med badge -->
             <div class="hero-billede-wrapper">
-                <img src="img/forside/hero food.png" alt="Lækker mad" class="hero-billede">
+                <img src="img/pizza notte/pizza-notte3.jpg" alt="Lækker mad" class="hero-billede">
                 <div class="hero-badge">
                     <div class="hero-badge-ikon">
                         <span>✳</span>
@@ -75,6 +75,21 @@
             </div>
         </div>
     </section>
+
+    <!-- Studerende rabat-bar (skjult som standard, vises via auth.js) -->
+    <div id="student-sektion" style="display:none;">
+      <div class="student-rabat-bar">
+        <div class="student-rabat-top">
+          <span class="student-rabat-label">DINE STUDIEFORDELE</span>
+          <span class="student-rabat-lokation">Hos 5 restauranter nær campus</span>
+        </div>
+        <div class="student-rabat-pct">Spar 20%</div>
+        <div class="student-rabat-progress">
+          <div class="student-rabat-fill"></div>
+        </div>
+        <div class="student-rabat-niveau">Sølv niveau · 3 ordrer til Guld</div>
+      </div>
+    </div>
 
     <!-- Filtre og kategorier -->
 <section class="filtre-sektion">
@@ -159,7 +174,7 @@
   <!-- Restaurant sektion -->
 <section class="restauranter-sektion">
     <div class="restauranter-container">
-        <h2 class="restauranter-titel">Populært i Aarhus</h2>
+        <h2 class="restauranter-titel">Populære resturanter</h2>
 
         <div class="restauranter-grid" id="restauranter-grid"></div>
     </div>
@@ -246,6 +261,8 @@
 </footer>
 
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
 <script src="js/auth.js"></script>

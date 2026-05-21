@@ -131,6 +131,30 @@
       line-height: 1.7;
     }
 
+    .student-banner {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #f0fdf7;
+      border: 1.5px solid #06c167;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+    }
+    .student-banner-tekst { flex: 1; }
+    .student-banner-tekst strong { display: block; color: #06c167; font-size: 0.92rem; }
+    .student-banner-tekst span   { font-size: 0.78rem; color: #555; }
+    .student-banner-fjern {
+      background: none;
+      border: none;
+      font-size: 0.78rem;
+      color: #999;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 0;
+    }
+    .student-banner-fjern:hover { color: #d00; text-decoration: underline; }
+
     /* ── Studieverifikation overlay ── */
     .verif-overlay {
       display: none;
@@ -220,7 +244,7 @@
     .wayf-header-text span { font-size: 0.78rem; color: #555; }
 
     .anbefalet {
-      background: #06c167;
+      background: var(--student-color);
       color: #fff;
       font-size: 0.6rem;
       font-weight: 700;
@@ -440,6 +464,16 @@
     <div class="login-card">
       <div class="login-logo">Uber<span class="green">Eats</span></div>
 
+      <!-- Student banner (skjult som standard) -->
+      <div class="student-banner" id="student-banner" style="display:none">
+        <span style="font-size:1.4rem">🎓</span>
+        <div class="student-banner-tekst">
+          <strong>Studenterrabat aktiveret</strong>
+          <span>Din konto får automatisk studenterfordele</span>
+        </div>
+        <button class="student-banner-fjern" onclick="fjernStudent()">Fortryd</button>
+      </div>
+
       <h1>Velkommen tilbage</h1>
       <p class="sub">Log ind for at fortsætte</p>
 
@@ -448,43 +482,95 @@
       <button class="btn-primary" onclick="login()">Log ind</button>
       <p class="error-msg" id="error"></p>
 
+      <p class="hint" id="skift-link">
+        Ny bruger? <b onclick="skiftTilOpret()" style="cursor:pointer;text-decoration:underline">Opret konto</b>
+      </p>
+
       <div class="divider">eller</div>
 
       <button class="btn-student" onclick="åbnVerif()">
         🎓 Er du studerende?
         <span class="s-tag">Spar 10%</span>
       </button>
-
-      <p class="hint">
-        Normal: <b>bruger@mail.dk</b> / 1234<br>
-        Studerende: <b>student@uni.dk</b> / 1234
-      </p>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
   <script>
-    const users = [
-      { username: 'student@uni.dk', password: '1234', role: 'student' },
-      { username: 'bruger@mail.dk', password: '1234', role: 'normal' },
-    ];
+    let pendingStudent = false;
+    let isRegisterMode = false;
 
-    function login() {
-      const username = document.getElementById('username').value.trim();
+    // ── Tilstand ──────────────────────────────────────────
+    function skiftTilOpret() {
+      isRegisterMode = true;
+      document.querySelector('.login-card h1').textContent    = 'Opret konto';
+      document.querySelector('.login-card .sub').textContent  = 'Udfyld felterne for at komme i gang';
+      document.querySelector('.btn-primary').textContent      = 'Opret konto';
+      document.querySelector('.btn-primary').onclick         = opretKonto;
+      document.getElementById('skift-link').innerHTML =
+        'Har du allerede en konto? <b onclick="skiftTilLogin()" style="cursor:pointer;text-decoration:underline">Log ind</b>';
+    }
+
+    function skiftTilLogin() {
+      isRegisterMode = false;
+      document.querySelector('.login-card h1').textContent    = 'Velkommen tilbage';
+      document.querySelector('.login-card .sub').textContent  = 'Log ind for at fortsætte';
+      document.querySelector('.btn-primary').textContent      = 'Log ind';
+      document.querySelector('.btn-primary').onclick         = login;
+      document.getElementById('skift-link').innerHTML =
+        'Ny bruger? <b onclick="skiftTilOpret()" style="cursor:pointer;text-decoration:underline">Opret konto</b>';
+    }
+
+    // ── Auth ──────────────────────────────────────────────
+    async function login() {
+      const email    = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
       const errorEl  = document.getElementById('error');
       errorEl.textContent = '';
 
-      const user = users.find(u => u.username === username && u.password === password);
-      if (!user) {
+      if (!email || !password) { errorEl.textContent = 'Udfyld e-mail og adgangskode'; return; }
+
+      const { error } = await sbSignIn(email, password);
+      if (error) {
         errorEl.textContent = 'Forkert e-mail eller adgangskode';
         return;
       }
 
-      localStorage.setItem('role', user.role);
-      localStorage.setItem('username', user.username);
+      localStorage.setItem('username', email);
+
+      const profile = await sbGetProfile();
+      if (profile && profile.display_name) {
+        localStorage.setItem('displayName', profile.display_name);
+        localStorage.setItem('role', profile.role || 'user');
+        window.location.href = 'index.html';
+      } else {
+        visNavnPopup();
+      }
+    }
+
+    async function opretKonto() {
+      const email    = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const errorEl  = document.getElementById('error');
+      errorEl.textContent = '';
+
+      if (!email || !password) { errorEl.textContent = 'Udfyld e-mail og adgangskode'; return; }
+      if (password.length < 6)  { errorEl.textContent = 'Adgangskode skal være mindst 6 tegn'; return; }
+
+      const { error } = await sbSignUp(email, password);
+      if (error) {
+        errorEl.textContent = error.message === 'User already registered'
+          ? 'E-mail er allerede i brug — prøv at logge ind'
+          : 'Kunne ikke oprette konto: ' + error.message;
+        return;
+      }
+
+      localStorage.setItem('username', email);
       visNavnPopup();
     }
 
+    // ── Student flow ──────────────────────────────────────
     function åbnVerif() {
       document.getElementById('verif-overlay').classList.add('aktiv');
     }
@@ -494,23 +580,56 @@
     }
 
     function bekræftStudent() {
-      localStorage.setItem('role', 'student');
-      localStorage.setItem('username', 'student@uni.dk');
+      pendingStudent = true;
       lukVerif();
-      visNavnPopup();
+
+      document.getElementById('student-banner').style.display = 'flex';
+      document.querySelector('.btn-student').style.display    = 'none';
+      document.querySelector('.divider').style.display        = 'none';
+
+      skiftTilOpret();
+      document.querySelector('.login-card h1').textContent   = 'Opret studenteronto';
+      document.querySelector('.login-card .sub').textContent = 'Vælg din e-mail og adgangskode';
     }
 
+    function fjernStudent() {
+      pendingStudent = false;
+      document.getElementById('student-banner').style.display = 'none';
+      document.querySelector('.btn-student').style.display    = '';
+      document.querySelector('.divider').style.display        = '';
+      skiftTilLogin();
+    }
+
+    // ── Navn popup ────────────────────────────────────────
     function visNavnPopup() {
+      if (pendingStudent) {
+        document.querySelector('.name-box h2').textContent = 'Næsten færdig! 🎓';
+        document.querySelector('.name-box p').textContent  = 'Hvad skal vi kalde dig? Din konto får studenterfordele.';
+      } else {
+        document.querySelector('.name-box h2').textContent = 'Hvad skal vi kalde dig?';
+        document.querySelector('.name-box p').textContent  = 'Skriv dit navn, så vi kan personliggøre din oplevelse.';
+      }
       document.getElementById('name-overlay').classList.add('aktiv');
       document.getElementById('display-name').focus();
     }
 
-    function saveName() {
+    async function saveName() {
       const name = document.getElementById('display-name').value.trim();
       if (!name) return;
+
+      const role = pendingStudent ? 'student' : 'user';
+      await sbUpsertProfile(name, role);
+
       localStorage.setItem('displayName', name);
+      localStorage.setItem('role', role);
       window.location.href = 'index.html';
     }
+
+    // ── Init — log altid den nuværende session ud så login-siden altid er tilgængelig ──
+    (async () => {
+      const session = await sbGetSession();
+      if (session) await sbSignOut();
+    })();
 
     if (new URLSearchParams(location.search).get('verif') === '1') åbnVerif();
 
@@ -518,7 +637,9 @@
       if (e.key === 'Escape') lukVerif();
       if (e.key === 'Enter') {
         if (document.getElementById('name-overlay').classList.contains('aktiv')) saveName();
-        else if (!document.getElementById('verif-overlay').classList.contains('aktiv')) login();
+        else if (!document.getElementById('verif-overlay').classList.contains('aktiv')) {
+          isRegisterMode ? opretKonto() : login();
+        }
       }
     });
   </script>
