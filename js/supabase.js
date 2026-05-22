@@ -60,8 +60,9 @@ async function sbGetRestaurantWithMenu(id) {
 
   const { data: categories } = await sb
     .from('menu_categories')
-    .select('id, name, menu_items(id, name, description, price)')
+    .select('id, name, sort_order, menu_items(id, name, description, price)')
     .eq('restaurant_id', id)
+    .order('sort_order')
     .order('id');
 
   restaurant.menu = (categories || []).map(cat => ({
