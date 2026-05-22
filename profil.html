@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil – UberEats</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/profil.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-venstre">
+        <a href="index.html" class="navbar-logo">
+          <img src="img/forside/Uber-Eats-Logo-2018.png" alt="UberEats Logo">
+        </a>
+        <ul>
+          <li><a href="index.html">Hjem</a></li>
+          <li><a href="#">Restauranter</a></li>
+          <li><a href="#">Mine ordrer</a></li>
+        </ul>
+      </div>
+
+      <ul class="navbar-højre">
+        <li><a href="#" id="nav-location">Henter lokation…</a></li>
+        <li><a href="kurv.html" class="kurv-icon">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span class="kurv-badge" id="kurv-badge"></span>
+        </a></li>
+        <li id="nav-auth"><a href="login.html" class="login-knap">Log ind</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="profil-page">
+
+    <!-- Sidebar -->
+    <aside class="profil-sidebar">
+      <div class="profil-sidebar-bruger">
+        <div class="profil-sidebar-avatar" id="sidebar-avatar"></div>
+        <div>
+          <div class="profil-sidebar-navn" id="sidebar-navn"></div>
+          <span class="profil-sidebar-badge" id="sidebar-badge" style="display:none">Studerende</span>
+        </div>
+      </div>
+
+      <nav class="profil-menu">
+        <a href="#" class="profil-menu-item aktiv" data-sektion="oversigt">Oversigt</a>
+        <a href="#" class="profil-menu-item" data-sektion="favoritter">Favoritter</a>
+        <a href="#" class="profil-menu-item" data-sektion="adresser">Adresser</a>
+        <a href="#" class="profil-menu-item" data-sektion="betaling">Betaling</a>
+        <a href="#" class="profil-menu-item" data-sektion="studierabat">Studierabat</a>
+        <a href="#" class="profil-menu-item" data-sektion="indstillinger">Indstillinger</a>
+      </nav>
+
+      <button class="profil-log-ud" onclick="logout()">Log ud</button>
+    </aside>
+
+    <!-- Main content -->
+    <main class="profil-main" id="profil-main"></main>
+
+  </div>
+
+  <style>
+    .verif-sektion { max-width: 540px; }
+    .verif-sektion .verif-tag {
+      display: inline-block;
+      background: #e3f0fd;
+      color: #1a5fb4;
+      font-size: 0.67rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 11px;
+      border-radius: 20px;
+      margin-bottom: 0.85rem;
+    }
+    .verif-sektion h2 { font-size: 1.5rem; margin-bottom: 0.35rem; }
+    .verif-sektion .verif-sub { color: #666; font-size: 0.9rem; margin-bottom: 1.3rem; }
+    .wayf-box {
+      border: 2px solid #c8dff8;
+      background: #f0f6ff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .wayf-header { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1rem; }
+    .wayf-logo {
+      width: 44px; height: 44px;
+      background: #1565c0; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 900; font-size: 0.72rem;
+      letter-spacing: -0.01em; flex-shrink: 0;
+    }
+    .wayf-header-text { flex: 1; }
+    .wayf-header-text strong { display: block; font-size: 0.95rem; margin-bottom: 0.15rem; }
+    .wayf-header-text span { font-size: 0.78rem; color: #555; }
+    .anbefalet {
+      background: var(--student-color); color: #fff;
+      font-size: 0.6rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      padding: 3px 8px; border-radius: 20px; flex-shrink: 0;
+    }
+    .wayf-label { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: #999; margin-bottom: 0.45rem; }
+    .wayf-search {
+      display: flex; align-items: center;
+      background: #fff; border: 1.5px solid #c8dff8;
+      border-radius: 8px; padding: 0.6rem 0.9rem;
+      margin-bottom: 0.9rem; gap: 0.5rem;
+    }
+    .wayf-search i { color: #aaa; font-size: 0.83rem; }
+    .wayf-search input { border: none; outline: none; flex: 1; font-size: 0.88rem; background: transparent; color: #333; }
+    .btn-wayf {
+      width: 100%; padding: 0.85rem;
+      background: #1565c0; color: #fff;
+      border: none; border-radius: 8px;
+      font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-wayf:hover { background: #0d47a1; }
+    .verif-divider {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin: 1rem 0; color: #bbb; font-size: 0.83rem;
+    }
+    .verif-divider::before, .verif-divider::after { content: ''; flex: 1; height: 1px; background: #e4e4e4; }
+    .alt-metoder { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .alt-kort {
+      border: 1.5px solid #e4e4e4; border-radius: 10px;
+      padding: 1rem; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .alt-kort:hover { border-color: #1565c0; background: #f5f9ff; }
+    .alt-kort i { font-size: 1.05rem; color: #444; margin-bottom: 0.5rem; display: block; }
+    .alt-kort strong { display: block; font-size: 0.88rem; margin-bottom: 0.2rem; }
+    .alt-kort span { font-size: 0.75rem; color: #999; }
+    .privacy-note { background: #f7f7f7; border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.78rem; color: #999; line-height: 1.55; }
+    .student-verificeret {
+      background: #f0fdf7; border: 2px solid #06c167;
+      border-radius: 14px; padding: 2rem;
+      display: flex; align-items: center; gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .student-verificeret-ikon { font-size: 2.5rem; flex-shrink: 0; }
+    .student-verificeret h3 { font-size: 1.15rem; color: #06c167; margin-bottom: 0.25rem; }
+    .student-verificeret p { font-size: 0.85rem; color: #555; margin: 0; }
+    .student-fordele { list-style: none; padding: 0; margin: 1rem 0 0; }
+    .student-fordele li { display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0; font-size: 0.9rem; color: #333; border-bottom: 1px solid #f0fdf7; }
+    .student-fordele li:last-child { border-bottom: none; }
+    .student-fordele li::before { content: '✓'; color: #06c167; font-weight: 700; }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    (async function () {
+      const session = await sbGetSession();
+      if (!session) { window.location.href = 'login.html'; return; }
+
+      const profile = await sbGetProfile();
+      if (!profile) { window.location.href = 'login.html'; return; }
+
+      const displayName = profile.display_name || session.user.email;
+      let role        = profile.role || 'user';
+      const firstName = displayName.split(' ')[0];
+      const initials  = displayName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+      let isStudent   = role === 'student';
+
+      document.getElementById('sidebar-avatar').textContent = initials;
+      document.getElementById('sidebar-navn').textContent   = displayName;
+      if (isStudent) document.getElementById('sidebar-badge').style.display = 'inline-block';
+
+      const orders = await sbGetOrders();
+      const now          = new Date();
+      const denneMåned   = orders.filter(o => new Date(o.created_at).getMonth() === now.getMonth()).length;
+      const formattedOrders = orders.map(o => ({
+        img:  o.restaurants?.image || 'img/forside/hero food.png',
+        navn: o.restaurants?.name  || 'Restaurant',
+        items: (o.order_items || []).map(i => `${i.quantity} × ${i.item_name}`).join(', '),
+        tid:  new Date(o.created_at).toLocaleDateString('da-DK', { day: 'numeric', month: 'short', year: 'numeric' }),
+        pris: `${o.total} kr.`,
+        id:   o.restaurant_id,
+      }));
+
+      async function verificerStudent() {
+        await sbUpsertProfile(displayName, 'student');
+        role = 'student';
+        isStudent = true;
+        localStorage.setItem('role', 'student');
+        document.getElementById('sidebar-badge').style.display = 'inline-block';
+        renderStudierabat();
+      }
+
+      function renderOversigt() {
+        const rabatBar = isStudent ? `
+          <div class="student-rabat-bar">
+            <div class="student-rabat-top">
+              <span class="student-rabat-label">DINE STUDIEFORDELE</span>
+              <span class="student-rabat-lokation">Hos restauranter med studierabat</span>
+            </div>
+            <div class="student-rabat-pct">Spar op til 30%</div>
+            <div class="student-rabat-progress"><div class="student-rabat-fill"></div></div>
+            <div class="student-rabat-niveau">Aktiv studierabat</div>
+          </div>
+        ` : '';
+
+        const ordrerHTML = formattedOrders.length === 0
+          ? '<p style="color:#888;padding:1rem 0">Du har ikke afgivet nogen ordrer endnu.</p>'
+          : formattedOrders.map(o => `
+              <div class="ordre-række">
+                <img src="${o.img}" alt="${o.navn}" class="ordre-billede">
+                <div class="ordre-info">
+                  <strong>${o.navn}</strong>
+                  <span>${o.items} · ${o.tid}</span>
+                </div>
+                <span class="ordre-pris">${o.pris}</span>
+                ${o.id ? `<a href="restaurant.html?id=${o.id}" class="ordre-bestil-igen">Bestil igen</a>` : ''}
+              </div>
+            `).join('');
+
+        document.getElementById('profil-main').innerHTML = `
+          <div class="profil-velkommen">
+            <h1>Velkommen, ${firstName}</h1>
+            <p>${isStudent ? 'Studerende · Verificeret' : session.user.email}</p>
+          </div>
+          <div class="profil-stats">
+            <div class="stat-kort">
+              <div class="stat-value">${orders.length}</div>
+              <div class="stat-label">Ordrer i alt</div>
+              <div class="stat-sub">${denneMåned} denne måned</div>
+            </div>
+            <div class="stat-kort">
+              <div class="stat-value blue">${isStudent ? 'Studerende' : 'Normal'}</div>
+              <div class="stat-label">Kontotype</div>
+              <div class="stat-sub">${session.user.email}</div>
+            </div>
+          </div>
+          ${rabatBar}
+          <h2 class="profil-ordrer-titel">Seneste ordrer</h2>
+          <div class="profil-ordrer-liste">${ordrerHTML}</div>
+        `;
+      }
+
+      function renderStudierabat() {
+        const main = document.getElementById('profil-main');
+        if (isStudent) {
+          main.innerHTML = `
+            <div class="profil-velkommen">
+              <h1>Studierabat</h1>
+              <p>Din kontostatus og studiefordele.</p>
+            </div>
+            <div class="student-verificeret">
+              <div class="student-verificeret-ikon">🎓</div>
+              <div>
+                <h3>Studerende · Verificeret</h3>
+                <p>Din konto er verificeret. Du får automatisk studenterrabat hos deltagende restauranter.</p>
+              </div>
+            </div>
+            <ul class="student-fordele">
+              <li>Op til 40% rabat hos deltagende restauranter</li>
+              <li>Eksklusivt studenterudvalg</li>
+              <li>Gratis levering på studentermenuer</li>
+              <li>Prioriteret support</li>
+            </ul>
+          `;
+        } else {
+          main.innerHTML = `
+            <div class="profil-velkommen">
+              <h1>Studierabat</h1>
+              <p>Verificér din studiestatus og spar op til 40% på din mad.</p>
+            </div>
+            <div class="verif-sektion">
+              <span class="verif-tag">Studierabat</span>
+              <h2>Verificér din studiestatus</h2>
+              <p class="verif-sub">Det tager kun 30 sekunder.</p>
+              <div class="wayf-box">
+                <div class="wayf-header">
+                  <div class="wayf-logo">WAYF</div>
+                  <div class="wayf-header-text">
+                    <strong>Log ind med WAYF</strong>
+                    <span>Brug dit studie-login fra din uddannelsesinstitution</span>
+                  </div>
+                  <span class="anbefalet">Anbefalet</span>
+                </div>
+                <div class="wayf-label">Vælg uddannelsessted</div>
+                <div class="wayf-search">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input type="text" id="skole-input" placeholder="Cphbusiness — Multimediedesigner">
+                  <span style="color:#1565c0;font-size:0.85rem;font-weight:600;cursor:pointer" onclick="document.getElementById('skole-input').value=''">Skift</span>
+                </div>
+                <button class="btn-wayf" onclick="verificerStudent()">Fortsæt til WAYF →</button>
+              </div>
+              <div class="verif-divider">eller</div>
+              <div class="alt-metoder">
+                <div class="alt-kort" onclick="verificerStudent()">
+                  <i class="fa-regular fa-envelope"></i>
+                  <strong>Skolemail</strong>
+                  <span>.dk uddannelsesdomæne</span>
+                </div>
+                <div class="alt-kort" onclick="verificerStudent()">
+                  <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                  <strong>Upload studiekort</strong>
+                  <span>Billede eller PDF</span>
+                </div>
+              </div>
+              <div class="privacy-note">
+                Vi gemmer ikke dit studie-login. Verificering sker via DTU/WAYF og er gyldig i 12 mdr.
+              </div>
+            </div>
+          `;
+          window.verificerStudent = verificerStudent;
+        }
+      }
+
+      function renderPlaceholder(titel) {
+        document.getElementById('profil-main').innerHTML = `
+          <div class="profil-velkommen">
+            <h1>${titel}</h1>
+            <p style="color:#aaa">Kommer snart.</p>
+          </div>
+        `;
+      }
+
+      const sektionMap = {
+        oversigt:     renderOversigt,
+        studierabat:  renderStudierabat,
+        favoritter:   () => renderPlaceholder('Favoritter'),
+        adresser:     () => renderPlaceholder('Adresser'),
+        betaling:     () => renderPlaceholder('Betaling'),
+        indstillinger:() => renderPlaceholder('Indstillinger'),
+      };
+
+      document.querySelectorAll('.profil-menu-item').forEach(item => {
+        item.addEventListener('click', e => {
+          e.preventDefault();
+          document.querySelectorAll('.profil-menu-item').forEach(i => i.classList.remove('aktiv'));
+          item.classList.add('aktiv');
+          const fn = sektionMap[item.dataset.sektion];
+          if (fn) fn();
+        });
+      });
+
+      renderOversigt();
+
+      if (new URLSearchParams(location.search).get('verif') === '1') {
+        document.querySelector('[data-sektion="studierabat"]').click();
+      }
+    })();
+  </script>
+
+</body>
+</html>

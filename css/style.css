@@ -237,9 +237,9 @@ ul {
 }
 
 .pill.aktiv {
-    background-color: #111;
+    background-color: var(--brand-color);
     color: #fff;
-    border-color: #111;
+    border-color: var(--brand-color);
 }
 
 
@@ -366,6 +366,86 @@ ul {
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+/* ===== STUDERENDE RABAT-BAR ===== */
+.student-rabat-bar {
+    max-width: 95%;
+    margin: 1rem auto;
+    background: #e8f0fe;
+    padding: 1.25rem 1.75rem 1.25rem;
+    border-radius: 14px;
+    border: 1.5px dashed var(--student-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.student-rabat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.student-rabat-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--student-color);
+    text-transform: uppercase;
+}
+
+.student-rabat-lokation {
+    font-size: 0.88rem;
+    color: #555;
+    white-space: nowrap;
+}
+
+.student-rabat-pct {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.1;
+}
+
+.student-rabat-progress {
+    width: 100%;
+    height: 8px;
+    background: #c5d8fb;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.student-rabat-fill {
+    height: 100%;
+    width: 80%;
+    background: var(--student-color);
+    border-radius: 4px;
+}
+
+.student-rabat-niveau {
+    font-size: 0.82rem;
+    color: #555;
+}
+
+/* Spar-badge på restaurantkort */
+.spar-badge {
+    position: absolute;
+    top: 0.65rem;
+    left: 0.65rem;
+    background: #06c167;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.studierabat-badge {
+    background: #1565c0;
 }
 
 /* Hjerte-knap */

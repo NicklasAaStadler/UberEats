@@ -17,6 +17,10 @@
 
   /* Footer: 2-column grid */
   .footer-kolonner { grid-template-columns: 1fr 1fr; }
+
+  /* Rabat bar: stretch wider on tablet */
+  .student-rabat-bar { max-width: 95%; }
+  .student-rabat-lokation { font-size: 0.8rem; }
 }
 
 
@@ -32,6 +36,11 @@
   .hero-overskrift { font-size: 2rem; }
   .hero-beskrivelse { font-size: 1rem; }
   .hero-billede-wrapper { display: none; }
+
+  /* Rabat bar: full width on mobile, hide location text */
+  .student-rabat-bar { max-width: 100%; margin: 1rem 1rem 1.5rem; border-radius: 10px; padding: 1rem 1.25rem; }
+  .student-rabat-lokation { display: none; }
+  .student-rabat-pct { font-size: 1.25rem; }
 
   /* Sections: tighter side padding */
   .søgning { padding: 1.5rem 1rem; }

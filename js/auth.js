@@ -1,6 +1,26 @@
-(function () {
+(async function () {
+  const session = await sbGetSession();
+
+  if (session) {
+    let displayName = localStorage.getItem('displayName');
+    let role        = localStorage.getItem('role');
+
+    if (!displayName) {
+      const profile = await sbGetProfile();
+      if (profile) {
+        displayName = profile.display_name;
+        role        = profile.role;
+        localStorage.setItem('displayName', displayName);
+        localStorage.setItem('role',        role);
+      }
+    }
+  } else {
+    localStorage.removeItem('role');
+    localStorage.removeItem('username');
+    localStorage.removeItem('displayName');
+  }
+
   const role        = localStorage.getItem('role');
-  const username    = localStorage.getItem('username');
   const displayName = localStorage.getItem('displayName');
 
   const navAuth = document.getElementById('nav-auth');
@@ -12,48 +32,60 @@
       .toUpperCase()
       .slice(0, 2);
 
-    const studentTag = role === 'student'
-      ? `<span style="
-            display:inline-block;
-            font-size:0.6rem;
-            font-weight:700;
-            letter-spacing:0.04em;
-            text-transform:uppercase;
-            background:#06c167;
-            color:#fff;
-            padding:2px 7px;
-            border-radius:20px;
-            margin-top:3px;
-          ">Studerende</span>`
-      : '';
+    const leftNav = document.querySelector('.navbar-venstre ul');
+    if (leftNav) {
+      const li = document.createElement('li');
+      const onProfilPage = window.location.pathname.includes('profil.html');
+      li.innerHTML = `<a href="profil.html" class="nav-profil-knap${onProfilPage ? ' aktiv' : ''}">Profil</a>`;
+      leftNav.appendChild(li);
+    }
 
     navAuth.style.listStyle = 'none';
     navAuth.innerHTML = `
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="
-          width:38px;height:38px;border-radius:50%;
-          background:#111;color:#fff;
-          display:flex;align-items:center;justify-content:center;
-          font-weight:700;font-size:0.95rem;flex-shrink:0;
-        ">${initials}</div>
-        <div style="line-height:1.3;">
-          <div style="font-weight:600;font-size:0.88rem;">${displayName}</div>
-          ${studentTag}
-        </div>
-        <a href="#" onclick="logout()" style="margin-left:6px;font-size:0.8rem;color:#999;white-space:nowrap;">Log ud</a>
+      <div class="nav-bruger">
+        ${role === 'student' ? '<span class="nav-student-badge">Studerende</span>' : ''}
+        <a href="profil.html" class="nav-avatar" aria-label="Gå til profil">${initials}</a>
       </div>
     `;
+  }
+
+  const locationEl = document.getElementById('nav-location');
+  if (locationEl) {
+    const apis = [
+      { url: 'https://ipinfo.io/json',  get: d => d.city },
+      { url: 'https://ipapi.co/json/',  get: d => d.city },
+      { url: 'https://ip-api.com/json', get: d => d.city },
+    ];
+    (async () => {
+      for (const api of apis) {
+        try {
+          const d = await fetch(api.url).then(r => r.json());
+          const city = api.get(d);
+          if (city) { locationEl.textContent = city; return; }
+        } catch {}
+      }
+      locationEl.textContent = 'Location';
+    })();
   }
 
   if (role === 'student') {
     const hero = document.querySelector('.hero');
     if (hero) hero.style.display = 'none';
+
+    const studentSektion = document.getElementById('student-sektion');
+    if (studentSektion) studentSektion.style.display = 'block';
+
+    const titel = document.querySelector('.restauranter-titel');
+    if (titel) titel.textContent = 'Eksklusivt for studerende';
   }
+
+  if (navAuth) navAuth.style.visibility = 'visible';
 })();
 
-function logout() {
+async function logout() {
+  await sbSignOut();
   localStorage.removeItem('role');
   localStorage.removeItem('username');
   localStorage.removeItem('displayName');
-  window.location.reload();
+  window.location.href = 'index.html';
 }
