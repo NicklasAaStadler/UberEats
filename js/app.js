@@ -521,7 +521,7 @@ async function renderBekræftelsePage() {
         <span>Levering</span><span>${saved.levering} kr.</span>
       </div>
       ${saved.rabat > 0 ? `
-      <div class="bekræftelse-recap-linje" style="color:var(--brand-color);font-weight:600">
+      <div class="bekræftelse-recap-linje" style="color:var(--student-color);font-weight:600">
         <span>Studierabat 🎓</span><span>-${saved.rabat} kr.</span>
       </div>` : ''}
       ${saved.tip > 0 ? `

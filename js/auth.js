@@ -87,5 +87,5 @@ async function logout() {
   localStorage.removeItem('role');
   localStorage.removeItem('username');
   localStorage.removeItem('displayName');
-  window.location.reload();
+  window.location.href = 'index.html';
 }

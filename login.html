@@ -131,6 +131,16 @@
       line-height: 1.7;
     }
 
+    .btn-home {
+      display: block;
+      text-align: center;
+      margin-top: 1.1rem;
+      font-size: 0.85rem;
+      color: #777;
+      text-decoration: none;
+    }
+    .btn-home:hover { color: #111; text-decoration: underline; }
+
     .student-banner {
       display: flex;
       align-items: center;
@@ -492,6 +502,8 @@
         🎓 Er du studerende?
         <span class="s-tag">Spar 10%</span>
       </button>
+
+      <a href="index.html" class="btn-home">← Tilbage til forsiden</a>
     </div>
   </div>
 
@@ -625,10 +637,13 @@
       window.location.href = 'index.html';
     }
 
-    // ── Init — log altid den nuværende session ud så login-siden altid er tilgængelig ──
+    // ── Init — redirect to home if already logged in ──
     (async () => {
       const session = await sbGetSession();
-      if (session) await sbSignOut();
+      if (session) {
+        const verif = new URLSearchParams(location.search).get('verif');
+        window.location.href = verif === '1' ? 'profil.html?verif=1' : 'index.html';
+      }
     })();
 
     if (new URLSearchParams(location.search).get('verif') === '1') åbnVerif();

@@ -55,7 +55,7 @@
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
-    background: #06c167;
+    background: var(--student-color);
     color: #fff;
     padding: 2px 7px;
     border-radius: 20px;
