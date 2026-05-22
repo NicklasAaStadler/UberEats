@@ -55,7 +55,8 @@ function renderHomepage() {
     <a href="restaurant.html?id=${r.id}" class="restaurant-kort">
       <div class="kort-billede-wrapper">
         <img src="${r.image}" alt="${r.name}" loading="lazy">
-        ${isStudent && r.studierabat ? `<span class="spar-badge">Spar ${r.studierabat}%</span>` : ''}
+        ${r.rabat ? `<span class="spar-badge">Spar ${r.rabat}%</span>` : ''}
+        ${isStudent && r.studierabat ? `<span class="spar-badge studierabat-badge">🎓 ${r.studierabat}% Studierabat</span>` : ''}
         <button class="favorit-knap${r.favorite ? ' aktiv' : ''}"
                 aria-label="Tilføj til favoritter"
                 onclick="toggleFavorit(event, '${r.id}')">
@@ -129,6 +130,15 @@ async function toggleFavorit(event, id) {
 
 let currentRestaurant = null;
 
+function getStudierabat() {
+  if (localStorage.getItem('role') !== 'student') return 0;
+  return parseInt(localStorage.getItem('ue-studierabat') || '0', 10);
+}
+
+function slugify(str) {
+  return str.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+}
+
 async function renderRestaurantPage() {
   const params = new URLSearchParams(window.location.search);
   currentRestaurant = await sbGetRestaurantWithMenu(params.get('id'));
@@ -141,17 +151,30 @@ async function renderRestaurantPage() {
   }
 
   document.title = `${currentRestaurant.name} – UberEats`;
-  document.getElementById('restaurant-hero-img').src        = currentRestaurant.image;
-  document.getElementById('restaurant-hero-img').alt         = currentRestaurant.name;
-  document.getElementById('restaurant-navn').textContent     = currentRestaurant.name;
-  document.getElementById('restaurant-kategori').textContent = currentRestaurant.category;
-  document.getElementById('restaurant-rating').textContent   = currentRestaurant.rating;
-  document.getElementById('restaurant-delivery').textContent = currentRestaurant.delivery;
-  document.getElementById('restaurant-price').textContent    = currentRestaurant.price;
+  document.getElementById('restaurant-hero-img').src           = currentRestaurant.image;
+  document.getElementById('restaurant-hero-img').alt            = currentRestaurant.name;
+  document.getElementById('restaurant-navn').textContent        = currentRestaurant.name;
+  document.getElementById('restaurant-kategori').textContent    = currentRestaurant.category;
+  document.getElementById('restaurant-rating').textContent      = currentRestaurant.rating;
+  document.getElementById('restaurant-delivery').textContent    = currentRestaurant.delivery;
+  document.getElementById('restaurant-price').textContent       = currentRestaurant.price;
   document.getElementById('restaurant-description').textContent = currentRestaurant.description;
 
+  localStorage.setItem('ue-studierabat', currentRestaurant.studierabat || 0);
+
+  // ── Venstre kategorinav ───────────────────────────────
+  const navEl = document.getElementById('menu-nav');
+  if (navEl) {
+    navEl.innerHTML = currentRestaurant.menu.map(section => `
+      <a href="#sektion-${slugify(section.category)}" class="menu-nav-item">
+        ${section.category}
+      </a>
+    `).join('');
+  }
+
+  // ── Menusektioner ─────────────────────────────────────
   document.getElementById('restaurant-menu').innerHTML = currentRestaurant.menu.map(section => `
-    <div class="menu-sektion">
+    <div class="menu-sektion" id="sektion-${slugify(section.category)}">
       <h3 class="menu-sektion-titel">${section.category}</h3>
       <div class="menu-items">
         ${section.items.map(item => `
@@ -171,6 +194,25 @@ async function renderRestaurantPage() {
       </div>
     </div>
   `).join('');
+
+  // ── Scroll-spy: fremhæv aktiv kategori ───────────────
+  if (navEl) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navEl.querySelectorAll('.menu-nav-item').forEach(a => {
+            a.classList.toggle('aktiv', a.getAttribute('href') === `#${entry.target.id}`);
+          });
+        }
+      });
+    }, { rootMargin: '-10% 0px -80% 0px' });
+
+    document.querySelectorAll('.menu-sektion').forEach(el => observer.observe(el));
+
+    // Sæt første som aktiv fra start
+    const første = navEl.querySelector('.menu-nav-item');
+    if (første) første.classList.add('aktiv');
+  }
 
   renderSidebarCart();
 }
@@ -243,7 +285,16 @@ function renderSidebarCart() {
   tomEl.style.display    = 'none';
   footerEl.style.display = 'block';
 
-  const total = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
+  const subtotal  = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
+  const rabatPct  = getStudierabat();
+  const rabat     = Math.round(subtotal * rabatPct / 100);
+  const total     = subtotal - rabat;
+
+  const rabatLinjeEl = document.getElementById('cart-rabat-linje');
+  if (rabatLinjeEl) {
+    rabatLinjeEl.style.display = rabat > 0 ? 'flex' : 'none';
+    document.getElementById('cart-rabat-beloeb').textContent = `-${rabat} kr.`;
+  }
   totalEl.textContent = `${total} kr.`;
 
   itemsEl.innerHTML = cart.map(c => `
@@ -282,7 +333,9 @@ function renderKurvPage() {
   }
 
   const subtotal = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
-  const total    = subtotal + LEVERING;
+  const rabatPct = getStudierabat();
+  const rabat    = Math.round(subtotal * rabatPct / 100);
+  const total    = subtotal + LEVERING - rabat;
 
   indhold.innerHTML = `
     <div class="kurv-layout">
@@ -311,6 +364,11 @@ function renderKurvPage() {
           <span>Subtotal</span>
           <span>${subtotal} kr.</span>
         </div>
+        ${rabat > 0 ? `
+        <div class="kurv-linje" style="color:var(--student-color);font-weight:600">
+          <span>Studierabat ( ${rabatPct}% ) 🎓</span>
+          <span>-${rabat} kr.</span>
+        </div>` : ''}
         <div class="kurv-linje">
           <span>Levering</span>
           <span>${LEVERING} kr.</span>
@@ -319,6 +377,7 @@ function renderKurvPage() {
           <span>Total</span>
           <span>${total} kr.</span>
         </div>
+        
         <button class="kurv-betaling-knap"
                 onclick="window.location.href='checkout.html'">
           Gå til betaling →
@@ -350,13 +409,22 @@ function vælgTip(pct) {
 
 function updateCheckoutTotals() {
   const subtotal = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
+  const rabatPct = getStudierabat();
+  const rabat    = Math.round(subtotal * rabatPct / 100);
   const tip      = Math.round(subtotal * tipProcent / 100);
-  const total    = subtotal + LEVERING + tip;
+  const total    = subtotal + LEVERING - rabat + tip;
 
   document.getElementById('checkout-subtotal').textContent = `${subtotal} kr.`;
   document.getElementById('checkout-levering').textContent = `${LEVERING} kr.`;
   document.getElementById('checkout-tip').textContent      = `${tip} kr.`;
   document.getElementById('checkout-total').textContent    = `${total} kr.`;
+
+  const rabatLinjeEl = document.getElementById('rabat-linje');
+  if (rabatLinjeEl) {
+    rabatLinjeEl.style.display = rabat > 0 ? 'flex' : 'none';
+    document.getElementById('checkout-rabat-label').textContent = `Studierabat ( ${rabatPct}% ) 🎓`;
+    document.getElementById('checkout-rabat').textContent = `-${rabat} kr.`;
+  }
 }
 
 function renderCheckoutPage() {
@@ -387,14 +455,17 @@ async function renderBekræftelsePage() {
   // Save order snapshot (items + totals) before clearing cart
   const subtotal = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
   const savedTip = parseInt(localStorage.getItem('ue-tip') || '0', 10);
+  const rabatPct = getStudierabat();
   const tip      = Math.round(subtotal * savedTip / 100);
-  const total    = subtotal + LEVERING + tip;
+  const rabat    = Math.round(subtotal * rabatPct / 100);
+  const total    = subtotal + LEVERING - rabat + tip;
 
   const order = {
     number:   Math.floor(100000 + Math.random() * 900000),
     items:    [...cart],
     subtotal,
     levering: LEVERING,
+    rabat,
     tip,
     total,
     time:     Date.now(),
@@ -449,6 +520,10 @@ async function renderBekræftelsePage() {
       <div class="bekræftelse-recap-linje">
         <span>Levering</span><span>${saved.levering} kr.</span>
       </div>
+      ${saved.rabat > 0 ? `
+      <div class="bekræftelse-recap-linje" style="color:var(--brand-color);font-weight:600">
+        <span>Studierabat 🎓</span><span>-${saved.rabat} kr.</span>
+      </div>` : ''}
       ${saved.tip > 0 ? `
       <div class="bekræftelse-recap-linje">
         <span>Drikkepenge</span><span>${saved.tip} kr.</span>
