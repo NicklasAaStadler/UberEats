@@ -32,8 +32,8 @@ let activeSort  = null;
 let searchQuery = '';
 
 function sortList(list) {
-  if (activeSort === 'rating') return [...list].sort((a, b) => b.rating - a.rating);
-  if (activeSort === 'pris')   return [...list].sort((a, b) => a.price.length - b.price.length);
+  if (activeSort === 'rating' || activeSort === 'populært') return [...list].sort((a, b) => b.rating - a.rating);
+  if (activeSort === 'pris') return [...list].sort((a, b) => a.price.length - b.price.length);
   return list;
 }
 
@@ -44,12 +44,13 @@ function renderHomepage() {
   const q = searchQuery.toLowerCase().trim();
 
   const filtered = restaurants.filter(r => {
-    const matchTag = !activeTag || r.tags.includes(activeTag);
+    const matchTag    = !activeTag || r.tags.includes(activeTag);
     const matchSearch = !q ||
       r.name.toLowerCase().includes(q) ||
       r.category.toLowerCase().includes(q) ||
       (r.tags || []).some(t => t.toLowerCase().includes(q));
-    return matchTag && matchSearch;
+    const matchTilbud = activeSort !== 'tilbud' || r.studierabat > 0 || r.free_delivery;
+    return matchTag && matchSearch && matchTilbud;
   });
 
   if (filtered.length === 0) {
@@ -63,9 +64,11 @@ function renderHomepage() {
     <a href="restaurant.html?id=${r.id}" class="restaurant-kort">
       <div class="kort-billede-wrapper">
         <img src="${r.image}" alt="${r.name}" loading="lazy">
-        ${r.rabat ? `<span class="spar-badge">Spar ${r.rabat}%</span>` : ''}
-        ${isStudent && r.studierabat ? `<span class="spar-badge studierabat-badge">🎓 ${r.studierabat}% Studierabat</span>` : ''}
-        ${r.free_delivery ? `<span class="spar-badge gratis-levering-badge"><i class="fa-solid fa-truck"></i> Gratis levering</span>` : ''}
+        <div class="kort-badges">
+          ${r.rabat ? `<span class="spar-badge">Spar ${r.rabat}%</span>` : ''}
+          ${isStudent && r.studierabat ? `<span class="spar-badge studierabat-badge">🎓 ${r.studierabat}% Studierabat</span>` : ''}
+          ${r.free_delivery ? `<span class="spar-badge gratis-levering-badge"><i class="fa-solid fa-truck"></i> Gratis levering</span>` : ''}
+        </div>
         <button class="favorit-knap${r.favorite ? ' aktiv' : ''}"
                 aria-label="Tilføj til favoritter"
                 onclick="toggleFavorit(event, '${r.id}')">
@@ -88,19 +91,16 @@ function renderHomepage() {
 }
 
 function initPillFilters() {
-  const sortMap = { 'rating': 'rating', 'pris': 'pris' };
-
   document.querySelectorAll('.pill').forEach(pill => {
     pill.addEventListener('click', () => {
-      const key = pill.textContent.trim().toLowerCase();
-      const sort = sortMap[key] ?? null;
+      const key = pill.dataset.sort;
 
-      if (activeSort === sort) {
+      if (activeSort === key) {
         activeSort = null;
         pill.classList.remove('aktiv');
       } else {
         document.querySelectorAll('.pill').forEach(p => p.classList.remove('aktiv'));
-        activeSort = sort;
+        activeSort = key;
         pill.classList.add('aktiv');
       }
       renderHomepage();
@@ -264,20 +264,55 @@ function addToCart(itemId) {
   const existing = cart.find(c => c.id === itemId);
 
   if (existing) {
-    // Item already in cart — just bump the count (works on both restaurant + kurv page)
     existing.quantity++;
-  } else if (currentRestaurant) {
-    // New item — look it up in the current restaurant data
-    const item = findItem(itemId);
-    if (!item) return;
-    cart.push({ id: itemId, name: item.name, price: item.price, quantity: 1 });
+    saveCart(); updateNavbarBadge();
+    if (document.getElementById('kurv-indhold')) renderKurvPage();
+    else renderSidebarCart();
+    return;
   }
 
-  saveCart();
-  updateNavbarBadge();
+  if (!currentRestaurant) return;
+  const item = findItem(itemId);
+  if (!item) return;
 
-  if (document.getElementById('kurv-indhold'))  renderKurvPage();
-  else                                           renderSidebarCart();
+  const nyVare = {
+    id: itemId, name: item.name, price: item.price, quantity: 1,
+    restaurantId: currentRestaurant.id, restaurantName: currentRestaurant.name,
+  };
+
+  if (cart.length > 0 && cart[0].restaurantId !== currentRestaurant.id) {
+    visKurvKonflikt(cart[0].restaurantName, currentRestaurant.name, () => {
+      cart = [nyVare];
+      saveCart(); updateNavbarBadge(); renderSidebarCart();
+    });
+    return;
+  }
+
+  cart.push(nyVare);
+  saveCart(); updateNavbarBadge();
+  if (document.getElementById('kurv-indhold')) renderKurvPage();
+  else renderSidebarCart();
+}
+
+function visKurvKonflikt(fraRest, tilRest, onBekræft) {
+  document.getElementById('kurv-konflikt-modal')?.remove();
+  const el = document.createElement('div');
+  el.id = 'kurv-konflikt-modal';
+  el.className = 'kurv-konflikt-overlay';
+  el.innerHTML = `
+    <div class="kurv-konflikt-boks">
+      <h3>Start ny ordre?</h3>
+      <p>Din kurv indeholder allerede varer fra <strong>${fraRest}</strong>.<br>
+         Vil du tømme kurven og starte en ny ordre fra <strong>${tilRest}</strong>?</p>
+      <div class="kurv-konflikt-knapper">
+        <button class="kurv-konflikt-annuller">Behold kurven</button>
+        <button class="kurv-konflikt-bekræft">Tøm og start forfra</button>
+      </div>
+    </div>`;
+  el.querySelector('.kurv-konflikt-annuller').onclick = () => el.remove();
+  el.querySelector('.kurv-konflikt-bekræft').onclick  = () => { el.remove(); onBekræft(); };
+  el.onclick = e => { if (e.target === el) el.remove(); };
+  document.body.appendChild(el);
 }
 
 function removeFromCart(itemId) {
