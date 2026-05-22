@@ -20,9 +20,8 @@
           <img src="img/forside/Uber-Eats-Logo-2018.png" alt="UberEats Logo">
         </a>
         <ul>
-          <li><a href="index.html">Hjem</a></li>
-          <li><a href="#">Restauranter</a></li>
-          <li><a href="#">Mine ordrer</a></li>
+          <li><a href="index.html">Restauranter</a></li>
+          <li><a href="profil.html?verif=1" id="nav-studierabat">Studierabat</a></li>
         </ul>
       </div>
 
@@ -212,7 +211,7 @@
         ` : '';
 
         const ordrerHTML = formattedOrders.length === 0
-          ? '<p style="color:#888;padding:1rem 0">Du har ikke afgivet nogen ordrer endnu.</p>'
+          ? '<p style="color:#aaa;text-align:center;padding:3rem 1rem;font-size:0.95rem">Du har ikke afgivet nogen ordrer endnu.</p>'
           : formattedOrders.map(o => `
               <div class="ordre-række">
                 <img src="${o.img}" alt="${o.navn}" class="ordre-billede">
@@ -349,8 +348,12 @@
 
       renderOversigt();
 
-      if (new URLSearchParams(location.search).get('verif') === '1') {
+      const params = new URLSearchParams(location.search);
+      if (params.get('verif') === '1') {
         document.querySelector('[data-sektion="studierabat"]').click();
+      } else if (params.get('sektion')) {
+        const el = document.querySelector(`[data-sektion="${params.get('sektion')}"]`);
+        if (el) el.click();
       }
     })();
   </script>

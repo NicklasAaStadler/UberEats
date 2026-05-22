@@ -27,8 +27,9 @@ function updateNavbarBadge() {
 
 // ===== HOMEPAGE =====
 
-let activeTag  = null;
-let activeSort = null;
+let activeTag   = null;
+let activeSort  = null;
+let searchQuery = '';
 
 function sortList(list) {
   if (activeSort === 'rating') return [...list].sort((a, b) => b.rating - a.rating);
@@ -40,12 +41,19 @@ function renderHomepage() {
   const grid = document.getElementById('restauranter-grid');
   if (!grid) return;
 
-  const filtered = activeTag
-    ? restaurants.filter(r => r.tags.includes(activeTag))
-    : restaurants;
+  const q = searchQuery.toLowerCase().trim();
+
+  const filtered = restaurants.filter(r => {
+    const matchTag = !activeTag || r.tags.includes(activeTag);
+    const matchSearch = !q ||
+      r.name.toLowerCase().includes(q) ||
+      r.category.toLowerCase().includes(q) ||
+      (r.tags || []).some(t => t.toLowerCase().includes(q));
+    return matchTag && matchSearch;
+  });
 
   if (filtered.length === 0) {
-    grid.innerHTML = '<p class="ingen-resultater">Ingen restauranter matcher denne kategori.</p>';
+    grid.innerHTML = '<p class="ingen-resultater">Ingen restauranter matcher din søgning.</p>';
     return;
   }
 
@@ -96,6 +104,15 @@ function initPillFilters() {
       }
       renderHomepage();
     });
+  });
+}
+
+function initSearchFilter() {
+  const input = document.getElementById('søge-input');
+  if (!input) return;
+  input.addEventListener('input', () => {
+    searchQuery = input.value;
+    renderHomepage();
   });
 }
 
@@ -553,6 +570,7 @@ updateNavbarBadge();
     renderHomepage();
     initCategoryFilters();
     initPillFilters();
+    initSearchFilter();
   } else if (document.getElementById('restaurant-menu')) {
     await renderRestaurantPage();
   } else if (document.getElementById('kurv-indhold')) {

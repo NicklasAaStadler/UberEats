@@ -34,10 +34,25 @@
 
     const leftNav = document.querySelector('.navbar-venstre ul');
     if (leftNav) {
-      const li = document.createElement('li');
-      const onProfilPage = window.location.pathname.includes('profil.html');
-      li.innerHTML = `<a href="profil.html" class="nav-profil-knap${onProfilPage ? ' aktiv' : ''}">Profil</a>`;
-      leftNav.appendChild(li);
+      const liProfil = document.createElement('li');
+      liProfil.innerHTML = `<a href="profil.html">Profil</a>`;
+
+      const liFav = document.createElement('li');
+      liFav.innerHTML = `<a href="profil.html?sektion=favoritter">Favoritter</a>`;
+
+      // Insert before Studierabat so it stays last
+      const studierabatLi = document.getElementById('nav-studierabat')?.closest('li');
+      if (studierabatLi) {
+        leftNav.insertBefore(liFav, studierabatLi);
+        leftNav.insertBefore(liProfil, studierabatLi);
+      } else {
+        leftNav.appendChild(liFav);
+        leftNav.appendChild(liProfil);
+      }
+
+      // Point Studierabat directly to the profile section for logged-in users
+      const studierabatLink = document.getElementById('nav-studierabat');
+      if (studierabatLink) studierabatLink.href = 'profil.html?verif=1';
     }
 
     navAuth.style.listStyle = 'none';
@@ -80,7 +95,30 @@
   }
 
   if (navAuth) navAuth.style.visibility = 'visible';
+
+  updateActiveNavLink();
 })();
+
+function updateActiveNavLink() {
+  const path   = window.location.pathname;
+  const sektion = new URLSearchParams(window.location.search).get('sektion');
+
+  document.querySelectorAll('.navbar-venstre ul li a').forEach(a => a.classList.remove('aktiv'));
+
+  let activeHref;
+  if (path.includes('profil.html') && sektion === 'favoritter') {
+    activeHref = 'profil.html?sektion=favoritter';
+  } else if (path.includes('profil.html')) {
+    activeHref = 'profil.html';
+  } else if (path.includes('index.html') || path.endsWith('/')) {
+    activeHref = 'index.html';
+  }
+
+  if (activeHref) {
+    const link = document.querySelector(`.navbar-venstre ul li a[href="${activeHref}"]`);
+    if (link) link.classList.add('aktiv');
+  }
+}
 
 async function logout() {
   await sbSignOut();
