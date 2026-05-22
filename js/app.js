@@ -181,6 +181,12 @@ async function renderRestaurantPage() {
   localStorage.setItem('ue-studierabat', currentRestaurant.studierabat || 0);
   localStorage.setItem('ue-free-delivery', currentRestaurant.free_delivery ? 'true' : 'false');
 
+  const studierabatWrapper = document.getElementById('restaurant-studierabat-wrapper');
+  if (studierabatWrapper && currentRestaurant.studierabat) {
+    document.getElementById('restaurant-studierabat-pct').textContent = currentRestaurant.studierabat;
+    studierabatWrapper.style.display = '';
+  }
+
   const adresseEl = document.getElementById('restaurant-adresse');
   if (adresseEl && currentRestaurant.address) {
     adresseEl.textContent = currentRestaurant.address;
@@ -389,6 +395,7 @@ function renderSidebarCart() {
     tomEl.style.display    = 'block';
     itemsEl.innerHTML      = '';
     footerEl.style.display = 'none';
+    updateMobilKurvKnap();
     return;
   }
 
@@ -422,6 +429,22 @@ function renderSidebarCart() {
       </div>
     </div>
   `).join('');
+
+  updateMobilKurvKnap();
+}
+
+function updateMobilKurvKnap() {
+  const knap = document.getElementById('mobil-kurv-knap');
+  if (!knap) return;
+  if (cart.length === 0) { knap.classList.remove('kurv-fyldt'); return; }
+  const subtotal    = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
+  const rabatPct    = getStudierabat();
+  const rabat       = Math.round(subtotal * rabatPct / 100);
+  const total       = subtotal - rabat;
+  const antalVarer  = cart.reduce((sum, c) => sum + c.quantity, 0);
+  document.getElementById('mobil-kurv-info').textContent =
+    `${antalVarer} vare${antalVarer !== 1 ? 'r' : ''} · ${total} kr.`;
+  knap.classList.add('kurv-fyldt');
 }
 
 

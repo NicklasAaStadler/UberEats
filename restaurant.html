@@ -75,6 +75,10 @@
                             <span><i class="fa-regular fa-clock"></i> <span id="restaurant-delivery"></span></span>
                             <span class="dot">·</span>
                             <span id="restaurant-price"></span>
+                            <span id="restaurant-studierabat-wrapper" style="display:none">
+                                <span class="dot">·</span>
+                                <span class="restaurant-studierabat-badge">🎓 <span id="restaurant-studierabat-pct"></span>% studierabat</span>
+                            </span>
                         </div>
                         <div class="restaurant-adresse-linje" id="restaurant-adresse-wrapper" style="display:none">
                             <i class="fa-solid fa-location-dot"></i>
@@ -189,6 +193,11 @@
             </div>
         </div>
     </footer>
+
+    <div class="mobil-kurv-knap" id="mobil-kurv-knap" onclick="window.location.href='kurv.html'">
+        <span id="mobil-kurv-info"></span>
+        <span>Se kurv →</span>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase.js"></script>

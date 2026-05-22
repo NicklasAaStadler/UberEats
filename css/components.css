@@ -32,12 +32,25 @@
 }
 
 .restaurant-info-img {
-    width: 160px;
-    height: 160px;
+    width: 500px;
+    height: 300px;
     object-fit: cover;
     border-radius: 0.85rem;
     flex-shrink: 0;
     background: #ddd;
+}
+
+.restaurant-studierabat-badge {
+    display: inline-flex;
+    align-items: center;
+    background: var(--student-color);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+    vertical-align: middle;
 }
 
 .restaurant-info-tekst {
@@ -142,7 +155,7 @@
     background: #fff;
     border-bottom: 1px solid #e0e0e0;
     position: sticky;
-    top: 65px;
+    top: 1px;
     z-index: 90;
 }
 
@@ -475,7 +488,7 @@
     align-items: center;
     padding: 1rem 0;
     border-bottom: 1px solid #f0f0f0;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .menu-item-info {
@@ -492,13 +505,23 @@
 .menu-item-info p {
     font-size: 0.85rem;
     color: #666;
+    max-width: 500px;
     line-height: 1.4;
+    margin-bottom: 0.5rem;
 }
 
 .menu-item-pris-knap {
     display: flex;
     align-items: center;
     gap: 1rem;
+    flex-shrink: 0;
+}
+
+.menu-item-thumb {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 0.6rem;
     flex-shrink: 0;
 }
 
@@ -529,6 +552,33 @@
     background-color: var(--brand-color);
     color: #fff;
 }
+
+
+/* ===== MOBIL KURV KNAP (restaurant page, mobile only) ===== */
+
+.mobil-kurv-knap {
+    display: none;
+    position: fixed;
+    bottom: 1.25rem;
+    left: 1rem;
+    right: 1rem;
+    background: var(--brand-color);
+    color: #fff;
+    border-radius: 2rem;
+    padding: 1rem 1.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    z-index: 200;
+    font-family: var(--font), serif;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.mobil-kurv-knap:hover { background: #04a855; }
 
 
 /* ===== CHECKOUT FLOW BAR ===== */
