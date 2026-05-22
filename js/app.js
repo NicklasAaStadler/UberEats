@@ -194,7 +194,7 @@ async function renderRestaurantPage() {
     document.getElementById('restaurant-hours-wrapper').style.display = 'flex';
   }
 
-  // ── Venstre kategorinav ───────────────────────────────
+  // ── Kategorifaner (vandret) ───────────────────────────
   const navEl = document.getElementById('menu-nav');
   if (navEl) {
     navEl.innerHTML = currentRestaurant.menu.map(section => `
@@ -204,28 +204,70 @@ async function renderRestaurantPage() {
     `).join('');
   }
 
+  // ── Levering/Afhentning toggle ────────────────────────
+  const toggleEl = document.getElementById('levering-toggle');
+  if (toggleEl) {
+    toggleEl.innerHTML = `
+      <button class="levering-toggle-knap${leveringsmode === 'levering' ? ' aktiv' : ''}"
+              data-mode="levering" onclick="skiftLeveringsmode('levering')">
+        <i class="fa-solid fa-motorcycle"></i> Levering
+      </button>
+      <button class="levering-toggle-knap${leveringsmode === 'afhentning' ? ' aktiv' : ''}"
+              data-mode="afhentning" onclick="skiftLeveringsmode('afhentning')">
+        <i class="fa-solid fa-store"></i> Afhentning
+      </button>`;
+  }
+
   // ── Menusektioner ─────────────────────────────────────
-  document.getElementById('restaurant-menu').innerHTML = currentRestaurant.menu.map(section => `
-    <div class="menu-sektion" id="sektion-${slugify(section.category)}">
-      <h3 class="menu-sektion-titel">${section.category}</h3>
-      <div class="menu-items">
-        ${section.items.map(item => `
-          <div class="menu-item">
-            <div class="menu-item-info">
-              <h4>${item.name}</h4>
-              ${item.description ? `<p>${item.description}</p>` : ''}
-            </div>
-            <div class="menu-item-pris-knap">
-              <span class="menu-item-pris">${item.price} kr.</span>
-              <button class="menu-tilføj-knap"
-                      aria-label="Tilføj ${item.name}"
-                      onclick="addToCart('${item.id}')">+</button>
-            </div>
+  document.getElementById('restaurant-menu').innerHTML = currentRestaurant.menu.map(section => {
+    const id = `sektion-${slugify(section.category)}`;
+    const erPopulær = section.category.toLowerCase().includes('populær');
+
+    if (erPopulær) {
+      return `
+        <div class="menu-sektion" id="${id}">
+          <h3 class="menu-sektion-titel">${section.category}</h3>
+          <div class="menu-populær-grid">
+            ${section.items.map(item => `
+              <div class="menu-populær-kort">
+                <div class="menu-populær-billede"${item.image ? ` style="background-image:url('${item.image}')"` : ''}>
+                  ${!item.image ? '<i class="fa-solid fa-utensils menu-populær-placeholder"></i>' : ''}
+                </div>
+                <div class="menu-populær-info">
+                  <h4>${item.name}</h4>
+                  ${item.description ? `<p>${item.description}</p>` : ''}
+                  <div class="menu-populær-bund">
+                    <span class="menu-item-pris">${item.price} kr.</span>
+                    <button class="menu-tilføj-knap" aria-label="Tilføj ${item.name}"
+                            onclick="addToCart('${item.id}')">+</button>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
           </div>
-        `).join('')}
-      </div>
-    </div>
-  `).join('');
+        </div>`;
+    }
+
+    return `
+      <div class="menu-sektion" id="${id}">
+        <h3 class="menu-sektion-titel">${section.category}</h3>
+        <div class="menu-items">
+          ${section.items.map(item => `
+            <div class="menu-item">
+              <div class="menu-item-info">
+                <h4>${item.name}</h4>
+                ${item.description ? `<p>${item.description}</p>` : ''}
+              </div>
+              <div class="menu-item-pris-knap">
+                <span class="menu-item-pris">${item.price} kr.</span>
+                <button class="menu-tilføj-knap" aria-label="Tilføj ${item.name}"
+                        onclick="addToCart('${item.id}')">+</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>`;
+  }).join('');
 
   // ── Scroll-spy: fremhæv aktiv kategori ───────────────
   if (navEl) {
@@ -233,7 +275,9 @@ async function renderRestaurantPage() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           navEl.querySelectorAll('.menu-nav-item').forEach(a => {
-            a.classList.toggle('aktiv', a.getAttribute('href') === `#${entry.target.id}`);
+            const isActive = a.getAttribute('href') === `#${entry.target.id}`;
+            a.classList.toggle('aktiv', isActive);
+            if (isActive) a.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
           });
         }
       });
@@ -241,7 +285,6 @@ async function renderRestaurantPage() {
 
     document.querySelectorAll('.menu-sektion').forEach(el => observer.observe(el));
 
-    // Sæt første som aktiv fra start
     const første = navEl.querySelector('.menu-nav-item');
     if (første) første.classList.add('aktiv');
   }
@@ -385,7 +428,19 @@ function renderSidebarCart() {
 // ===== KURV PAGE =====
 
 function getLevering() {
+  if (localStorage.getItem('ue-pickup') === 'true') return 0;
   return localStorage.getItem('ue-free-delivery') === 'true' ? 0 : 29;
+}
+
+let leveringsmode = localStorage.getItem('ue-pickup') === 'true' ? 'afhentning' : 'levering';
+
+function skiftLeveringsmode(mode) {
+  leveringsmode = mode;
+  localStorage.setItem('ue-pickup', mode === 'afhentning' ? 'true' : 'false');
+  document.querySelectorAll('.levering-toggle-knap').forEach(btn => {
+    btn.classList.toggle('aktiv', btn.dataset.mode === mode);
+  });
+  renderSidebarCart();
 }
 
 function renderKurvPage() {

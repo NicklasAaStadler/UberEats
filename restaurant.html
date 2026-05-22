@@ -58,39 +58,47 @@
 
     <div id="restaurant-content">
 
-        <div class="restaurant-hero">
-            <img id="restaurant-hero-img" src="" alt="">
-        </div>
-
         <div class="restaurant-info-bar">
             <div class="restaurant-info-container">
                 <a href="index.html" class="tilbage-link">
                     <i class="fa-solid fa-arrow-left"></i> Tilbage
                 </a>
-                <h1 id="restaurant-navn"></h1>
-                <p id="restaurant-kategori" class="restaurant-kategori-tekst"></p>
-                <p id="restaurant-description" class="restaurant-beskrivelse"></p>
-                <div class="restaurant-meta">
-                    <span><i class="fa-solid fa-star"></i> <span id="restaurant-rating"></span></span>
-                    <span class="dot">·</span>
-                    <span><i class="fa-regular fa-clock"></i> <span id="restaurant-delivery"></span></span>
-                    <span class="dot">·</span>
-                    <span id="restaurant-price"></span>
-                </div>
-                <div class="restaurant-adresse-linje" id="restaurant-adresse-wrapper" style="display:none">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <span id="restaurant-adresse"></span>
-                </div>
-                <div class="restaurant-hours-linje" id="restaurant-hours-wrapper" style="display:none">
-                    <i class="fa-regular fa-clock"></i>
-                    <div id="restaurant-hours"></div>
+                <div class="restaurant-info-layout">
+                    <img id="restaurant-hero-img" class="restaurant-info-img" src="" alt="">
+                    <div class="restaurant-info-tekst">
+                        <h1 id="restaurant-navn"></h1>
+                        <p id="restaurant-kategori" class="restaurant-kategori-tekst"></p>
+                        <p id="restaurant-description" class="restaurant-beskrivelse"></p>
+                        <div class="restaurant-meta">
+                            <span><i class="fa-solid fa-star"></i> <span id="restaurant-rating"></span></span>
+                            <span class="dot">·</span>
+                            <span><i class="fa-regular fa-clock"></i> <span id="restaurant-delivery"></span></span>
+                            <span class="dot">·</span>
+                            <span id="restaurant-price"></span>
+                        </div>
+                        <div class="restaurant-adresse-linje" id="restaurant-adresse-wrapper" style="display:none">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span id="restaurant-adresse"></span>
+                        </div>
+                        <div class="restaurant-hours-linje" id="restaurant-hours-wrapper" style="display:none">
+                            <i class="fa-regular fa-clock"></i>
+                            <div id="restaurant-hours"></div>
+                        </div>
+                    </div>
+                    <div class="restaurant-info-side">
+                        <div class="levering-toggle" id="levering-toggle"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="restaurant-content-layout">
+        <div class="menu-tabs-bar">
+            <div class="menu-tabs-container">
+                <nav id="menu-nav"></nav>
+            </div>
+        </div>
 
-            <nav class="menu-nav-sidebar" id="menu-nav"></nav>
+        <div class="restaurant-content-layout">
 
             <div class="menu-container">
                 <div id="restaurant-menu"></div>
