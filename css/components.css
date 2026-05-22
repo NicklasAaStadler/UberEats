@@ -15,13 +15,13 @@
 
 .restaurant-info-bar {
     background-color: #fff;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 0;
 }
 
 .restaurant-info-container {
     max-width: 1400px;
     margin: 0 auto;
+    padding: 0 2rem;
 }
 
 .restaurant-info-layout {
@@ -164,6 +164,7 @@
     margin: 0 auto;
     padding: 0 2rem;
 }
+
 
 #menu-nav {
     display: flex;

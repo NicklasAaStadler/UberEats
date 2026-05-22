@@ -72,6 +72,7 @@ async function sbGetRestaurantWithMenu(id) {
       name:        item.name,
       description: item.description,
       price:       item.price,
+      image:       item.image || null,
     })),
   }));
 
