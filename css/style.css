@@ -358,7 +358,7 @@ html.ue-student .hero { display: none !important; }
 .kort-billede-wrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 2;
     border-radius: 1rem;
     overflow: hidden;
     background-color: #ddd;
@@ -432,11 +432,18 @@ html.ue-student .hero { display: none !important; }
     color: #555;
 }
 
-/* Spar-badge på restaurantkort */
-.spar-badge {
+/* Badge-container på restaurantkort */
+.kort-badges {
     position: absolute;
     top: 0.65rem;
     left: 0.65rem;
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    max-width: calc(100% - 3rem);
+}
+
+.spar-badge {
     background: #06c167;
     color: #fff;
     font-size: 0.72rem;
@@ -445,6 +452,7 @@ html.ue-student .hero { display: none !important; }
     border-radius: 20px;
     letter-spacing: 0.03em;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    white-space: nowrap;
 }
 
 .studierabat-badge {
@@ -452,8 +460,6 @@ html.ue-student .hero { display: none !important; }
 }
 
 .gratis-levering-badge {
-    top: auto;
-    bottom: 0.65rem;
     background: #00875a;
 }
 
@@ -519,6 +525,74 @@ html.ue-student .hero { display: none !important; }
 .dot {
     color: #bbb;
 }
+
+
+/* ===== KURV KONFLIKT MODAL ===== */
+
+.kurv-konflikt-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.kurv-konflikt-boks {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+.kurv-konflikt-boks h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.kurv-konflikt-boks p {
+    font-size: 0.95rem;
+    color: #444;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.kurv-konflikt-knapper {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+.kurv-konflikt-annuller {
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    border: 1.5px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: var(--font), serif;
+    transition: border-color 0.15s;
+}
+
+.kurv-konflikt-annuller:hover { border-color: #aaa; }
+
+.kurv-konflikt-bekræft {
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: var(--brand-color);
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: var(--font), serif;
+    transition: opacity 0.15s;
+}
+
+.kurv-konflikt-bekræft:hover { opacity: 0.85; }
 
 
 /* ===== FOOTER ===== */
