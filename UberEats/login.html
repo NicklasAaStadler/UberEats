@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log ind – UberEats</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f2f2f2;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Login side ── */
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .login-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 1.8rem;
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .login-logo .green { color: #06c167; }
+
+    .login-card h1 { font-size: 1.45rem; margin-bottom: 0.3rem; }
+    .login-card .sub { color: #777; font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+    .login-card input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1.5px solid #e2e2e2;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+      outline: none;
+      transition: border-color 0.2s;
+      color: #111;
+    }
+    .login-card input:focus { border-color: #111; }
+
+    .btn-primary {
+      width: 100%;
+      padding: 0.9rem;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #222; }
+
+    .error-msg {
+      color: #d00;
+      font-size: 0.83rem;
+      text-align: center;
+      min-height: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1.3rem 0;
+      color: #bbb;
+      font-size: 0.83rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #ebebeb;
+    }
+
+    .btn-student {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      background: transparent;
+      border: 1.5px solid #e2e2e2;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: #222;
+      font-weight: 600;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-student:hover { border-color: #06c167; background: #f0fdf7; }
+    .btn-student .s-tag {
+      background: var(--student-color);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .hint {
+      margin-top: 1.3rem;
+      font-size: 0.73rem;
+      color: #bbb;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .student-banner {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #f0fdf7;
+      border: 1.5px solid #06c167;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+    }
+    .student-banner-tekst { flex: 1; }
+    .student-banner-tekst strong { display: block; color: #06c167; font-size: 0.92rem; }
+    .student-banner-tekst span   { font-size: 0.78rem; color: #555; }
+    .student-banner-fjern {
+      background: none;
+      border: none;
+      font-size: 0.78rem;
+      color: #999;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 0;
+    }
+    .student-banner-fjern:hover { color: #d00; text-decoration: underline; }
+
+    /* ── Studieverifikation overlay ── */
+    .verif-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.48);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .verif-overlay.aktiv { display: flex; }
+
+    .verif-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.16);
+      padding: 2rem;
+      width: 100%;
+      max-width: 540px;
+      position: relative;
+    }
+
+    .verif-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #999;
+      line-height: 1;
+      padding: 0.2rem 0.4rem;
+    }
+    .verif-close:hover { color: #111; }
+
+    .verif-tag {
+      display: inline-block;
+      background: #e3f0fd;
+      color: #1a5fb4;
+      font-size: 0.67rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 11px;
+      border-radius: 20px;
+      margin-bottom: 0.85rem;
+    }
+
+    .verif-card h2 { font-size: 1.5rem; margin-bottom: 0.35rem; }
+    .verif-sub { color: #666; font-size: 0.9rem; margin-bottom: 1.3rem; }
+
+    /* WAYF boks */
+    .wayf-box {
+      border: 2px solid #c8dff8;
+      background: #f0f6ff;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .wayf-header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .wayf-logo {
+      width: 44px;
+      height: 44px;
+      background: #1565c0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 0.72rem;
+      letter-spacing: -0.01em;
+      flex-shrink: 0;
+    }
+
+    .wayf-header-text { flex: 1; }
+    .wayf-header-text strong { display: block; font-size: 0.95rem; margin-bottom: 0.15rem; }
+    .wayf-header-text span { font-size: 0.78rem; color: #555; }
+
+    .anbefalet {
+      background: var(--student-color);
+      color: #fff;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+
+    .wayf-label {
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 0.45rem;
+    }
+
+    .wayf-search {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border: 1.5px solid #c8dff8;
+      border-radius: 8px;
+      padding: 0.6rem 0.9rem;
+      margin-bottom: 0.9rem;
+      gap: 0.5rem;
+    }
+    .wayf-search i { color: #aaa; font-size: 0.83rem; }
+    .wayf-search input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: 0.88rem;
+      background: transparent;
+      color: #333;
+    }
+    .wayf-search .skift {
+      color: #1565c0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .wayf-search .skift:hover { text-decoration: underline; }
+
+    .btn-wayf {
+      width: 100%;
+      padding: 0.85rem;
+      background: #1565c0;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-wayf:hover { background: #0d47a1; }
+
+    .verif-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 1rem 0;
+      color: #bbb;
+      font-size: 0.83rem;
+    }
+    .verif-divider::before, .verif-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e4e4e4;
+    }
+
+    .alt-metoder {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .alt-kort {
+      border: 1.5px solid #e4e4e4;
+      border-radius: 10px;
+      padding: 1rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .alt-kort:hover { border-color: #1565c0; background: #f5f9ff; }
+    .alt-kort i { font-size: 1.05rem; color: #444; margin-bottom: 0.5rem; display: block; }
+    .alt-kort strong { display: block; font-size: 0.88rem; margin-bottom: 0.2rem; }
+    .alt-kort span { font-size: 0.75rem; color: #999; }
+
+    .privacy-note {
+      background: #f7f7f7;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.78rem;
+      color: #999;
+      line-height: 1.55;
+    }
+
+    /* ── Navn-popup ── */
+    .name-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.52);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .name-overlay.aktiv { display: flex; }
+
+    .name-box {
+      background: #fff;
+      padding: 2.5rem 2rem;
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+    }
+    .name-box h2 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .name-box p  { color: #777; font-size: 0.88rem; margin-bottom: 1.4rem; }
+    .name-box input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid #e2e2e2;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      outline: none;
+    }
+    .name-box input:focus { border-color: #111; }
+    .name-box button {
+      width: 100%;
+      padding: 0.85rem;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .name-box button:hover { background: #333; }
+  </style>
+</head>
+<body>
+
+  <!-- Navn-popup -->
+  <div class="name-overlay" id="name-overlay">
+    <div class="name-box">
+      <h2>Hvad skal vi kalde dig?</h2>
+      <p>Skriv dit navn, så vi kan personliggøre din oplevelse.</p>
+      <input type="text" id="display-name" placeholder="Dit navn" maxlength="40">
+      <button onclick="saveName()">Fortsæt →</button>
+    </div>
+  </div>
+
+  <!-- Studieverifikation overlay -->
+  <div class="verif-overlay" id="verif-overlay">
+    <div class="verif-card">
+      <button class="verif-close" onclick="lukVerif()">✕</button>
+
+      <span class="verif-tag">Studierabat</span>
+      <h2>Verificér din studiestatus</h2>
+      <p class="verif-sub">Spar op til 40% på din mad. Det tager kun 30 sekunder.</p>
+
+      <div class="wayf-box">
+        <div class="wayf-header">
+          <div class="wayf-logo">WAYF</div>
+          <div class="wayf-header-text">
+            <strong>Log ind med WAYF</strong>
+            <span>Brug dit studie-login fra din uddannelsesinstitution</span>
+          </div>
+          <span class="anbefalet">Anbefalet</span>
+        </div>
+
+        <div class="wayf-label">Vælg uddannelsessted</div>
+        <div class="wayf-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="skole-input" placeholder="Cphbusiness — Multimediedesigner">
+          <span class="skift" onclick="document.getElementById('skole-input').value=''">Skift</span>
+        </div>
+
+        <button class="btn-wayf" onclick="bekræftStudent()">Fortsæt til WAYF →</button>
+      </div>
+
+      <div class="verif-divider">eller</div>
+
+      <div class="alt-metoder">
+        <div class="alt-kort" onclick="bekræftStudent()">
+          <i class="fa-regular fa-envelope"></i>
+          <strong>Skolemail</strong>
+          <span>.dk uddannelsesdomæne</span>
+        </div>
+        <div class="alt-kort" onclick="bekræftStudent()">
+          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+          <strong>Upload studiekort</strong>
+          <span>Billede eller PDF</span>
+        </div>
+      </div>
+
+      <div class="privacy-note">
+        Vi gemmer ikke dit studie-login. Verificering sker via DTU/WAYF og er gyldig i 12 mdr.
+      </div>
+    </div>
+  </div>
+
+  <!-- Login kort -->
+  <div class="page">
+    <div class="login-card">
+      <div class="login-logo">Uber<span class="green">Eats</span></div>
+
+      <!-- Student banner (skjult som standard) -->
+      <div class="student-banner" id="student-banner" style="display:none">
+        <span style="font-size:1.4rem">🎓</span>
+        <div class="student-banner-tekst">
+          <strong>Studenterrabat aktiveret</strong>
+          <span>Din konto får automatisk studenterfordele</span>
+        </div>
+        <button class="student-banner-fjern" onclick="fjernStudent()">Fortryd</button>
+      </div>
+
+      <h1>Velkommen tilbage</h1>
+      <p class="sub">Log ind for at fortsætte</p>
+
+      <input type="email" id="username" placeholder="E-mail" autocomplete="username">
+      <input type="password" id="password" placeholder="Adgangskode" autocomplete="current-password">
+      <button class="btn-primary" onclick="login()">Log ind</button>
+      <p class="error-msg" id="error"></p>
+
+      <p class="hint" id="skift-link">
+        Ny bruger? <b onclick="skiftTilOpret()" style="cursor:pointer;text-decoration:underline">Opret konto</b>
+      </p>
+
+      <div class="divider">eller</div>
+
+      <button class="btn-student" onclick="åbnVerif()">
+        🎓 Er du studerende?
+        <span class="s-tag">Spar 10%</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script>
+    let pendingStudent = false;
+    let isRegisterMode = false;
+
+    // ── Tilstand ──────────────────────────────────────────
+    function skiftTilOpret() {
+      isRegisterMode = true;
+      document.querySelector('.login-card h1').textContent    = 'Opret konto';
+      document.querySelector('.login-card .sub').textContent  = 'Udfyld felterne for at komme i gang';
+      document.querySelector('.btn-primary').textContent      = 'Opret konto';
+      document.querySelector('.btn-primary').onclick         = opretKonto;
+      document.getElementById('skift-link').innerHTML =
+        'Har du allerede en konto? <b onclick="skiftTilLogin()" style="cursor:pointer;text-decoration:underline">Log ind</b>';
+    }
+
+    function skiftTilLogin() {
+      isRegisterMode = false;
+      document.querySelector('.login-card h1').textContent    = 'Velkommen tilbage';
+      document.querySelector('.login-card .sub').textContent  = 'Log ind for at fortsætte';
+      document.querySelector('.btn-primary').textContent      = 'Log ind';
+      document.querySelector('.btn-primary').onclick         = login;
+      document.getElementById('skift-link').innerHTML =
+        'Ny bruger? <b onclick="skiftTilOpret()" style="cursor:pointer;text-decoration:underline">Opret konto</b>';
+    }
+
+    // ── Auth ──────────────────────────────────────────────
+    async function login() {
+      const email    = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const errorEl  = document.getElementById('error');
+      errorEl.textContent = '';
+
+      if (!email || !password) { errorEl.textContent = 'Udfyld e-mail og adgangskode'; return; }
+
+      const { error } = await sbSignIn(email, password);
+      if (error) {
+        errorEl.textContent = 'Forkert e-mail eller adgangskode';
+        return;
+      }
+
+      localStorage.setItem('username', email);
+
+      const profile = await sbGetProfile();
+      if (profile && profile.display_name) {
+        localStorage.setItem('displayName', profile.display_name);
+        localStorage.setItem('role', profile.role || 'user');
+        window.location.href = 'index.html';
+      } else {
+        visNavnPopup();
+      }
+    }
+
+    async function opretKonto() {
+      const email    = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const errorEl  = document.getElementById('error');
+      errorEl.textContent = '';
+
+      if (!email || !password) { errorEl.textContent = 'Udfyld e-mail og adgangskode'; return; }
+      if (password.length < 6)  { errorEl.textContent = 'Adgangskode skal være mindst 6 tegn'; return; }
+
+      const { error } = await sbSignUp(email, password);
+      if (error) {
+        errorEl.textContent = error.message === 'User already registered'
+          ? 'E-mail er allerede i brug — prøv at logge ind'
+          : 'Kunne ikke oprette konto: ' + error.message;
+        return;
+      }
+
+      localStorage.setItem('username', email);
+      visNavnPopup();
+    }
+
+    // ── Student flow ──────────────────────────────────────
+    function åbnVerif() {
+      document.getElementById('verif-overlay').classList.add('aktiv');
+    }
+
+    function lukVerif() {
+      document.getElementById('verif-overlay').classList.remove('aktiv');
+    }
+
+    function bekræftStudent() {
+      pendingStudent = true;
+      lukVerif();
+
+      document.getElementById('student-banner').style.display = 'flex';
+      document.querySelector('.btn-student').style.display    = 'none';
+      document.querySelector('.divider').style.display        = 'none';
+
+      skiftTilOpret();
+      document.querySelector('.login-card h1').textContent   = 'Opret studenteronto';
+      document.querySelector('.login-card .sub').textContent = 'Vælg din e-mail og adgangskode';
+    }
+
+    function fjernStudent() {
+      pendingStudent = false;
+      document.getElementById('student-banner').style.display = 'none';
+      document.querySelector('.btn-student').style.display    = '';
+      document.querySelector('.divider').style.display        = '';
+      skiftTilLogin();
+    }
+
+    // ── Navn popup ────────────────────────────────────────
+    function visNavnPopup() {
+      if (pendingStudent) {
+        document.querySelector('.name-box h2').textContent = 'Næsten færdig! 🎓';
+        document.querySelector('.name-box p').textContent  = 'Hvad skal vi kalde dig? Din konto får studenterfordele.';
+      } else {
+        document.querySelector('.name-box h2').textContent = 'Hvad skal vi kalde dig?';
+        document.querySelector('.name-box p').textContent  = 'Skriv dit navn, så vi kan personliggøre din oplevelse.';
+      }
+      document.getElementById('name-overlay').classList.add('aktiv');
+      document.getElementById('display-name').focus();
+    }
+
+    async function saveName() {
+      const name = document.getElementById('display-name').value.trim();
+      if (!name) return;
+
+      const role = pendingStudent ? 'student' : 'user';
+      await sbUpsertProfile(name, role);
+
+      localStorage.setItem('displayName', name);
+      localStorage.setItem('role', role);
+      window.location.href = 'index.html';
+    }
+
+    // ── Init — log altid den nuværende session ud så login-siden altid er tilgængelig ──
+    (async () => {
+      const session = await sbGetSession();
+      if (session) await sbSignOut();
+    })();
+
+    if (new URLSearchParams(location.search).get('verif') === '1') åbnVerif();
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') lukVerif();
+      if (e.key === 'Enter') {
+        if (document.getElementById('name-overlay').classList.contains('aktiv')) saveName();
+        else if (!document.getElementById('verif-overlay').classList.contains('aktiv')) {
+          isRegisterMode ? opretKonto() : login();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

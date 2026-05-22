@@ -1,0 +1,1064 @@
+﻿/* ===== RESTAURANT PAGE ===== */
+
+.restaurant-hero {
+    width: 100%;
+    height: 380px;
+    overflow: hidden;
+    background-color: #ddd;
+}
+
+.restaurant-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.restaurant-info-bar {
+    background-color: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 2rem;
+}
+
+.restaurant-info-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.tilbage-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #555;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    transition: color 0.2s;
+}
+
+.tilbage-link:hover {
+    color: var(--brand-color);
+}
+
+.restaurant-info-container h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.restaurant-kategori-tekst {
+    color: #555;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+.restaurant-beskrivelse {
+    color: #444;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.restaurant-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.restaurant-meta .fa-star {
+    color: #f0a500;
+}
+
+/* ===== MENU + CART LAYOUT ===== */
+
+.restaurant-content-layout {
+    display: grid;
+    grid-template-columns: 180px 1fr 320px;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+    align-items: flex-start;
+}
+
+.menu-container {
+    min-width: 0;
+}
+
+/* ===== VENSTRE KATEGORINAV ===== */
+
+.menu-nav-sidebar {
+    position: sticky;
+    top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.menu-nav-item {
+    display: block;
+    padding: 0.55rem 0.85rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+}
+
+.menu-nav-item:hover {
+    background: #f0f0f0;
+    color: #111;
+}
+
+.menu-nav-item.aktiv {
+    background: #f0fdf7;
+    color: var(--brand-color);
+    font-weight: 700;
+}
+
+/* ===== STUDIERABAT BADGE PÅ MENUITEM ===== */
+
+.item-studierabat-badge {
+    display: inline-block;
+    background: var(--brand-color);
+    color: #fff;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+    vertical-align: middle;
+    margin-left: 0.4rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+
+/* ===== CART SIDEBAR ===== */
+
+.cart-sidebar {
+    width: 320px;
+    flex-shrink: 0;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 1rem;
+    position: sticky;
+    top: 1.5rem;
+    overflow: hidden;
+}
+
+.cart-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cart-header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.cart-tom {
+    padding: 2.5rem 1.5rem;
+    color: #999;
+    font-size: 0.9rem;
+    text-align: center;
+    margin: 0;
+}
+
+#cart-items {
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0.85rem 1.5rem;
+    border-bottom: 1px solid #f5f5f5;
+    gap: 0.75rem;
+}
+
+.cart-item-info {
+    display: flex;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.cart-item-antal {
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+}
+
+.cart-item-navn {
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cart-item-hÃ¸jre {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.35rem;
+    flex-shrink: 0;
+}
+
+.cart-item-pris {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.cart-item-kontrol {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.cart-item-kontrol button {
+    width: 26px;
+    height: 26px;
+    border-radius: 40%;
+    border: 1.5px solid #e0e0e0;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+    font-family: var(--font), serif;
+}
+
+.cart-item-kontrol button:hover {
+    border-color: var(--brand-color);
+    background-color: var(--brand-color);
+    color: #fff;
+}
+
+.cart-footer {
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.cart-rabat-linje {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--student-color);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.cart-total-linje {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.cart-checkout-knap {
+    display: block;
+    width: 100%;
+    background-color: var(--brand-color);
+    color: #fff;
+    text-align: center;
+    padding: 0.85rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: var(--font), serif;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cart-checkout-knap:hover {
+    background-color: #04a855;
+}
+
+.menu-sektion {
+    margin-bottom: 2.5rem;
+}
+
+.menu-sektion-titel {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    gap: 1rem;
+}
+
+.menu-item-info h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.menu-item-info p {
+    font-size: 0.85rem;
+    color: #666;
+    max-width: 500px;
+    line-height: 1.4;
+}
+
+.menu-item-pris-knap {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+
+}
+
+.menu-item-pris {
+    font-size: 0.95rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.menu-tilføj-knap {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--brand-color);
+    background: transparent;
+    color: var(--brand-color);
+    font-size: 1rem;
+    line-height: 1.5;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font), serif;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.menu-tilføj-knap:hover {
+    background-color: var(--brand-color);
+    color: #fff;
+}
+
+
+/* ===== CHECKOUT FLOW BAR ===== */
+
+.flow-bar-wrapper {
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 1.25rem 2rem;
+}
+
+.flow-bar {
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+}
+
+.flow-steg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+}
+
+.flow-steg-cirkel {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #bbb;
+    background: #fff;
+}
+
+.flow-steg span {
+    font-size: 0.78rem;
+    color: #bbb;
+    white-space: nowrap;
+}
+
+.flow-linje {
+    flex: 1;
+    height: 2px;
+    background: #e0e0e0;
+    margin: 0 0.4rem;
+    margin-top: 16px;
+}
+
+.flow-steg.aktiv .flow-steg-cirkel {
+    border-color: var(--brand-color);
+    background: var(--brand-color);
+    color: #fff;
+}
+
+.flow-steg.aktiv span {
+    color: var(--brand-color);
+    font-weight: 700;
+}
+
+.flow-steg.faerdig .flow-steg-cirkel {
+    border-color: var(--brand-color);
+    background: var(--brand-color);
+    color: #fff;
+}
+
+.flow-steg.faerdig span {
+    color: var(--brand-color);
+}
+
+.flow-linje.faerdig {
+    background: var(--brand-color);
+}
+
+.flow-steg-link {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.flow-steg-link:hover .flow-steg-cirkel {
+    background: #04a855;
+    border-color: #04a855;
+}
+
+.flow-steg-link:hover span {
+    text-decoration: underline;
+}
+
+
+/* ===== CHECKOUT PAGE ===== */
+
+.checkout-side {
+    background: var(--background-color);
+    padding: 2rem 2rem 4rem;
+    min-height: 60vh;
+}
+
+.checkout-layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.checkout-venstre {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.checkout-højre {
+    width: 340px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 1.5rem;
+}
+
+.checkout-kort {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 1rem;
+    padding: 1.75rem;
+}
+
+.checkout-kort h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkout-kort h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Form elements */
+.form-gruppe {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.form-gruppe:last-child { margin-bottom: 0; }
+
+.form-gruppe label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #444;
+}
+
+.form-gruppe input {
+    padding: 0.7rem 1rem;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 0.6rem;
+    font-size: 0.95rem;
+    font-family: var(--font), serif;
+    color: var(--text-color);
+    transition: border-color 0.2s;
+}
+
+.form-gruppe input:focus {
+    outline: none;
+    border-color: var(--brand-color);
+}
+
+.form-to-kolonner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Payment tabs */
+.betaling-tabs {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.betaling-tab-knap {
+    flex: 1;
+    padding: 0.65rem 0.5rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 0.6rem;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: var(--font), serif;
+    font-weight: 600;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    transition: all 0.15s;
+}
+
+.betaling-tab-knap.aktiv {
+    border-color: var(--brand-color);
+    color: var(--brand-color);
+    background: #f0fdf7;
+}
+
+.betaling-tab-knap:hover:not(.aktiv) { border-color: #aaa; }
+
+.mobilepay-tab-tekst {
+    font-weight: 700;
+    color: inherit;
+}
+
+/* Alternative payment wrappers */
+.alternativ-betaling-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1rem 0 0.5rem;
+}
+
+.mobilepay-logo-boks {
+    background: #5a78ff;
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.3rem;
+    padding: 0.6rem 1.75rem;
+    border-radius: 0.6rem;
+    letter-spacing: 0.01em;
+}
+
+.applepay-knap {
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 0.6rem;
+    padding: 0.85rem 3rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font), serif;
+    transition: opacity 0.2s;
+}
+
+.applepay-knap:hover { opacity: 0.85; }
+
+.betaling-info {
+    font-size: 0.85rem;
+    color: #888;
+    text-align: center;
+    max-width: 280px;
+}
+
+/* Order summary items */
+.checkout-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f5f5f5;
+    color: #444;
+    gap: 1rem;
+}
+
+.checkout-linje {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: #555;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+
+.rabat-linje {
+    color: var(--student-color);
+}
+
+
+.checkout-total-linje {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-color);
+    border-bottom: none;
+    padding-top: 0.75rem;
+}
+
+/* Tip */
+.tip-sektion {
+    padding: 1rem 0 0.25rem;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 0.25rem;
+}
+
+.tip-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 0.75rem;
+}
+
+.tip-knapper {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.tip-knap {
+    flex: 1;
+    padding: 0.5rem 0.25rem;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 0.5rem;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: var(--font), serif;
+    font-weight: 600;
+    color: #555;
+    transition: all 0.15s;
+}
+
+.tip-knap.aktiv {
+    border-color: var(--brand-color);
+    color: var(--brand-color);
+    background: #f0fdf7;
+}
+
+.tip-linje { border-bottom: none; }
+
+.checkout-bekræft-knap {
+    display: block;
+    width: 100%;
+    background-color: var(--brand-color);
+    color: #fff;
+    text-align: center;
+    padding: 0.9rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: var(--font), serif;
+    border: none;
+    cursor: pointer;
+    margin-top: 1.25rem;
+    transition: background-color 0.2s;
+}
+
+.checkout-bekræft-knap:hover { background-color: #04a855; }
+
+
+/* ===== KURV PAGE ===== */
+
+.kurv-side {
+    background-color: var(--background-color);
+    min-height: 60vh;
+    padding: 2rem 2rem 4rem;
+}
+
+.kurv-side-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.kurv-tom-side {
+    text-align: center;
+    padding: 5rem 0;
+    color: #888;
+}
+
+.kurv-tom-side p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.kurv-tom-knap {
+    display: inline-block;
+    background-color: var(--brand-color);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.75rem 1.75rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.kurv-tom-knap:hover {
+    background-color: #04a855;
+}
+
+.kurv-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    margin-top: 1.5rem;
+}
+
+.kurv-items-wrapper {
+    flex: 1;
+    min-width: 0;
+    background: #fff;
+    border-radius: 1rem;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+}
+
+.kurv-titel {
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    margin: 0;
+}
+
+.kurv-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.kurv-item:last-child {
+    border-bottom: none;
+}
+
+.kurv-item-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.kurv-item-navn {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.kurv-item-enhedspris {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.kurv-item-kontrol {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.kurv-item-kontrol button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1.5px solid #e0e0e0;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font), serif;
+    transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+}
+
+.kurv-item-kontrol button:hover {
+    border-color: var(--brand-color);
+    background-color: var(--brand-color);
+    color: #fff;
+}
+
+.kurv-item-antal {
+    font-size: 1rem;
+    font-weight: 700;
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+.kurv-item-total {
+    font-size: 1rem;
+    font-weight: 700;
+    min-width: 70px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* Order summary card */
+
+.kurv-opsummering {
+    width: 320px;
+    flex-shrink: 0;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    position: sticky;
+    top: 1.5rem;
+}
+
+.kurv-opsummering h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 1.25rem;
+}
+
+.kurv-linje {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    color: #444;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.kurv-linje-total {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-color);
+    border-bottom: none;
+    margin-top: 0.25rem;
+    padding-top: 0.75rem;
+}
+
+.kurv-betaling-knap {
+    display: block;
+    width: 100%;
+    background-color: var(--brand-color);
+    color: #fff;
+    text-align: center;
+    padding: 0.9rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: var(--font), serif;
+    border: none;
+    cursor: pointer;
+    margin-top: 1.25rem;
+    transition: background-color 0.2s;
+}
+
+.kurv-betaling-knap:hover {
+    background-color: #04a855;
+}
+
+
+/* ===== BEKRÆFTELSE PAGE ===== */
+
+.bekræftelse-side {
+    min-height: 60vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 3rem 1.5rem 5rem;
+    background-color: var(--bg-color);
+}
+
+.bekræftelse-container {
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.bekræftelse-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+}
+
+.bekræftelse-cirkel {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background-color: #06c167;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 24px rgba(6, 193, 103, 0.35);
+}
+
+.bekræftelse-cirkel i {
+    font-size: 2.6rem;
+    color: #fff;
+}
+
+.bekræftelse-hero h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.bekræftelse-hero p {
+    font-size: 1rem;
+    color: #555;
+    margin: 0;
+}
+
+.bekræftelse-info-rad {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.bekræftelse-info-boks {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+    text-align: center;
+}
+
+.bekræftelse-info-boks .info-label {
+    font-size: 0.78rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.35rem;
+}
+
+.bekræftelse-info-boks .info-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.bekræftelse-recap {
+    width: 100%;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+}
+
+.bekræftelse-recap h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 1rem;
+    color: var(--text-color);
+}
+
+.bekræftelse-recap-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+    color: #444;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.bekræftelse-recap-item:last-of-type {
+    border-bottom: none;
+}
+
+.bekræftelse-recap-linje {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.92rem;
+    color: #666;
+    padding: 0.4rem 0;
+    border-top: 1px solid #e8e8e8;
+    margin-top: 0.5rem;
+}
+
+.bekræftelse-recap-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-color);
+    padding: 0.6rem 0 0;
+    border-top: 2px solid #e0e0e0;
+    margin-top: 0.25rem;
+}
+
+.bekræftelse-spor-knap {
+    display: block;
+    width: 100%;
+    background-color: var(--brand-color);
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: var(--font), serif;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.bekræftelse-spor-knap:hover {
+    background-color: #04a855;
+}

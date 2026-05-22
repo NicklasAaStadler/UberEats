@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UberEats</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/hero.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-venstre">
+                <a href="#" class="navbar-logo">
+                    <img src="img/forside/Uber-Eats-Logo-2018.png" alt="UberEats Logo">
+                </a>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Restauranter</a></li>
+                    <li><a href="#">Mine ordrer</a></li>
+                </ul>
+            </div>
+            
+            <ul class="navbar-højre">
+                <li><a href="#" id="nav-location">Henter lokation…</a></li>
+                <li><a href="kurv.html" class="kurv-icon"><i class="fa-solid fa-basket-shopping"></i><span class="kurv-badge" id="kurv-badge"></span></a></li>
+                <li id="nav-auth"><a href="login.html" class="login-knap">Log ind</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero sektion -->
+    <section class="hero">
+        <div class="hero-container">
+            <!-- Venstre: tekst og knapper -->
+            <div class="hero-tekst">
+                <h1 class="hero-overskrift">
+                    Få rabat som studerende
+                </h1>
+                <p class="hero-beskrivelse">
+                    Spar op til 40% hos 5 restauranter nær dig.<br>
+                    Verificér med WAYF på 30 sek.
+                </p>
+                <div class="hero-knapper">
+                    <a href="login.html?verif=1" class="hero-knap-primær">Verificér nu →</a>
+                </div>
+            </div>
+
+            <!-- Højre: billede med badge -->
+            <div class="hero-billede-wrapper">
+                <img src="img/pizza notte/pizza-notte3.jpg" alt="Lækker mad" class="hero-billede">
+                <div class="hero-badge">
+                    <div class="hero-badge-ikon">
+                        <span>✳</span>
+                    </div>
+                    <div class="hero-badge-tekst">
+                        <strong>Ugens mest populære</strong>
+                        <span>Blandt vores kunder</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="søgning">
+        <div class="søgning-container">
+            <div class="søgefelt">
+                <i class="fa-solid fa-magnifying-glass søge-ikon"></i>
+                <input type="text" placeholder="Søg efter restaurant eller mad...">
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Filtre og kategorier -->
+<section class="filtre-sektion">
+    <div class="filtre-container">
+
+        <!-- Filterpills -->
+        <div class="filterpills">
+            <button class="pill">Populært</button>
+            <button class="pill">Pris</button>
+            <button class="pill">Nær dig</button>
+            <button class="pill">Rating</button>
+            <button class="pill tilbud">Tilbud</button>
+        </div>
+
+        <!-- Kategorier -->
+        <div class="kategorier">
+            <div class="kategori">
+                <div class="kategori-cirkel">
+                    <img src="img/pizza notte/pizza-notte1.jpg" alt="Pizza">
+                </div>
+                <span>Pizza</span>
+            </div>
+            <div class="kategori">
+                <div class="kategori-cirkel">
+                    <img src="img/sushi lovers/sushi1.jpg" alt="sushi">
+                </div>
+                <span>Sushi</span>
+            </div>
+            <div class="kategori">
+                <div class="kategori-cirkel">
+                    <img src="img/Smash Burger/burger1.jpg" alt="Burger">
+                </div>
+                <span>Burger</span>
+            </div>
+            <div class="kategori">
+                <div class="kategori-cirkel">
+                    <img src="img/green bowl/green1.jpg" alt="Sundt">
+                </div>
+                <span>Sundt</span>
+            </div>
+            <div class="kategori">
+                <div class="kategori-cirkel">
+                    <img src="img/wagamama/waga1.jpg" alt="Asiatisk">
+                </div>
+                <span>Asiatisk</span>
+            </div>
+            <div class="kategori">
+                <div class="kategori-cirkel">
+                    <img src="img/green bowl/green2.jpg" alt="">
+                </div>
+                <span>Bowl</span>
+            </div>
+            <div class="kategori">
+                <div class="kategori-cirkel">
+                    <img src="img/Pasta Basta/pasta1.jpg" alt="">
+                </div>
+                <span>Pasta</span>
+            </div>
+            <div class="kategori">
+                <div class="kategori-cirkel">
+                    <img src="img/Taco Loco/taco3.jpg" alt="Tacos">
+                </div>
+                <span>Tacos</span>
+            </div>
+            <div class="kategori">
+                <div class="kategori-cirkel">
+                    <img src="img/Pho Vietnam/pho.jpg" alt="Pho">
+                </div>
+                <span>Pho</span>
+            </div>
+            <div class="kategori">
+                <div class="kategori-cirkel">
+                    <img src="img/Taco Loco/wrap1.jpg" alt="">
+                </div>
+                <span>Wraps</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+    <!-- Studerende rabat-bar (skjult som standard, vises via auth.js) -->
+    <div id="student-sektion" style="display:none;">
+      <div class="student-rabat-bar">
+        <div class="student-rabat-top">
+          <span class="student-rabat-label">DINE STUDIEFORDELE</span>
+          <span class="student-rabat-lokation">Hos 5 restauranter nær campus</span>
+        </div>
+        <div class="student-rabat-pct">Spar 20%</div>
+        <div class="student-rabat-progress">
+          <div class="student-rabat-fill"></div>
+        </div>
+        <div class="student-rabat-niveau">Sølv niveau · 3 ordrer til Guld</div>
+      </div>
+    </div>
+
+  <!-- Restaurant sektion -->
+<section class="restauranter-sektion">
+    <div class="restauranter-container">
+        <h2 class="restauranter-titel">Populære resturanter</h2>
+
+        <div class="restauranter-grid" id="restauranter-grid"></div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+
+        <!-- Øverste del: kolonner -->
+        <div class="footer-kolonner">
+
+            <!-- Logo + tagline -->
+            <div class="footer-kolonne footer-brand">
+                <a href="index.html" class="footer-logo">
+                    <img src="img/forside/Uber-Eats-Logo-2018.png" alt="UberEats Logo">
+                </a>
+                <p>Mad leveret hurtigt og nemt – direkte til din dør.</p>
+            </div>
+
+            <!-- Kom i gang -->
+            <div class="footer-kolonne">
+                <h4>Kom i gang</h4>
+                <ul>
+                    <li><a href="#">Restauranter</a></li>
+                    <li><a href="#">Tilbud</a></li>
+                    <li><a href="#">Studierabat</a></li>
+                    <li><a href="#">0 kr. levering</a></li>
+                </ul>
+            </div>
+
+            <!-- Om UberEats -->
+            <div class="footer-kolonne">
+                <h4>Om UberEats</h4>
+                <ul>
+                    <li><a href="#">Om os</a></li>
+                    <li><a href="#">Karriere</a></li>
+                    <li><a href="#">Presse</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <!-- Hjælp -->
+            <div class="footer-kolonne">
+                <h4>Hjælp</h4>
+                <ul>
+                    <li><a href="#">Kontakt os</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Privatlivspolitik</a></li>
+                    <li><a href="#">Vilkår og betingelser</a></li>
+                </ul>
+            </div>
+
+            <!-- Bliv partner -->
+            <div class="footer-kolonne">
+                <h4>Bliv partner</h4>
+                <ul>
+                    <li><a href="#">Tilmeld din restaurant</a></li>
+                    <li><a href="#">Bliv budbringer</a></li>
+                    <li><a href="#">Erhvervsløsninger</a></li>
+                </ul>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bundlinje -->
+        <div class="footer-bund">
+            <p>© 2026 UberEats · Alle rettigheder forbeholdes</p>
+            <div class="footer-bund-links">
+                <a href="#">Privatlivspolitik</a>
+                <span>·</span>
+                <a href="#">Cookies</a>
+                <span>·</span>
+                <a href="#">Tilgængelighed</a>
+            </div>
+        </div>
+
+    </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

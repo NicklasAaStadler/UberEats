@@ -1,0 +1,134 @@
+.navbar {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--background-color);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.3rem;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar-venstre {
+    display: flex;
+    align-items: center;
+    gap: 5rem;
+}
+
+.navbar-venstre ul {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.navbar-højre {
+    display: flex;
+    gap: 2.5rem;
+}
+
+.navbar a {
+    text-decoration: none;
+}
+
+.navbar-logo img {
+    height: 90px;
+}
+
+.kurv-icon {
+    position: relative;
+}
+
+.kurv-icon i {
+    font-size: 1.3rem;
+    color: var(--text-color);
+}
+
+.kurv-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: var(--brand-color);
+    color: #fff;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#nav-auth {
+    visibility: hidden;
+}
+
+.login-knap {
+    background-color: var(--secondary-color);
+    color: var(--primary-color) !important;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+}
+
+/* Profil nav link */
+.nav-profil-knap {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.nav-profil-knap:hover,
+.nav-profil-knap.aktiv {
+    color: var(--brand-color);
+}
+
+.nav-profil-knap.aktiv {
+    font-weight: 700;
+}
+
+/* Right-side user area */
+.nav-bruger {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.nav-student-badge {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--student-color);
+    border: 1.5px solid var(--student-color);
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.nav-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #111;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+
+
+
+
