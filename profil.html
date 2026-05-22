@@ -26,7 +26,7 @@
       </div>
 
       <ul class="navbar-højre">
-        <li><a href="#" id="nav-location">Henter lokation…</a></li>
+        <li><a href="#" id="nav-location"></a></li>
         <li><a href="kurv.html" class="kurv-icon">
           <i class="fa-solid fa-basket-shopping"></i>
           <span class="kurv-badge" id="kurv-badge"></span>
@@ -139,18 +139,18 @@
     .alt-kort span { font-size: 0.75rem; color: #999; }
     .privacy-note { background: #f7f7f7; border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.78rem; color: #999; line-height: 1.55; }
     .student-verificeret {
-      background: #f0fdf7; border: 2px solid #06c167;
+      background: #e8f0fe; border: 2px solid var(--student-color);
       border-radius: 14px; padding: 2rem;
       display: flex; align-items: center; gap: 1.25rem;
       margin-bottom: 1.5rem;
     }
     .student-verificeret-ikon { font-size: 2.5rem; flex-shrink: 0; }
-    .student-verificeret h3 { font-size: 1.15rem; color: #06c167; margin-bottom: 0.25rem; }
+    .student-verificeret h3 { font-size: 1.15rem; color: var(--student-color); margin-bottom: 0.25rem; }
     .student-verificeret p { font-size: 0.85rem; color: #555; margin: 0; }
     .student-fordele { list-style: none; padding: 0; margin: 1rem 0 0; }
     .student-fordele li { display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0; font-size: 0.9rem; color: #333; border-bottom: 1px solid #f0fdf7; }
     .student-fordele li:last-child { border-bottom: none; }
-    .student-fordele li::before { content: '✓'; color: #06c167; font-weight: 700; }
+    .student-fordele li::before { content: '✓'; color: var(--student-color); font-weight: 700; }
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

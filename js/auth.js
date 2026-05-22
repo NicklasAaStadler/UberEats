@@ -76,10 +76,13 @@
         try {
           const d = await fetch(api.url).then(r => r.json());
           const city = api.get(d);
-          if (city) { locationEl.textContent = city; return; }
+          if (city) {
+            locationEl.textContent = city;
+            locationEl.style.opacity = '1';
+            return;
+          }
         } catch {}
       }
-      locationEl.textContent = 'Location';
     })();
   }
 
@@ -97,6 +100,10 @@
   if (navAuth) navAuth.style.visibility = 'visible';
 
   updateActiveNavLink();
+
+  // Reveal nav links now that the correct state is set — no flash
+  const navUl = document.querySelector('.navbar-venstre ul');
+  if (navUl) navUl.style.opacity = '1';
 })();
 
 function updateActiveNavLink() {
