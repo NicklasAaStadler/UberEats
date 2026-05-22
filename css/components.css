@@ -70,6 +70,43 @@
     color: #f0a500;
 }
 
+.restaurant-adresse-linje,
+.restaurant-hours-linje {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: #555;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.restaurant-adresse-linje .fa-location-dot {
+    color: var(--brand-color);
+    font-size: 0.85rem;
+}
+
+.restaurant-hours-linje .fa-clock {
+    color: #777;
+    font-size: 0.85rem;
+}
+
+#restaurant-hours {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.6rem;
+    align-items: center;
+}
+
+#restaurant-hours .dot {
+    color: #bbb;
+}
+
+.gratis-levering-linje {
+    color: #00875a;
+    font-weight: 600;
+}
+
 /* ===== MENU + CART LAYOUT ===== */
 
 .restaurant-content-layout {

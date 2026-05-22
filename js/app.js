@@ -65,6 +65,7 @@ function renderHomepage() {
         <img src="${r.image}" alt="${r.name}" loading="lazy">
         ${r.rabat ? `<span class="spar-badge">Spar ${r.rabat}%</span>` : ''}
         ${isStudent && r.studierabat ? `<span class="spar-badge studierabat-badge">🎓 ${r.studierabat}% Studierabat</span>` : ''}
+        ${r.free_delivery ? `<span class="spar-badge gratis-levering-badge"><i class="fa-solid fa-truck"></i> Gratis levering</span>` : ''}
         <button class="favorit-knap${r.favorite ? ' aktiv' : ''}"
                 aria-label="Tilføj til favoritter"
                 onclick="toggleFavorit(event, '${r.id}')">
@@ -178,6 +179,20 @@ async function renderRestaurantPage() {
   document.getElementById('restaurant-description').textContent = currentRestaurant.description;
 
   localStorage.setItem('ue-studierabat', currentRestaurant.studierabat || 0);
+  localStorage.setItem('ue-free-delivery', currentRestaurant.free_delivery ? 'true' : 'false');
+
+  const adresseEl = document.getElementById('restaurant-adresse');
+  if (adresseEl && currentRestaurant.address) {
+    adresseEl.textContent = currentRestaurant.address;
+    document.getElementById('restaurant-adresse-wrapper').style.display = 'flex';
+  }
+
+  const hoursEl = document.getElementById('restaurant-hours');
+  if (hoursEl && currentRestaurant.opening_hours) {
+    const hours = Array.isArray(currentRestaurant.opening_hours) ? currentRestaurant.opening_hours : [];
+    hoursEl.innerHTML = hours.map(h => `<span>${h.days}: <strong>${h.hours}</strong></span>`).join('<span class="dot">·</span>');
+    document.getElementById('restaurant-hours-wrapper').style.display = 'flex';
+  }
 
   // ── Venstre kategorinav ───────────────────────────────
   const navEl = document.getElementById('menu-nav');
@@ -334,7 +349,9 @@ function renderSidebarCart() {
 
 // ===== KURV PAGE =====
 
-const LEVERING = 29;
+function getLevering() {
+  return localStorage.getItem('ue-free-delivery') === 'true' ? 0 : 29;
+}
 
 function renderKurvPage() {
   const indhold = document.getElementById('kurv-indhold');
@@ -352,7 +369,8 @@ function renderKurvPage() {
   const subtotal = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
   const rabatPct = getStudierabat();
   const rabat    = Math.round(subtotal * rabatPct / 100);
-  const total    = subtotal + LEVERING - rabat;
+  const levering = getLevering();
+  const total    = subtotal + levering - rabat;
 
   indhold.innerHTML = `
     <div class="kurv-layout">
@@ -386,9 +404,9 @@ function renderKurvPage() {
           <span>Studierabat ( ${rabatPct}% ) 🎓</span>
           <span>-${rabat} kr.</span>
         </div>` : ''}
-        <div class="kurv-linje">
+        <div class="kurv-linje${levering === 0 ? ' gratis-levering-linje' : ''}">
           <span>Levering</span>
-          <span>${LEVERING} kr.</span>
+          <span>${levering === 0 ? 'Gratis' : levering + ' kr.'}</span>
         </div>
         <div class="kurv-linje kurv-linje-total">
           <span>Total</span>
@@ -429,10 +447,11 @@ function updateCheckoutTotals() {
   const rabatPct = getStudierabat();
   const rabat    = Math.round(subtotal * rabatPct / 100);
   const tip      = Math.round(subtotal * tipProcent / 100);
-  const total    = subtotal + LEVERING - rabat + tip;
+  const levering = getLevering();
+  const total    = subtotal + levering - rabat + tip;
 
   document.getElementById('checkout-subtotal').textContent = `${subtotal} kr.`;
-  document.getElementById('checkout-levering').textContent = `${LEVERING} kr.`;
+  document.getElementById('checkout-levering').textContent = levering === 0 ? 'Gratis' : `${levering} kr.`;
   document.getElementById('checkout-tip').textContent      = `${tip} kr.`;
   document.getElementById('checkout-total').textContent    = `${total} kr.`;
 
@@ -475,13 +494,14 @@ async function renderBekræftelsePage() {
   const rabatPct = getStudierabat();
   const tip      = Math.round(subtotal * savedTip / 100);
   const rabat    = Math.round(subtotal * rabatPct / 100);
-  const total    = subtotal + LEVERING - rabat + tip;
+  const levering = getLevering();
+  const total    = subtotal + levering - rabat + tip;
 
   const order = {
     number:   Math.floor(100000 + Math.random() * 900000),
     items:    [...cart],
     subtotal,
-    levering: LEVERING,
+    levering,
     rabat,
     tip,
     total,
@@ -535,7 +555,7 @@ async function renderBekræftelsePage() {
         <span>Subtotal</span><span>${saved.subtotal} kr.</span>
       </div>
       <div class="bekræftelse-recap-linje">
-        <span>Levering</span><span>${saved.levering} kr.</span>
+        <span>Levering</span><span>${saved.levering === 0 ? 'Gratis' : saved.levering + ' kr.'}</span>
       </div>
       ${saved.rabat > 0 ? `
       <div class="bekræftelse-recap-linje" style="color:var(--student-color);font-weight:600">

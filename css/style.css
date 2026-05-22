@@ -33,6 +33,9 @@ ul {
     min-height: 340px;
 }
 
+/* Hide hero for students before any JS runs */
+html.ue-student .hero { display: none !important; }
+
 .hero-container {
     max-width: 1800px;
     margin: 0 auto;
@@ -446,6 +449,12 @@ ul {
 
 .studierabat-badge {
     background: #1565c0;
+}
+
+.gratis-levering-badge {
+    top: auto;
+    bottom: 0.65rem;
+    background: #00875a;
 }
 
 /* Hjerte-knap */
