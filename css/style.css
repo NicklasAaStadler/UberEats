@@ -33,6 +33,9 @@ ul {
     min-height: 340px;
 }
 
+/* Hide hero for students before any JS runs */
+html.ue-student .hero { display: none !important; }
+
 .hero-container {
     max-width: 1800px;
     margin: 0 auto;
@@ -355,7 +358,7 @@ ul {
 .kort-billede-wrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 2;
     border-radius: 1rem;
     overflow: hidden;
     background-color: #ddd;
@@ -369,71 +372,165 @@ ul {
 }
 
 /* ===== STUDERENDE RABAT-BAR ===== */
-.student-rabat-bar {
-    max-width: 95%;
-    margin: 1rem auto;
-    background: #e8f0fe;
-    padding: 1.25rem 1.75rem 1.25rem;
-    border-radius: 14px;
-    border: 1.5px dashed var(--student-color);
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
+
+/* Wrapper on index.html — matches padding of surrounding sections */
+#student-sektion {
+    background-color: var(--background-color);
+    padding: 0 2rem 1rem;
 }
 
-.student-rabat-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+.student-rabat-bar {
+    background: #fff;
+    border-radius: 14px;
+    border: 1.5px solid #e4e4e4;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.srb-header {
+    padding: 0.55rem 1.5rem;
+    background: var(--student-color);
 }
 
 .student-rabat-label {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    color: var(--student-color);
+    letter-spacing: 0.1em;
+    color: #fff;
     text-transform: uppercase;
 }
 
-.student-rabat-lokation {
-    font-size: 0.88rem;
+.srb-body {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    flex-wrap: wrap;
+}
+
+.srb-venstre {
+    flex: 1 1 200px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.srb-titel {
+    font-size: 2.35rem;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.2;
+}
+
+.srb-sub {
+    font-size: 1.3rem;
     color: #555;
+}
+
+.srb-progress-track {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.2rem;
+    flex-wrap: wrap;
+}
+
+.srb-dots {
+    display: flex;
+    gap: 0.3rem;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.srb-dot {
+    flex: 1;
+    min-width: 16px;
+    max-width: 360px;
+    height: 8px;
+    border-radius: 4px;
+    background: #e0e0e0;
+    transition: background 0.2s;
+}
+
+.srb-dot.faerdig {
+    background: var(--student-color);
+}
+
+.srb-progress-tekst {
+    font-size: 0.8rem;
+    color: #888;
     white-space: nowrap;
 }
 
-.student-rabat-pct {
-    font-size: 1.5rem;
+.srb-højre {
+    flex: 0 0 auto;
+}
+
+.srb-reward-kort {
+    background: rgb(232, 240, 254);
+    border: 1px solid var(--student-color);
+    color: #000;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+}
+
+.srb-reward-ikon {
+    font-size: 1.6rem;
+    margin-bottom: 0.3rem;
+}
+
+.srb-reward-label {
+    font-size: 0.68rem;
     font-weight: 700;
-    color: #111;
-    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
 }
 
-.student-rabat-progress {
-    width: 100%;
-    height: 8px;
-    background: #c5d8fb;
-    border-radius: 4px;
-    overflow: hidden;
+.srb-reward-titel {
+    font-size: 0.95rem;
+    font-weight: 700;
 }
 
-.student-rabat-fill {
-    height: 100%;
-    width: 80%;
-    background: var(--student-color);
-    border-radius: 4px;
+.srb-reward-sub {
+    font-size: 0.78rem;
+    opacity: 0.85;
 }
 
-.student-rabat-niveau {
+.srb-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.5rem;
+    border-top: 1px solid #000000;
     font-size: 0.82rem;
-    color: #555;
+    color: #666;
 }
 
-/* Spar-badge på restaurantkort */
-.spar-badge {
+.srb-footer i {
+    color: var(--student-color);
+}
+
+/* Badge-container på restaurantkort */
+.kort-badges {
     position: absolute;
     top: 0.65rem;
     left: 0.65rem;
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    max-width: calc(100% - 3rem);
+}
+
+.spar-badge {
     background: #06c167;
     color: #fff;
     font-size: 0.72rem;
@@ -442,10 +539,15 @@ ul {
     border-radius: 20px;
     letter-spacing: 0.03em;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    white-space: nowrap;
 }
 
 .studierabat-badge {
     background: #1565c0;
+}
+
+.gratis-levering-badge {
+    background: #00875a;
 }
 
 /* Hjerte-knap */
@@ -510,6 +612,74 @@ ul {
 .dot {
     color: #bbb;
 }
+
+
+/* ===== KURV KONFLIKT MODAL ===== */
+
+.kurv-konflikt-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.kurv-konflikt-boks {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+.kurv-konflikt-boks h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.kurv-konflikt-boks p {
+    font-size: 0.95rem;
+    color: #444;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.kurv-konflikt-knapper {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+.kurv-konflikt-annuller {
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    border: 1.5px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: var(--font), serif;
+    transition: border-color 0.15s;
+}
+
+.kurv-konflikt-annuller:hover { border-color: #aaa; }
+
+.kurv-konflikt-bekræft {
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    border: none;
+    background: var(--brand-color);
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: var(--font), serif;
+    transition: opacity 0.15s;
+}
+
+.kurv-konflikt-bekræft:hover { opacity: 0.85; }
 
 
 /* ===== FOOTER ===== */

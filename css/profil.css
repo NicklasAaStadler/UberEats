@@ -259,6 +259,50 @@
     border-color: #888;
 }
 
+/* ===== FAVORITTER SEKTION ===== */
+
+.fav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+}
+
+.fav-tom {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: #aaa;
+}
+
+.fav-tom i {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+    color: #ddd;
+}
+
+.fav-tom p {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+    color: #aaa;
+}
+
+.fav-tom a {
+    display: inline-block;
+    color: var(--brand-color);
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid var(--brand-color);
+    padding: 0.6rem 1.4rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    transition: background 0.15s, color 0.15s;
+}
+
+.fav-tom a:hover {
+    background: var(--brand-color);
+    color: #fff;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .profil-page {

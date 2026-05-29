@@ -15,13 +15,55 @@
 
 .restaurant-info-bar {
     background-color: #fff;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 2rem;
+    padding: 1.5rem 0;
 }
 
 .restaurant-info-container {
-    max-width: 900px;
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.restaurant-info-layout {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    margin-top: 0.75rem;
+}
+
+.restaurant-info-img {
+    width: 500px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 0.85rem;
+    flex-shrink: 0;
+    background: #ddd;
+}
+
+.restaurant-studierabat-badge {
+    display: inline-flex;
+    align-items: center;
+    background: var(--student-color);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+    vertical-align: middle;
+}
+
+.restaurant-info-tekst {
+    flex: 1;
+    min-width: 0;
+}
+
+.restaurant-info-side {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
 }
 
 .tilbage-link {
@@ -70,11 +112,94 @@
     color: #f0a500;
 }
 
+.restaurant-adresse-linje,
+.restaurant-hours-linje {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: #555;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.restaurant-adresse-linje .fa-location-dot {
+    color: var(--brand-color);
+    font-size: 0.85rem;
+}
+
+.restaurant-hours-linje .fa-clock {
+    color: #777;
+    font-size: 0.85rem;
+}
+
+#restaurant-hours {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.6rem;
+    align-items: center;
+}
+
+#restaurant-hours .dot {
+    color: #bbb;
+}
+
+.gratis-levering-linje {
+    color: #00875a;
+    font-weight: 600;
+}
+
+/* ===== KATEGORI-FANEBAR (VANDRET) ===== */
+
+.menu-tabs-bar {
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 1px;
+    z-index: 90;
+}
+
+.menu-tabs-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+
+#menu-nav {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+#menu-nav::-webkit-scrollbar { display: none; }
+
+.menu-nav-item {
+    display: block;
+    padding: 1rem 1.1rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: #555;
+    font-weight: 500;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.menu-nav-item:hover { color: #111; }
+
+.menu-nav-item.aktiv {
+    color: var(--brand-color);
+    font-weight: 700;
+    border-bottom-color: var(--brand-color);
+}
+
 /* ===== MENU + CART LAYOUT ===== */
 
 .restaurant-content-layout {
     display: grid;
-    grid-template-columns: 180px 1fr 320px;
+    grid-template-columns: 1fr 320px;
     gap: 2rem;
     max-width: 1400px;
     margin: 0 auto;
@@ -84,38 +209,6 @@
 
 .menu-container {
     min-width: 0;
-}
-
-/* ===== VENSTRE KATEGORINAV ===== */
-
-.menu-nav-sidebar {
-    position: sticky;
-    top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-}
-
-.menu-nav-item {
-    display: block;
-    padding: 0.55rem 0.85rem;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    font-size: 0.9rem;
-    color: #555;
-    font-weight: 500;
-    transition: background 0.15s, color 0.15s;
-}
-
-.menu-nav-item:hover {
-    background: #f0f0f0;
-    color: #111;
-}
-
-.menu-nav-item.aktiv {
-    background: #f0fdf7;
-    color: var(--brand-color);
-    font-weight: 700;
 }
 
 /* ===== STUDIERABAT BADGE PÅ MENUITEM ===== */
@@ -294,6 +387,102 @@
     border-bottom: 2px solid #e0e0e0;
 }
 
+/* ===== LEVERING / AFHENTNING TOGGLE ===== */
+
+.levering-toggle {
+    display: flex;
+    border: 2px solid #e0e0e0;
+    border-radius: 2rem;
+    overflow: hidden;
+    width: fit-content;
+    margin-top: 1.25rem;
+}
+
+.levering-toggle-knap {
+    padding: 0.5rem 1.3rem;
+    border: none;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-family: var(--font), serif;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background 0.15s, color 0.15s;
+}
+
+.levering-toggle-knap.aktiv {
+    background: var(--brand-color);
+    color: #fff;
+    font-weight: 600;
+}
+
+/* ===== POPULÆRE RETTER: KORT-GRID ===== */
+
+.menu-populær-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.menu-populær-kort {
+    border-radius: 0.85rem;
+    overflow: hidden;
+    border: 1px solid #e8e8e8;
+    background: #fff;
+    transition: box-shadow 0.2s;
+}
+
+.menu-populær-kort:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.menu-populær-billede {
+    height: 150px;
+    background: #f0f0f0;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-populær-placeholder {
+    font-size: 2rem;
+    color: #ccc;
+}
+
+.menu-populær-info {
+    padding: 0.85rem;
+}
+
+.menu-populær-info h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.menu-populær-info > p {
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.menu-populær-bund {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ===== MENU ITEMS ===== */
+
 .menu-item {
     display: flex;
     justify-content: space-between;
@@ -301,6 +490,11 @@
     padding: 1rem 0;
     border-bottom: 1px solid #f0f0f0;
     gap: 1rem;
+}
+
+.menu-item-info {
+    flex: 1;
+    min-width: 0;
 }
 
 .menu-item-info h4 {
@@ -314,6 +508,7 @@
     color: #666;
     max-width: 500px;
     line-height: 1.4;
+    margin-bottom: 0.5rem;
 }
 
 .menu-item-pris-knap {
@@ -321,7 +516,14 @@
     align-items: center;
     gap: 1rem;
     flex-shrink: 0;
+}
 
+.menu-item-thumb {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 0.6rem;
+    flex-shrink: 0;
 }
 
 .menu-item-pris {
@@ -351,6 +553,33 @@
     background-color: var(--brand-color);
     color: #fff;
 }
+
+
+/* ===== MOBIL KURV KNAP (restaurant page, mobile only) ===== */
+
+.mobil-kurv-knap {
+    display: none;
+    position: fixed;
+    bottom: 1.25rem;
+    left: 1rem;
+    right: 1rem;
+    background: var(--brand-color);
+    color: #fff;
+    border-radius: 2rem;
+    padding: 1rem 1.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    z-index: 200;
+    font-family: var(--font), serif;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.mobil-kurv-knap:hover { background: #04a855; }
 
 
 /* ===== CHECKOUT FLOW BAR ===== */
@@ -1061,3 +1290,308 @@
 .bekræftelse-spor-knap:hover {
     background-color: #04a855;
 }
+
+
+/* ===== LEVERING PAGE ===== */
+
+.levering-side {
+    min-height: 60vh;
+    background: var(--background-color);
+    padding: 2rem 2rem 4rem;
+}
+
+.levering-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1.25rem;
+    align-items: flex-start;
+}
+
+/* Map card (left) */
+.levering-map-kort {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 1.25rem;
+    overflow: hidden;
+}
+
+.levering-map-header {
+    padding: 1.25rem 1.5rem 0.85rem;
+}
+
+.levering-ordre-ref {
+    font-size: 0.82rem;
+    color: #888;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.levering-map-titel {
+    font-size: 1.55rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.levering-kort-map {
+    width: 100%;
+    aspect-ratio: 8 / 3.4;
+    overflow: hidden;
+    display: block;
+}
+
+/* Info column (right) */
+.levering-info-kolonne {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    position: sticky;
+    top: 1.5rem;
+}
+
+/* ETA card */
+.levering-eta-kort {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 1.25rem;
+    padding: 1.35rem 1.5rem 1.25rem;
+}
+
+.levering-eta-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #888;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.35rem;
+}
+
+.levering-eta-minutter {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: var(--brand-color);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.02em;
+}
+
+.levering-eta-kl {
+    font-size: 0.83rem;
+    color: #666;
+}
+
+/* Status card */
+.levering-status-kort {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 1.25rem;
+    padding: 1.1rem 1.4rem;
+}
+
+.levering-status-overskrift {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #888;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.levering-status-rad {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.levering-status-rad:last-child { border-bottom: none; }
+
+.levering-status-ikon {
+    width: 20px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.levering-status-ikon .fa-circle-check {
+    color: var(--brand-color);
+    font-size: 1rem;
+}
+
+.lev-ikon-tom {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    display: block;
+}
+
+.levering-status-tekst {
+    flex: 1;
+    font-size: 0.875rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.levering-status-rad:not(.done) .levering-status-tekst {
+    color: #aaa;
+    font-weight: 400;
+}
+
+.levering-status-tid {
+    font-size: 0.8rem;
+    color: #aaa;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.levering-status-rad.done .levering-status-tid {
+    color: #777;
+}
+
+/* Budbringer card */
+.levering-bud-kort {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 1.25rem;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.levering-bud-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #222;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.levering-bud-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.levering-bud-info strong {
+    font-size: 0.92rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.1rem;
+}
+
+.levering-bud-info span {
+    font-size: 0.78rem;
+    color: #888;
+}
+
+.levering-bud-besked-knap {
+    background: #fff;
+    color: #333;
+    border: 1.5px solid #ddd;
+    border-radius: 2rem;
+    padding: 0.42rem 1.1rem;
+    font-size: 0.83rem;
+    font-weight: 600;
+    font-family: var(--font), serif;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.15s;
+}
+
+.levering-bud-besked-knap:hover { border-color: #888; }
+
+/* Besked modal */
+.levering-besked-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 600;
+    padding-bottom: 0;
+}
+
+.levering-besked-boks {
+    background: #fff;
+    border-radius: 1.25rem 1.25rem 0 0;
+    padding: 1.75rem 1.5rem 1.5rem;
+    width: 100%;
+    max-width: 560px;
+}
+
+.levering-besked-boks h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.levering-besked-boks textarea {
+    width: 100%;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 0.65rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-family: var(--font), serif;
+    resize: none;
+    min-height: 90px;
+    box-sizing: border-box;
+    color: var(--text-color);
+    transition: border-color 0.2s;
+}
+
+.levering-besked-boks textarea:focus {
+    outline: none;
+    border-color: var(--brand-color);
+}
+
+.levering-besked-knapper {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.levering-besked-send {
+    flex: 1;
+    background: var(--brand-color);
+    color: #fff;
+    border: none;
+    border-radius: 2rem;
+    padding: 0.85rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    font-family: var(--font), serif;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.levering-besked-send:hover { background: #04a855; }
+
+.levering-besked-luk {
+    flex: 1;
+    background: #fff;
+    color: #555;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 2rem;
+    padding: 0.85rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    font-family: var(--font), serif;
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+
+.levering-besked-luk:hover { border-color: #999; }
+

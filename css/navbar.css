@@ -29,6 +29,11 @@
     gap: 2.5rem;
 }
 
+#nav-location {
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
 .navbar-højre {
     display: flex;
     gap: 2.5rem;
@@ -78,20 +83,22 @@
     border-radius: 2rem;
 }
 
-/* Profil nav link */
-.nav-profil-knap {
+/* All left nav links — unified */
+.navbar-venstre ul li a {
     color: var(--text-color);
     text-decoration: none;
-    transition: color 0.2s;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
 }
 
-.nav-profil-knap:hover,
-.nav-profil-knap.aktiv {
-    color: var(--brand-color);
+.navbar-venstre ul li a:hover {
+    color: #555;
 }
 
-.nav-profil-knap.aktiv {
-    font-weight: 700;
+.navbar-venstre ul li a.aktiv {
+    border-bottom: 2px solid var(--brand-color);
+    font-weight: 600;
 }
 
 /* Right-side user area */

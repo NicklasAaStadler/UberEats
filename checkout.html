@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Betaling – UberEats</title>
+    <script>if(localStorage.getItem('displayName'))document.documentElement.classList.add('ue-auth');if(localStorage.getItem('role')==='student')document.documentElement.classList.add('ue-student');</script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/components.css">
@@ -20,13 +21,12 @@
                     <img src="img/forside/Uber-Eats-Logo-2018.png" alt="UberEats Logo">
                 </a>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#">Restauranter</a></li>
-                    <li><a href="#">Mine ordrer</a></li>
+                    <li><a href="index.html">Restauranter</a></li>
+                    <li><a href="login.html?verif=1" id="nav-studierabat">Studierabat</a></li>
                 </ul>
             </div>
             <ul class="navbar-højre">
-                <li><a href="#" id="nav-location">Henter lokation…</a></li>
+                <li><a href="#" id="nav-location"></a></li>
                 <li><a href="kurv.html" class="kurv-icon">
                     <i class="fa-solid fa-basket-shopping"></i>
                     <span class="kurv-badge" id="kurv-badge"></span>
@@ -35,6 +35,29 @@
             </ul>
         </div>
     </nav>
+    <script>
+    (function(){
+      var dn=localStorage.getItem('displayName'),role=localStorage.getItem('role');
+      if(!dn)return;
+      var ul=document.querySelector('.navbar-venstre ul');
+      if(!ul)return;
+      ul.dataset.synced='1';
+      var sl=document.getElementById('nav-studierabat'),sli=sl&&sl.closest('li');
+      var lf=document.createElement('li'),lp=document.createElement('li');
+      lf.innerHTML='<a href="profil.html?sektion=favoritter">Favoritter</a>';
+      lp.innerHTML='<a href="profil.html">Profil</a>';
+      if(sli){ul.insertBefore(lf,sli);ul.insertBefore(lp,sli);sl.href='profil.html?verif=1';}
+      else{ul.appendChild(lf);ul.appendChild(lp);}
+      var na=document.getElementById('nav-auth');
+      if(na){
+        var i=dn.split(' ').map(function(w){return w[0]||'';}).join('').toUpperCase().slice(0,2);
+        na.style.listStyle='none';na.style.visibility='visible';
+        na.innerHTML='<div class="nav-bruger">'+(role==='student'?'<span class="nav-student-badge">Studerende</span>':'')+'<a href="profil.html" class="nav-avatar">'+i+'</a></div>';
+      }
+      var city=localStorage.getItem('ue-city'),loc=document.getElementById('nav-location');
+      if(loc&&city){loc.textContent=city;loc.style.opacity='1';}
+    }());
+    </script>
 
     <!-- Flow bar: step 1 done, step 2 active -->
     <div class="flow-bar-wrapper">

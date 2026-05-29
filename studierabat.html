@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studierabat – UberEats</title>
+    <script>if(localStorage.getItem('displayName'))document.documentElement.classList.add('ue-auth');if(localStorage.getItem('role')==='student')document.documentElement.classList.add('ue-student');</script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        :root {
+            --student-color: #1a73e8;
+            --brand-color: #06c167;
+        }
+
+        .sr-hero {
+            background: linear-gradient(135deg, #000 0%, #0d1a2e 100%);
+            color: #fff;
+            text-align: center;
+            padding: 5rem 2rem 4rem;
+        }
+
+        .sr-hero-eyebrow {
+            display: inline-block;
+            background: var(--student-color);
+            color: #fff;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .sr-hero h1 {
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .sr-hero h1 span {
+            color: var(--brand-color);
+        }
+
+        .sr-hero p {
+            font-size: 1.15rem;
+            color: #ccc;
+            max-width: 540px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .sr-hero-cta {
+            display: inline-block;
+            background: var(--student-color);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 0.85rem 2.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .sr-hero-cta:hover {
+            background: #1558c0;
+        }
+
+        /* Tilbud grid */
+        .sr-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .sr-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .sr-section-sub {
+            color: #666;
+            margin-bottom: 2.5rem;
+        }
+
+        .sr-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .sr-card {
+            background: #fff;
+            border: 1.5px solid #e8e8e8;
+            border-radius: 16px;
+            padding: 2rem 1.75rem;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+
+        .sr-card:hover {
+            box-shadow: 0 8px 28px rgba(0,0,0,0.09);
+            transform: translateY(-2px);
+        }
+
+        .sr-card-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .icon-blue  { background: #e8f0fe; color: var(--student-color); }
+        .icon-green { background: #e6f9f0; color: var(--brand-color); }
+        .icon-orange { background: #fff3e8; color: #f57c00; }
+        .icon-purple { background: #f3e8ff; color: #7c3aed; }
+
+        .sr-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .sr-card p {
+            font-size: 0.92rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .sr-card .sr-badge {
+            display: inline-block;
+            background: var(--student-color);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-top: 1rem;
+        }
+
+        /* Sådan virker det */
+        .sr-how {
+            background: #f7f7f7;
+            padding: 4rem 2rem;
+        }
+
+        .sr-how-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .sr-how-inner h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .sr-how-inner p {
+            color: #666;
+            margin-bottom: 3rem;
+        }
+
+        .sr-steps {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .sr-step {
+            flex: 1;
+            min-width: 180px;
+            max-width: 220px;
+        }
+
+        .sr-step-num {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--student-color);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .sr-step h4 {
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        .sr-step p {
+            font-size: 0.88rem;
+            color: #666;
+        }
+
+        /* Wayf banner */
+        .sr-wayf {
+            background: var(--student-color);
+            color: #fff;
+            text-align: center;
+            padding: 3.5rem 2rem;
+        }
+
+        .sr-wayf h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .sr-wayf p {
+            opacity: 0.85;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        .sr-wayf-cta {
+            display: inline-block;
+            background: #fff;
+            color: var(--student-color);
+            font-weight: 700;
+            padding: 0.85rem 2.2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: opacity 0.2s;
+        }
+
+        .sr-wayf-cta:hover { opacity: 0.9; }
+
+        /* FAQ */
+        .sr-faq {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .sr-faq h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .sr-faq-item {
+            border-bottom: 1px solid #e8e8e8;
+            padding: 1.25rem 0;
+        }
+
+        .sr-faq-item:last-child { border-bottom: none; }
+
+        .sr-faq-item h4 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .sr-faq-item p {
+            color: #555;
+            font-size: 0.93rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-venstre">
+                <a href="index.html" class="navbar-logo">
+                    <img src="img/forside/Uber-Eats-Logo-2018.png" alt="UberEats Logo">
+                </a>
+                <ul>
+                    <li><a href="index.html">Restauranter</a></li>
+                    <li><a href="studierabat.html" class="aktiv">Studierabat</a></li>
+                </ul>
+            </div>
+            <ul class="navbar-højre">
+                <li><a href="#" id="nav-location"></a></li>
+                <li><a href="kurv.html" class="kurv-icon"><i class="fa-solid fa-basket-shopping"></i><span class="kurv-badge" id="kurv-badge"></span></a></li>
+                <li id="nav-auth"><a href="login.html" class="login-knap">Log ind</a></li>
+            </ul>
+        </div>
+    </nav>
+    <script>
+    (function(){
+      var dn=localStorage.getItem('displayName'),role=localStorage.getItem('role');
+      if(!dn)return;
+      var ul=document.querySelector('.navbar-venstre ul');
+      if(!ul)return;
+      var lf=document.createElement('li'),lp=document.createElement('li');
+      lf.innerHTML='<a href="profil.html?sektion=favoritter">Favoritter</a>';
+      lp.innerHTML='<a href="profil.html">Profil</a>';
+      var sr=ul.querySelector('a[href="studierabat.html"]');
+      var sri=sr&&sr.closest('li');
+      if(sri){ul.insertBefore(lf,sri);ul.insertBefore(lp,sri);}
+      else{ul.appendChild(lf);ul.appendChild(lp);}
+      var na=document.getElementById('nav-auth');
+      if(na){
+        var i=dn.split(' ').map(function(w){return w[0]||'';}).join('').toUpperCase().slice(0,2);
+        na.style.listStyle='none';na.style.visibility='visible';
+        na.innerHTML='<div class="nav-bruger">'+(role==='student'?'<span class="nav-student-badge">Studerende</span>':'')+'<a href="profil.html" class="nav-avatar">'+i+'</a></div>';
+      }
+      var city=localStorage.getItem('ue-city'),loc=document.getElementById('nav-location');
+      if(loc&&city){loc.textContent=city;loc.style.opacity='1';}
+    }());
+    </script>
+
+    <!-- Hero -->
+    <section class="sr-hero">
+        <span class="sr-hero-eyebrow"><i class="fa-solid fa-graduation-cap"></i> &nbsp;Kun for studerende</span>
+        <h1>Spar op til <span>40%</span><br>som studerende</h1>
+        <p>Verificer din studiestatus med WAYF på 30 sekunder og få adgang til eksklusive rabatter, gratis levering og meget mere.</p>
+        <a href="login.html?verif=1" class="sr-hero-cta"><i class="fa-solid fa-id-card"></i> &nbsp;Verificér med WAYF nu</a>
+    </section>
+
+    <!-- Tilbud -->
+    <section class="sr-section">
+        <h2>Dine studiefordele</h2>
+        <p class="sr-section-sub">Alt hvad du får adgang til som verificeret studerende</p>
+        <div class="sr-cards">
+
+            <div class="sr-card">
+                <div class="sr-card-icon icon-blue"><i class="fa-solid fa-percent"></i></div>
+                <h3>Op til 40% rabat</h3>
+                <p>Få automatisk studierabat hos udvalgte restauranter, hver gang du bestiller. Rabatten trækkes direkte ved checkout.</p>
+                <span class="sr-badge">Spar op til 40%</span>
+            </div>
+
+            <div class="sr-card">
+                <div class="sr-card-icon icon-green"><i class="fa-solid fa-truck-fast"></i></div>
+                <h3>Gratis levering</h3>
+                <p>Slip for leveringsgebyret på din 5. ordre og derefter hver 5. ordre. Jo mere du bestiller, jo mere sparer du.</p>
+                <span class="sr-badge">Gratis levering</span>
+            </div>
+
+            <div class="sr-card">
+                <div class="sr-card-icon icon-orange"><i class="fa-solid fa-gift"></i></div>
+                <h3>Surprise deals</h3>
+                <p>Som studerende låser du op for ugentlige overraskelsestilbud — fra gratis drikkevarer til halv pris på udvalgte retter.</p>
+                <span class="sr-badge">Ugentlige tilbud</span>
+            </div>
+
+            <div class="sr-card">
+                <div class="sr-card-icon icon-purple"><i class="fa-solid fa-star"></i></div>
+                <h3>Rewards point</h3>
+                <p>Optjen dobbelte points på alle ordrer og indfri dem til rabatter, gratis retter og eksklusive studentertilbud.</p>
+                <span class="sr-badge">2× points</span>
+            </div>
+
+            <div class="sr-card">
+                <div class="sr-card-icon icon-blue"><i class="fa-solid fa-clock"></i></div>
+                <h3>Studietime-deals</h3>
+                <p>Ekstra rabatter i tidsrummet 11–14 på hverdage — perfekt til en hurtig frokost mellem forelæsningerne.</p>
+                <span class="sr-badge">Man–fre 11–14</span>
+            </div>
+
+            <div class="sr-card">
+                <div class="sr-card-icon icon-green"><i class="fa-solid fa-users"></i></div>
+                <h3>Del med studiegruppen</h3>
+                <p>Bestil som gruppe og del en fælles ordre. Studierabatten gælder for hele ordren, uanset hvem der betaler.</p>
+                <span class="sr-badge">Gruppebestilling</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Sådan virker det -->
+    <div class="sr-how">
+        <div class="sr-how-inner">
+            <h2>Sådan kommer du i gang</h2>
+            <p>Tre simple trin og du er klar til at spare</p>
+            <div class="sr-steps">
+                <div class="sr-step">
+                    <div class="sr-step-num">1</div>
+                    <h4>Opret en konto</h4>
+                    <p>Registrér dig med din e-mail på UberEats.</p>
+                </div>
+                <div class="sr-step">
+                    <div class="sr-step-num">2</div>
+                    <h4>Verificér med WAYF</h4>
+                    <p>Log ind via WAYF med dit universitetslogin. Det tager under 30 sekunder.</p>
+                </div>
+                <div class="sr-step">
+                    <div class="sr-step-num">3</div>
+                    <h4>Bestil og spar</h4>
+                    <p>Rabatter og fordele aktiveres automatisk på din næste ordre.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WAYF CTA -->
+    <div class="sr-wayf">
+        <h2>Klar til at spare?</h2>
+        <p>Verificér din studiestatus med WAYF og få adgang til alle studiefordele med det samme.</p>
+        <a href="login.html?verif=1" class="sr-wayf-cta"><i class="fa-solid fa-graduation-cap"></i> &nbsp;Verificér med WAYF</a>
+    </div>
+
+    <!-- FAQ -->
+    <section class="sr-faq">
+        <h2>Ofte stillede spørgsmål</h2>
+
+        <div class="sr-faq-item">
+            <h4>Hvem kan få studierabat?</h4>
+            <p>Alle studerende ved et dansk universitet, professionshøjskole eller erhvervsakademi, som er tilknyttet WAYF, kan verificere sig og få adgang til studiefordelene.</p>
+        </div>
+
+        <div class="sr-faq-item">
+            <h4>Hvad er WAYF?</h4>
+            <p>WAYF (Where Are You From) er Danmarks nationale login-tjeneste for uddannelsesinstitutioner. Du logger ind med det samme brugernavn og kodeord, som du bruger på din skole.</p>
+        </div>
+
+        <div class="sr-faq-item">
+            <h4>Hvor længe varer studierabatten?</h4>
+            <p>Din studierabat er aktiv, så længe du er indskrevet som studerende. Vi beder om re-verificering én gang om året for at sikre, at du stadig er studerende.</p>
+        </div>
+
+        <div class="sr-faq-item">
+            <h4>Gælder rabatten alle restauranter?</h4>
+            <p>Studierabatten gælder hos alle UberEats-restauranter, der deltager i programmet. Du kan se deltagende restauranter markeret med et studerende-ikon i restaurantlisten.</p>
+        </div>
+
+        <div class="sr-faq-item">
+            <h4>Kan jeg kombinere studierabatten med andre tilbud?</h4>
+            <p>Studierabatten kan kombineres med gratis levering og rewards points, men kan ikke kombineres med andre kampagner eller rabatkoder på samme ordre.</p>
+        </div>
+    </section>
+
+</body>
+</html>

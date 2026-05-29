@@ -37,8 +37,21 @@ async function sbUpsertProfile(displayName, role) {
 
 // ── Restauranter ──────────────────────────────────────────────────────────────
 async function sbGetRestaurants() {
+  const KEY = 'ue-restaurants-v2';
+  const cached = localStorage.getItem(KEY);
+  const ts     = +localStorage.getItem(KEY + '-ts') || 0;
+  if (cached && Date.now() - ts < 300000) {
+    try { return JSON.parse(cached); } catch {}
+  }
   const { data } = await sb.from('restaurants').select('*');
-  return data || [];
+  const result = data || [];
+  try {
+    localStorage.setItem(KEY, JSON.stringify(result));
+    localStorage.setItem(KEY + '-ts', Date.now());
+    localStorage.removeItem('ue-restaurants');
+    localStorage.removeItem('ue-restaurants-ts');
+  } catch {}
+  return result;
 }
 
 async function sbGetRestaurantWithMenu(id) {
@@ -47,8 +60,9 @@ async function sbGetRestaurantWithMenu(id) {
 
   const { data: categories } = await sb
     .from('menu_categories')
-    .select('id, name, menu_items(id, name, description, price)')
+    .select('id, name, sort_order, menu_items(id, name, description, price, image)')
     .eq('restaurant_id', id)
+    .order('sort_order')
     .order('id');
 
   restaurant.menu = (categories || []).map(cat => ({
@@ -58,6 +72,7 @@ async function sbGetRestaurantWithMenu(id) {
       name:        item.name,
       description: item.description,
       price:       item.price,
+      image:       item.image || null,
     })),
   }));
 
@@ -104,8 +119,18 @@ async function sbGetOrders() {
 async function sbGetFavorites() {
   const session = await sbGetSession();
   if (!session) return [];
+  const cached = localStorage.getItem('ue-favorites');
+  const ts     = +localStorage.getItem('ue-favorites-ts') || 0;
+  if (cached && Date.now() - ts < 60000) { // 1-minute cache
+    try { return JSON.parse(cached); } catch {}
+  }
   const { data } = await sb.from('favorites').select('restaurant_id').eq('user_id', session.user.id);
-  return (data || []).map(f => f.restaurant_id);
+  const result = (data || []).map(f => f.restaurant_id);
+  try {
+    localStorage.setItem('ue-favorites', JSON.stringify(result));
+    localStorage.setItem('ue-favorites-ts', Date.now());
+  } catch {}
+  return result;
 }
 
 async function sbToggleFavorite(restaurantId) {
@@ -117,9 +142,10 @@ async function sbToggleFavorite(restaurantId) {
     await sb.from('favorites').delete()
       .eq('user_id', session.user.id)
       .eq('restaurant_id', restaurantId);
-    return false;
   } else {
     await sb.from('favorites').insert({ user_id: session.user.id, restaurant_id: restaurantId });
-    return true;
   }
+  // Invalidate favorites cache so next load is fresh
+  localStorage.removeItem('ue-favorites');
+  return !favs.includes(restaurantId);
 }

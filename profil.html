@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profil – UberEats</title>
+  <script>if(localStorage.getItem('displayName'))document.documentElement.classList.add('ue-auth');if(localStorage.getItem('role')==='student')document.documentElement.classList.add('ue-student');</script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/profil.css">
@@ -20,14 +21,13 @@
           <img src="img/forside/Uber-Eats-Logo-2018.png" alt="UberEats Logo">
         </a>
         <ul>
-          <li><a href="index.html">Hjem</a></li>
-          <li><a href="#">Restauranter</a></li>
-          <li><a href="#">Mine ordrer</a></li>
+          <li><a href="index.html">Restauranter</a></li>
+          <li><a href="profil.html?verif=1" id="nav-studierabat">Studierabat</a></li>
         </ul>
       </div>
 
       <ul class="navbar-højre">
-        <li><a href="#" id="nav-location">Henter lokation…</a></li>
+        <li><a href="#" id="nav-location"></a></li>
         <li><a href="kurv.html" class="kurv-icon">
           <i class="fa-solid fa-basket-shopping"></i>
           <span class="kurv-badge" id="kurv-badge"></span>
@@ -36,6 +36,29 @@
       </ul>
     </div>
   </nav>
+  <script>
+  (function(){
+    var dn=localStorage.getItem('displayName'),role=localStorage.getItem('role');
+    if(!dn)return;
+    var ul=document.querySelector('.navbar-venstre ul');
+    if(!ul)return;
+    ul.dataset.synced='1';
+    var sl=document.getElementById('nav-studierabat'),sli=sl&&sl.closest('li');
+    var lf=document.createElement('li'),lp=document.createElement('li');
+    lf.innerHTML='<a href="profil.html?sektion=favoritter">Favoritter</a>';
+    lp.innerHTML='<a href="profil.html">Profil</a>';
+    if(sli){ul.insertBefore(lf,sli);ul.insertBefore(lp,sli);sl.href='profil.html?verif=1';}
+    else{ul.appendChild(lf);ul.appendChild(lp);}
+    var na=document.getElementById('nav-auth');
+    if(na){
+      var i=dn.split(' ').map(function(w){return w[0]||'';}).join('').toUpperCase().slice(0,2);
+      na.style.listStyle='none';na.style.visibility='visible';
+      na.innerHTML='<div class="nav-bruger">'+(role==='student'?'<span class="nav-student-badge">Studerende</span>':'')+'<a href="profil.html" class="nav-avatar">'+i+'</a></div>';
+    }
+    var city=localStorage.getItem('ue-city'),loc=document.getElementById('nav-location');
+    if(loc&&city){loc.textContent=city;loc.style.opacity='1';}
+  }());
+  </script>
 
   <div class="profil-page">
 
@@ -140,18 +163,18 @@
     .alt-kort span { font-size: 0.75rem; color: #999; }
     .privacy-note { background: #f7f7f7; border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.78rem; color: #999; line-height: 1.55; }
     .student-verificeret {
-      background: #f0fdf7; border: 2px solid #06c167;
+      background: #e8f0fe; border: 2px solid var(--student-color);
       border-radius: 14px; padding: 2rem;
       display: flex; align-items: center; gap: 1.25rem;
       margin-bottom: 1.5rem;
     }
     .student-verificeret-ikon { font-size: 2.5rem; flex-shrink: 0; }
-    .student-verificeret h3 { font-size: 1.15rem; color: #06c167; margin-bottom: 0.25rem; }
+    .student-verificeret h3 { font-size: 1.15rem; color: var(--student-color); margin-bottom: 0.25rem; }
     .student-verificeret p { font-size: 0.85rem; color: #555; margin: 0; }
     .student-fordele { list-style: none; padding: 0; margin: 1rem 0 0; }
     .student-fordele li { display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0; font-size: 0.9rem; color: #333; border-bottom: 1px solid #f0fdf7; }
     .student-fordele li:last-child { border-bottom: none; }
-    .student-fordele li::before { content: '✓'; color: #06c167; font-weight: 700; }
+    .student-fordele li::before { content: '✓'; color: var(--student-color); font-weight: 700; }
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -199,20 +222,49 @@
       }
 
       function renderOversigt() {
+        const mål      = 5;
+        const fremgang = Math.min(denneMåned, mål);
+        const mangler  = mål - fremgang;
+        const måneder  = ['januar','februar','marts','april','maj','juni','juli','august','september','oktober','november','december'];
+        const næste    = måneder[(now.getMonth() + 1) % 12];
+        const dotsHTML = Array.from({length: mål}, (_, i) =>
+          `<div class="srb-dot${i < fremgang ? ' faerdig' : ''}"></div>`).join('');
+        const subTekst = fremgang >= mål
+          ? 'Du har opnået en voucher på 100kr!'
+          : `Bestil ${mangler} gang${mangler !== 1 ? 'e' : ''} mere og optjen en voucher på 100kr`;
+
         const rabatBar = isStudent ? `
           <div class="student-rabat-bar">
-            <div class="student-rabat-top">
+            <div class="srb-header">
               <span class="student-rabat-label">DINE STUDIEFORDELE</span>
-              <span class="student-rabat-lokation">Hos restauranter med studierabat</span>
             </div>
-            <div class="student-rabat-pct">Spar op til 30%</div>
-            <div class="student-rabat-progress"><div class="student-rabat-fill"></div></div>
-            <div class="student-rabat-niveau">Aktiv studierabat</div>
+            <div class="srb-body">
+              <div class="srb-venstre">
+                <div class="srb-titel">${fremgang}/${mål} ordrer denne måned</div>
+                <div class="srb-sub">${subTekst}</div>
+                <div class="srb-progress-track">
+                  <div class="srb-dots">${dotsHTML}</div>
+                  <span class="srb-progress-tekst">${fremgang} ud af ${mål} ordrer</span>
+                </div>
+              </div>
+              <div class="srb-højre">
+                <div class="srb-reward-kort">
+                  <i class="fa-solid fa-ticket-simple"></i>                 
+                  <div class="srb-reward-label">Næste reward</div>
+                  <div class="srb-reward-titel">En voucher på 100kr.</div>
+                  <div class="srb-reward-sub">Ved ${mål} ordrer</div>
+                </div>
+              </div>
+            </div>
+            <div class="srb-footer">
+              <i class="fa-regular fa-calendar-days"></i>
+              <span>Ny måned, nye muligheder! Tællingen nulstilles 1. ${næste}</span>
+            </div>
           </div>
         ` : '';
 
         const ordrerHTML = formattedOrders.length === 0
-          ? '<p style="color:#888;padding:1rem 0">Du har ikke afgivet nogen ordrer endnu.</p>'
+          ? '<p style="color:#aaa;text-align:center;padding:3rem 1rem;font-size:0.95rem">Du har ikke afgivet nogen ordrer endnu.</p>'
           : formattedOrders.map(o => `
               <div class="ordre-række">
                 <img src="${o.img}" alt="${o.navn}" class="ordre-billede">
@@ -319,6 +371,72 @@
         }
       }
 
+      async function renderFavoritter() {
+        const main = document.getElementById('profil-main');
+        main.innerHTML = `
+          <div class="profil-velkommen">
+            <h1>Favoritter</h1>
+            <p style="color:#aaa">Henter...</p>
+          </div>`;
+
+        const [allRestaurants, favIds] = await Promise.all([
+          sbGetRestaurants(),
+          sbGetFavorites(),
+        ]);
+        const favorites = allRestaurants.filter(r => favIds.includes(r.id));
+
+        if (favorites.length === 0) {
+          main.innerHTML = `
+            <div class="profil-velkommen">
+              <h1>Favoritter</h1>
+              <p>Restauranter du har givet et hjerte.</p>
+            </div>
+            <div class="fav-tom">
+              <i class="fa-regular fa-heart"></i>
+              <p>Du har ikke gemt nogen favoritter endnu.</p>
+              <a href="index.html">Se restauranter →</a>
+            </div>`;
+          return;
+        }
+
+        main.innerHTML = `
+          <div class="profil-velkommen">
+            <h1>Favoritter</h1>
+            <p>${favorites.length} gemt${favorites.length !== 1 ? 'e' : ''}</p>
+          </div>
+          <div class="fav-grid">
+            ${favorites.map(r => `
+              <a href="restaurant.html?id=${r.id}" class="restaurant-kort">
+                <div class="kort-billede-wrapper">
+                  <img src="${r.image}" alt="${r.name}" loading="lazy">
+                  <button class="favorit-knap aktiv"
+                          aria-label="Fjern fra favoritter"
+                          onclick="fjernFavorit(event, '${r.id}')">
+                    <i class="fa-solid fa-heart"></i>
+                  </button>
+                </div>
+                <div class="kort-info">
+                  <h3>${r.name}</h3>
+                  <p class="kort-kategori">${r.category}</p>
+                  <p class="kort-meta">
+                    <span><i class="fa-solid fa-star"></i> ${r.rating}</span>
+                    <span class="dot">·</span>
+                    <span>${r.delivery}</span>
+                    <span class="dot">·</span>
+                    <span>${r.price}</span>
+                  </p>
+                </div>
+              </a>
+            `).join('')}
+          </div>`;
+      }
+
+      window.fjernFavorit = async function(event, id) {
+        event.preventDefault();
+        await sbToggleFavorite(id);
+        renderFavoritter();
+      };
+
       function renderPlaceholder(titel) {
         document.getElementById('profil-main').innerHTML = `
           <div class="profil-velkommen">
@@ -331,7 +449,7 @@
       const sektionMap = {
         oversigt:     renderOversigt,
         studierabat:  renderStudierabat,
-        favoritter:   () => renderPlaceholder('Favoritter'),
+        favoritter:   renderFavoritter,
         adresser:     () => renderPlaceholder('Adresser'),
         betaling:     () => renderPlaceholder('Betaling'),
         indstillinger:() => renderPlaceholder('Indstillinger'),
@@ -349,8 +467,12 @@
 
       renderOversigt();
 
-      if (new URLSearchParams(location.search).get('verif') === '1') {
+      const params = new URLSearchParams(location.search);
+      if (params.get('verif') === '1') {
         document.querySelector('[data-sektion="studierabat"]').click();
+      } else if (params.get('sektion')) {
+        const el = document.querySelector(`[data-sektion="${params.get('sektion')}"]`);
+        if (el) el.click();
       }
     })();
   </script>

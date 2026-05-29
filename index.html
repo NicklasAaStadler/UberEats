@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UberEats</title>
+    <script>if(localStorage.getItem('displayName'))document.documentElement.classList.add('ue-auth');if(localStorage.getItem('role')==='student')document.documentElement.classList.add('ue-student');</script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/hero.css">
@@ -19,19 +20,41 @@
                     <img src="img/forside/Uber-Eats-Logo-2018.png" alt="UberEats Logo">
                 </a>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Restauranter</a></li>
-                    <li><a href="#">Mine ordrer</a></li>
+                    <li><a href="index.html">Restauranter</a></li>
+                    <li><a href="login.html?verif=1" id="nav-studierabat">Studierabat</a></li>
                 </ul>
             </div>
             
             <ul class="navbar-højre">
-                <li><a href="#" id="nav-location">Henter lokation…</a></li>
+                <li><a href="#" id="nav-location"></a></li>
                 <li><a href="kurv.html" class="kurv-icon"><i class="fa-solid fa-basket-shopping"></i><span class="kurv-badge" id="kurv-badge"></span></a></li>
                 <li id="nav-auth"><a href="login.html" class="login-knap">Log ind</a></li>
             </ul>
         </div>
     </nav>
+    <script>
+    (function(){
+      var dn=localStorage.getItem('displayName'),role=localStorage.getItem('role');
+      if(!dn)return;
+      var ul=document.querySelector('.navbar-venstre ul');
+      if(!ul)return;
+      ul.dataset.synced='1';
+      var sl=document.getElementById('nav-studierabat'),sli=sl&&sl.closest('li');
+      var lf=document.createElement('li'),lp=document.createElement('li');
+      lf.innerHTML='<a href="profil.html?sektion=favoritter">Favoritter</a>';
+      lp.innerHTML='<a href="profil.html">Profil</a>';
+      if(sli){ul.insertBefore(lf,sli);ul.insertBefore(lp,sli);sl.href='profil.html?verif=1';}
+      else{ul.appendChild(lf);ul.appendChild(lp);}
+      var na=document.getElementById('nav-auth');
+      if(na){
+        var i=dn.split(' ').map(function(w){return w[0]||'';}).join('').toUpperCase().slice(0,2);
+        na.style.listStyle='none';na.style.visibility='visible';
+        na.innerHTML='<div class="nav-bruger">'+(role==='student'?'<span class="nav-student-badge">Studerende</span>':'')+'<a href="profil.html" class="nav-avatar">'+i+'</a></div>';
+      }
+      var city=localStorage.getItem('ue-city'),loc=document.getElementById('nav-location');
+      if(loc&&city){loc.textContent=city;loc.style.opacity='1';}
+    }());
+    </script>
 
     <!-- Hero sektion -->
     <section class="hero">
@@ -71,7 +94,7 @@
         <div class="søgning-container">
             <div class="søgefelt">
                 <i class="fa-solid fa-magnifying-glass søge-ikon"></i>
-                <input type="text" placeholder="Søg efter restaurant eller mad...">
+                <input type="text" id="søge-input" placeholder="Søg efter restaurant eller mad..." autocomplete="off">
             </div>
         </div>
     </section>
@@ -83,13 +106,7 @@
     <div class="filtre-container">
 
         <!-- Filterpills -->
-        <div class="filterpills">
-            <button class="pill">Populært</button>
-            <button class="pill">Pris</button>
-            <button class="pill">Nær dig</button>
-            <button class="pill">Rating</button>
-            <button class="pill tilbud">Tilbud</button>
-        </div>
+
 
         <!-- Kategorier -->
         <div class="kategorier">
@@ -155,21 +172,50 @@
             </div>
         </div>
 
+                <div class="filterpills">
+            <button class="pill" data-sort="populært">Populært</button>
+            <button class="pill" data-sort="pris">Pris</button>
+            <button class="pill" data-sort="nær-dig">Nær dig</button>
+            <button class="pill" data-sort="rating">Rating</button>
+            <button class="pill tilbud" data-sort="tilbud">Tilbud</button>
+        </div>
+
     </div>
 </section>
 
     <!-- Studerende rabat-bar (skjult som standard, vises via auth.js) -->
     <div id="student-sektion" style="display:none;">
-      <div class="student-rabat-bar">
-        <div class="student-rabat-top">
+      <div class="student-rabat-bar" id="srb-bar">
+        <div class="srb-header">
           <span class="student-rabat-label">DINE STUDIEFORDELE</span>
-          <span class="student-rabat-lokation">Hos 5 restauranter nær campus</span>
         </div>
-        <div class="student-rabat-pct">Spar 20%</div>
-        <div class="student-rabat-progress">
-          <div class="student-rabat-fill"></div>
+        <div class="srb-body">
+          <div class="srb-venstre">
+            <div class="srb-titel" id="srb-titel">0/5 ordrer denne måned</div>
+            <div class="srb-sub" id="srb-sub">Bestil 5 gange og optjen en voucher på 100kr.</div>
+            <div class="srb-progress-track">
+              <div class="srb-dots" id="srb-dots">
+                <div class="srb-dot"></div>
+                <div class="srb-dot"></div>
+                <div class="srb-dot"></div>
+                <div class="srb-dot"></div>
+                <div class="srb-dot"></div>
+              </div>
+              <span class="srb-progress-tekst" id="srb-progress-tekst">0 ud af 5 ordrer</span>
+            </div>
+          </div>
+          <div class="srb-højre">
+            <div class="srb-reward-kort">
+              <i class="fa-solid fa-ticket-simple"></i>
+              <div class="srb-reward-label">Næste reward</div>
+              <div class="srb-reward-titel">100kr. voucher</div>
+            </div>
+          </div>
         </div>
-        <div class="student-rabat-niveau">Sølv niveau · 3 ordrer til Guld</div>
+        <div class="srb-footer">
+          <i class="fa-regular fa-calendar-days"></i>
+          <span id="srb-footer-tekst">Ny måned, nye muligheder! Tællingen nulstilles næste måned.</span>
+        </div>
       </div>
     </div>
 
