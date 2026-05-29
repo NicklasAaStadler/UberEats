@@ -1,5 +1,3 @@
-const GROQ_KEY = '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';
-
 const style = document.createElement('style');
 style.textContent = `
 #chat-btn{position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:#06c167;color:#fff;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.2);z-index:9999}
