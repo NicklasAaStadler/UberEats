@@ -17,24 +17,12 @@
         }
 
         .sr-hero {
-            background: linear-gradient(135deg, #000 0%, #0d1a2e 100%);
+            background: url('img/forside/uber-eats-hero-bg.svg') center center / cover no-repeat;
             color: #fff;
             text-align: center;
             padding: 5rem 2rem 4rem;
         }
 
-        .sr-hero-eyebrow {
-            display: inline-block;
-            background: var(--student-color);
-            color: #fff;
-            font-size: 0.78rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            padding: 0.35rem 1rem;
-            border-radius: 20px;
-            margin-bottom: 1.5rem;
-        }
 
         .sr-hero h1 {
             font-size: clamp(2.2rem, 6vw, 4rem);
@@ -135,16 +123,7 @@
             line-height: 1.6;
         }
 
-        .sr-card .sr-badge {
-            display: inline-block;
-            background: var(--student-color);
-            color: #fff;
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 2px 10px;
-            border-radius: 20px;
-            margin-top: 1rem;
-        }
+
 
         /* Sådan virker det */
         .sr-how {
@@ -207,39 +186,7 @@
         }
 
         /* Wayf banner */
-        .sr-wayf {
-            background: var(--student-color);
-            color: #fff;
-            text-align: center;
-            padding: 3.5rem 2rem;
-        }
-
-        .sr-wayf h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-        }
-
-        .sr-wayf p {
-            opacity: 0.85;
-            max-width: 500px;
-            margin: 0 auto 2rem;
-        }
-
-        .sr-wayf-cta {
-            display: inline-block;
-            background: #fff;
-            color: var(--student-color);
-            font-weight: 700;
-            padding: 0.85rem 2.2rem;
-            border-radius: 2rem;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: opacity 0.2s;
-        }
-
-        .sr-wayf-cta:hover { opacity: 0.9; }
-
+       
         /* FAQ */
         .sr-faq {
             max-width: 700px;
@@ -319,7 +266,6 @@
 
     <!-- Hero -->
     <section class="sr-hero">
-        <span class="sr-hero-eyebrow"><i class="fa-solid fa-graduation-cap"></i> &nbsp;Kun for studerende</span>
         <h1>Spar op til <span>40%</span><br>som studerende</h1>
         <p>Verificer din studiestatus med WAYF på 30 sekunder og få adgang til eksklusive rabatter, gratis levering og meget mere.</p>
         <a href="login.html?verif=1" class="sr-hero-cta"><i class="fa-solid fa-id-card"></i> &nbsp;Verificér med WAYF nu</a>
@@ -335,42 +281,36 @@
                 <div class="sr-card-icon icon-blue"><i class="fa-solid fa-percent"></i></div>
                 <h3>Op til 40% rabat</h3>
                 <p>Få automatisk studierabat hos udvalgte restauranter, hver gang du bestiller. Rabatten trækkes direkte ved checkout.</p>
-                <span class="sr-badge">Spar op til 40%</span>
             </div>
 
             <div class="sr-card">
                 <div class="sr-card-icon icon-green"><i class="fa-solid fa-truck-fast"></i></div>
                 <h3>Gratis levering</h3>
                 <p>Slip for leveringsgebyret på din 5. ordre og derefter hver 5. ordre. Jo mere du bestiller, jo mere sparer du.</p>
-                <span class="sr-badge">Gratis levering</span>
             </div>
 
             <div class="sr-card">
                 <div class="sr-card-icon icon-orange"><i class="fa-solid fa-gift"></i></div>
                 <h3>Surprise deals</h3>
                 <p>Som studerende låser du op for ugentlige overraskelsestilbud — fra gratis drikkevarer til halv pris på udvalgte retter.</p>
-                <span class="sr-badge">Ugentlige tilbud</span>
             </div>
 
             <div class="sr-card">
                 <div class="sr-card-icon icon-purple"><i class="fa-solid fa-star"></i></div>
                 <h3>Rewards point</h3>
                 <p>Optjen dobbelte points på alle ordrer og indfri dem til rabatter, gratis retter og eksklusive studentertilbud.</p>
-                <span class="sr-badge">2× points</span>
             </div>
 
             <div class="sr-card">
                 <div class="sr-card-icon icon-blue"><i class="fa-solid fa-clock"></i></div>
                 <h3>Studietime-deals</h3>
                 <p>Ekstra rabatter i tidsrummet 11–14 på hverdage — perfekt til en hurtig frokost mellem forelæsningerne.</p>
-                <span class="sr-badge">Man–fre 11–14</span>
             </div>
 
             <div class="sr-card">
                 <div class="sr-card-icon icon-green"><i class="fa-solid fa-users"></i></div>
                 <h3>Del med studiegruppen</h3>
                 <p>Bestil som gruppe og del en fælles ordre. Studierabatten gælder for hele ordren, uanset hvem der betaler.</p>
-                <span class="sr-badge">Gruppebestilling</span>
             </div>
 
         </div>
@@ -401,12 +341,7 @@
         </div>
     </div>
 
-    <!-- WAYF CTA -->
-    <div class="sr-wayf">
-        <h2>Klar til at spare?</h2>
-        <p>Verificér din studiestatus med WAYF og få adgang til alle studiefordele med det samme.</p>
-        <a href="login.html?verif=1" class="sr-wayf-cta"><i class="fa-solid fa-graduation-cap"></i> &nbsp;Verificér med WAYF</a>
-    </div>
+ 
 
     <!-- FAQ -->
     <section class="sr-faq">
