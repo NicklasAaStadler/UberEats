@@ -26,7 +26,7 @@
             </div>
             
             <ul class="navbar-højre">
-                <li><a href="#" id="nav-location"></a></li>
+                <li><p id="nav-location"></p></li>
                 <li><a href="kurv.html" class="kurv-icon"><i class="fa-solid fa-basket-shopping"></i><span class="kurv-badge" id="kurv-badge"></span></a></li>
                 <li id="nav-auth"><a href="login.html" class="login-knap">Log ind</a></li>
             </ul>
@@ -43,7 +43,7 @@
       var lf=document.createElement('li'),lp=document.createElement('li');
       lf.innerHTML='<a href="profil.html?sektion=favoritter">Favoritter</a>';
       lp.innerHTML='<a href="profil.html">Profil</a>';
-      if(sli){ul.insertBefore(lf,sli);ul.insertBefore(lp,sli);sl.href='profil.html?verif=1';}
+      if(sli){ul.insertBefore(lf,sli);ul.insertBefore(lp,sli);}
       else{ul.appendChild(lf);ul.appendChild(lp);}
       var na=document.getElementById('nav-auth');
       if(na){

@@ -32,6 +32,8 @@
 #nav-location {
     opacity: 0;
     transition: opacity 0.25s ease;
+    color: var(--text-color);
+    margin: 0;
 }
 
 .navbar-højre {
@@ -70,6 +72,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.kurv-badge:empty {
+    display: none;
 }
 
 #nav-auth {
