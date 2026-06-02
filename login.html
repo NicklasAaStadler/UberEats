@@ -493,7 +493,7 @@
       <p class="error-msg" id="error"></p>
 
       <p class="hint" id="skift-link">
-        Ny bruger? <b onclick="skiftTilOpret()" style="cursor:pointer;text-decoration:underline">Opret konto</b>
+        Ny bruger? <b onclick="setMode(true)" style="cursor:pointer;text-decoration:underline">Opret konto</b>
       </p>
 
       <div class="divider">eller</div>
@@ -513,25 +513,16 @@
     let pendingStudent = false;
     let isRegisterMode = false;
 
-    // ── Tilstand ──────────────────────────────────────────
-    function skiftTilOpret() {
-      isRegisterMode = true;
-      document.querySelector('.login-card h1').textContent    = 'Opret konto';
-      document.querySelector('.login-card .sub').textContent  = 'Udfyld felterne for at komme i gang';
-      document.querySelector('.btn-primary').textContent      = 'Opret konto';
-      document.querySelector('.btn-primary').onclick         = opretKonto;
-      document.getElementById('skift-link').innerHTML =
-        'Har du allerede en konto? <b onclick="skiftTilLogin()" style="cursor:pointer;text-decoration:underline">Log ind</b>';
-    }
-
-    function skiftTilLogin() {
-      isRegisterMode = false;
-      document.querySelector('.login-card h1').textContent    = 'Velkommen tilbage';
-      document.querySelector('.login-card .sub').textContent  = 'Log ind for at fortsætte';
-      document.querySelector('.btn-primary').textContent      = 'Log ind';
-      document.querySelector('.btn-primary').onclick         = login;
-      document.getElementById('skift-link').innerHTML =
-        'Ny bruger? <b onclick="skiftTilOpret()" style="cursor:pointer;text-decoration:underline">Opret konto</b>';
+    // ── Tilstand (login ↔ opret) ──────────────────────────
+    function setMode(register) {
+      isRegisterMode = register;
+      document.querySelector('.login-card h1').textContent   = register ? 'Opret konto' : 'Velkommen tilbage';
+      document.querySelector('.login-card .sub').textContent = register ? 'Udfyld felterne for at komme i gang' : 'Log ind for at fortsætte';
+      document.querySelector('.btn-primary').textContent     = register ? 'Opret konto' : 'Log ind';
+      document.querySelector('.btn-primary').onclick         = register ? opretKonto : login;
+      document.getElementById('skift-link').innerHTML = register
+        ? 'Har du allerede en konto? <b onclick="setMode(false)" style="cursor:pointer;text-decoration:underline">Log ind</b>'
+        : 'Ny bruger? <b onclick="setMode(true)" style="cursor:pointer;text-decoration:underline">Opret konto</b>';
     }
 
     // ── Auth ──────────────────────────────────────────────
@@ -600,7 +591,7 @@
       document.querySelector('.btn-student').style.display    = 'none';
       document.querySelector('.divider').style.display        = 'none';
 
-      skiftTilOpret();
+      setMode(true);
       document.querySelector('.login-card h1').textContent   = 'Opret studenteronto';
       document.querySelector('.login-card .sub').textContent = 'Vælg din e-mail og adgangskode';
     }
@@ -610,7 +601,7 @@
       document.getElementById('student-banner').style.display = 'none';
       document.querySelector('.btn-student').style.display    = '';
       document.querySelector('.divider').style.display        = '';
-      skiftTilLogin();
+      setMode(false);
     }
 
     // ── Navn popup ────────────────────────────────────────

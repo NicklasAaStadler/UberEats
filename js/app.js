@@ -25,6 +25,45 @@ function updateNavbarBadge() {
 }
 
 
+// ===== SHARED HELPERS =====
+
+// One source of truth for every price calculation.
+function cartTotals({ tipPct = 0, withLevering = true } = {}) {
+  const subtotal = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
+  const rabatPct = getStudierabat();
+  const rabat    = Math.round(subtotal * rabatPct / 100);
+  const levering = withLevering ? getLevering() : 0;
+  const tip      = Math.round(subtotal * tipPct / 100);
+  return { subtotal, rabatPct, rabat, levering, tip, total: subtotal + levering - rabat + tip };
+}
+
+// Re-render whichever cart view is on the current page.
+function refreshCart() {
+  if (document.getElementById('kurv-indhold')) renderKurvPage();
+  else renderSidebarCart();
+}
+
+// Generic confirm modal (reused by login prompt + cart conflict).
+function visModal({ title, body, cancel, confirm, onConfirm }) {
+  document.querySelector('.kurv-konflikt-overlay')?.remove();
+  const el = document.createElement('div');
+  el.className = 'kurv-konflikt-overlay';
+  el.innerHTML = `
+    <div class="kurv-konflikt-boks">
+      <h3>${title}</h3>
+      <p>${body}</p>
+      <div class="kurv-konflikt-knapper">
+        <button class="kurv-konflikt-annuller">${cancel}</button>
+        <button class="kurv-konflikt-bekræft">${confirm}</button>
+      </div>
+    </div>`;
+  el.querySelector('.kurv-konflikt-annuller').onclick = () => el.remove();
+  el.querySelector('.kurv-konflikt-bekræft').onclick  = () => { el.remove(); onConfirm?.(); };
+  el.onclick = e => { if (e.target === el) el.remove(); };
+  document.body.appendChild(el);
+}
+
+
 // ===== HOMEPAGE =====
 
 let activeTag   = null;
@@ -289,7 +328,7 @@ async function renderRestaurantPage() {
         }
       });
     }, { rootMargin: '-10% 0px -80% 0px' });
-
+    
     document.querySelectorAll('.menu-sektion').forEach(el => observer.observe(el));
 
     const første = navEl.querySelector('.menu-nav-item');
@@ -315,9 +354,7 @@ function addToCart(itemId) {
 
   if (existing) {
     existing.quantity++;
-    saveCart(); updateNavbarBadge();
-    if (document.getElementById('kurv-indhold')) renderKurvPage();
-    else renderSidebarCart();
+    saveCart(); updateNavbarBadge(); refreshCart();
     return;
   }
 
@@ -339,31 +376,17 @@ function addToCart(itemId) {
   }
 
   cart.push(nyVare);
-  saveCart(); updateNavbarBadge();
-  if (document.getElementById('kurv-indhold')) renderKurvPage();
-  else renderSidebarCart();
+  saveCart(); updateNavbarBadge(); refreshCart();
 }
 
 function visLoginModal(redirectUrl = 'checkout.html') {
-  document.getElementById('login-påkrævet-modal')?.remove();
-  const el = document.createElement('div');
-  el.id = 'login-påkrævet-modal';
-  el.className = 'kurv-konflikt-overlay';
-  el.innerHTML = `
-    <div class="kurv-konflikt-boks">
-      <h3>Log ind for at fortsætte</h3>
-      <p>Du skal være logget ind for at gå til betaling.</p>
-      <div class="kurv-konflikt-knapper">
-        <button class="kurv-konflikt-annuller">Annuller</button>
-        <button class="kurv-konflikt-bekræft">Log ind</button>
-      </div>
-    </div>`;
-  el.querySelector('.kurv-konflikt-annuller').onclick = () => el.remove();
-  el.querySelector('.kurv-konflikt-bekræft').onclick = () => {
-    window.location.href = `login.html?next=${encodeURIComponent(redirectUrl)}`;
-  };
-  el.onclick = e => { if (e.target === el) el.remove(); };
-  document.body.appendChild(el);
+  visModal({
+    title: 'Log ind for at fortsætte',
+    body: 'Du skal være logget ind for at gå til betaling.',
+    cancel: 'Annuller',
+    confirm: 'Log ind',
+    onConfirm: () => { window.location.href = `login.html?next=${encodeURIComponent(redirectUrl)}`; },
+  });
 }
 
 function gåTilBetaling() {
@@ -375,24 +398,14 @@ function gåTilBetaling() {
 }
 
 function visKurvKonflikt(fraRest, tilRest, onBekræft) {
-  document.getElementById('kurv-konflikt-modal')?.remove();
-  const el = document.createElement('div');
-  el.id = 'kurv-konflikt-modal';
-  el.className = 'kurv-konflikt-overlay';
-  el.innerHTML = `
-    <div class="kurv-konflikt-boks">
-      <h3>Start ny ordre?</h3>
-      <p>Din kurv indeholder allerede varer fra <strong>${fraRest}</strong>.<br>
-         Vil du tømme kurven og starte en ny ordre fra <strong>${tilRest}</strong>?</p>
-      <div class="kurv-konflikt-knapper">
-        <button class="kurv-konflikt-annuller">Behold kurven</button>
-        <button class="kurv-konflikt-bekræft">Tøm og start forfra</button>
-      </div>
-    </div>`;
-  el.querySelector('.kurv-konflikt-annuller').onclick = () => el.remove();
-  el.querySelector('.kurv-konflikt-bekræft').onclick  = () => { el.remove(); onBekræft(); };
-  el.onclick = e => { if (e.target === el) el.remove(); };
-  document.body.appendChild(el);
+  visModal({
+    title: 'Start ny ordre?',
+    body: `Din kurv indeholder allerede varer fra <strong>${fraRest}</strong>.<br>
+           Vil du tømme kurven og starte en ny ordre fra <strong>${tilRest}</strong>?`,
+    cancel: 'Behold kurven',
+    confirm: 'Tøm og start forfra',
+    onConfirm: onBekræft,
+  });
 }
 
 function removeFromCart(itemId) {
@@ -407,9 +420,7 @@ function removeFromCart(itemId) {
 
   saveCart();
   updateNavbarBadge();
-
-  if (document.getElementById('kurv-indhold'))  renderKurvPage();
-  else                                           renderSidebarCart();
+  refreshCart();
 }
 
 
@@ -433,10 +444,7 @@ function renderSidebarCart() {
   tomEl.style.display    = 'none';
   footerEl.style.display = 'block';
 
-  const subtotal  = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
-  const rabatPct  = getStudierabat();
-  const rabat     = Math.round(subtotal * rabatPct / 100);
-  const total     = subtotal - rabat;
+  const { rabat, total } = cartTotals({ withLevering: false });
 
   const rabatLinjeEl = document.getElementById('cart-rabat-linje');
   if (rabatLinjeEl) {
@@ -468,10 +476,7 @@ function updateMobilKurvKnap() {
   const knap = document.getElementById('mobil-kurv-knap');
   if (!knap) return;
   if (cart.length === 0) { knap.classList.remove('kurv-fyldt'); return; }
-  const subtotal    = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
-  const rabatPct    = getStudierabat();
-  const rabat       = Math.round(subtotal * rabatPct / 100);
-  const total       = subtotal - rabat;
+  const { total }   = cartTotals({ withLevering: false });
   const antalVarer  = cart.reduce((sum, c) => sum + c.quantity, 0);
   document.getElementById('mobil-kurv-info').textContent =
     `${antalVarer} vare${antalVarer !== 1 ? 'r' : ''} · ${total} kr.`;
@@ -510,11 +515,7 @@ function renderKurvPage() {
     return;
   }
 
-  const subtotal = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
-  const rabatPct = getStudierabat();
-  const rabat    = Math.round(subtotal * rabatPct / 100);
-  const levering = getLevering();
-  const total    = subtotal + levering - rabat;
+  const { subtotal, rabatPct, rabat, levering, total } = cartTotals();
 
   indhold.innerHTML = `
     <div class="kurv-layout">
@@ -586,12 +587,7 @@ function vælgTip(pct) {
 }
 
 function updateCheckoutTotals() {
-  const subtotal = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
-  const rabatPct = getStudierabat();
-  const rabat    = Math.round(subtotal * rabatPct / 100);
-  const tip      = Math.round(subtotal * tipProcent / 100);
-  const levering = getLevering();
-  const total    = subtotal + levering - rabat + tip;
+  const { subtotal, rabatPct, rabat, levering, tip, total } = cartTotals({ tipPct: tipProcent });
 
   document.getElementById('checkout-subtotal').textContent = `${subtotal} kr.`;
   document.getElementById('checkout-levering').textContent = levering === 0 ? 'Gratis' : `${levering} kr.`;
@@ -637,13 +633,8 @@ async function renderBekræftelsePage() {
   if (!el) return;
 
   // Save order snapshot (items + totals) before clearing cart
-  const subtotal = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
   const savedTip = parseInt(localStorage.getItem('ue-tip') || '0', 10);
-  const rabatPct = getStudierabat();
-  const tip      = Math.round(subtotal * savedTip / 100);
-  const rabat    = Math.round(subtotal * rabatPct / 100);
-  const levering = getLevering();
-  const total    = subtotal + levering - rabat + tip;
+  const { subtotal, rabat, levering, tip, total } = cartTotals({ tipPct: savedTip });
 
   const order = {
     number:   Math.floor(100000 + Math.random() * 900000),

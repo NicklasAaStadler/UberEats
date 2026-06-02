@@ -1,1 +1,0 @@
-const GROQ_KEY = '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';

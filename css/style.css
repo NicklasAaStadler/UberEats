@@ -15,6 +15,12 @@
     padding: 0;
 }
 
+/* Always reserve the scrollbar gutter so page width (and the navbar) stays
+   identical whether or not a page is tall enough to scroll. */
+html {
+    scrollbar-gutter: stable;
+}
+
 body {
     background-color: var(--background-color);
     font-family: var(--font), serif;
