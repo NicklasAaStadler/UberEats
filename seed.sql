@@ -1,6 +1,4 @@
--- ============================================================
---  Kør denne i Supabase SQL Editor for at indsætte data
--- ============================================================
+-- sqil kode vi har kort i supabase
 
 INSERT INTO restaurants (id, name, category, rating, delivery, price, image, description, studierabat, tags) VALUES
   ('wagamama',    'Wagamama',     'Asiatisk · Japansk',       4.6, '20–30 min.', '$$$',  'img/wagamama/waga2.jpg',             'Autentisk japansk-inspireret mad tilberedt i et åbent køkken med friske råvarer.', 30,   ARRAY['Asiatisk']),

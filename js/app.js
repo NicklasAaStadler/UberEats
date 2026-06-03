@@ -331,7 +331,7 @@ async function renderRestaurantPage() {
     
     document.querySelectorAll('.menu-sektion').forEach(el => observer.observe(el));
 
-    const første = navEl.querySelector('.menu-nav-item');
+    const første = navEl.querySelector('.menu-nav-item'); 
     if (første) første.classList.add('aktiv');
   }
 

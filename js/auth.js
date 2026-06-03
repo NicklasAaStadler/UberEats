@@ -88,7 +88,7 @@
       })();
     }
   }
-
+  
   if (role === 'student') {
     const studentSektion = document.getElementById('student-sektion');
     if (studentSektion) {
