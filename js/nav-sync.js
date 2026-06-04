@@ -1,4 +1,3 @@
-// Anti-flicker nav sync: builds the logged-in navbar before auth.js runs.
 (function () {
   var dn = localStorage.getItem('displayName'),
       role = localStorage.getItem('role'),
