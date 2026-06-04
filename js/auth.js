@@ -15,7 +15,6 @@
       }
     }
   } else {
-    // Session gone — clear all user-specific state
     localStorage.removeItem('role');
     localStorage.removeItem('username');
     localStorage.removeItem('displayName');
@@ -28,7 +27,6 @@
   const navAuth     = document.getElementById('nav-auth');
   const leftNav     = document.querySelector('.navbar-venstre ul');
 
-  // Only set up nav if the inline sync script didn't already handle it
   if (navAuth && role && displayName && leftNav && !leftNav.dataset.synced) {
     const initials = displayName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
 
@@ -59,7 +57,6 @@
     navAuth.style.visibility = 'visible';
   }
 
-  // Location — use localStorage cache, only hit APIs on first visit
   const locationEl = document.getElementById('nav-location');
   if (locationEl && !locationEl.textContent) {
     const cachedCity = localStorage.getItem('ue-city');
