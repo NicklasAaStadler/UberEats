@@ -1,11 +1,8 @@
-/* ===== TABLET: 768px ===== */
 @media (max-width: 768px) {
 
-  /* Navbar: hide nav links, keep logo + actions */
   .navbar-venstre ul { display: none; }
-  .navbar-højre li:first-child { display: none; } /* hide Location */
+  .navbar-højre li:first-child { display: none; } 
 
-  /* Hero: stack vertically */
   .hero { padding: 2.5rem 1.5rem; }
   .hero-container { flex-direction: column; text-align: center; }
   .hero-tekst { max-width: 100%; }
@@ -15,44 +12,35 @@
   .hero-billede-wrapper { width: 100%; max-width: 480px; margin: 0 auto; }
   .hero-badge { display: none; }
 
-  /* Footer: 2-column grid */
   .footer-kolonner { grid-template-columns: 1fr 1fr; }
 
-  /* Rabat bar wrapper: tighter padding on tablet */
   #student-sektion { padding: 0 1.5rem 1rem; }
 
-  /* Restaurant: smaller image, 2-col popular grid, narrow cart */
   .restaurant-info-img { width: 160px; height: 160px; }
   .menu-populær-grid { grid-template-columns: repeat(2, 1fr); }
   .restaurant-content-layout { grid-template-columns: 1fr 260px; gap: 1.25rem; }
 }
 
 
-/* ===== MOBILE: 480px ===== */
 @media (max-width: 480px) {
 
-  /* Navbar */
   .navbar { padding: 0.75rem 1rem; font-size: 1rem; }
   .navbar-logo img { height: 60px; }
 
-  /* Hero: hide image entirely, tighter text */
   .hero { padding: 2rem 1rem; }
   .hero-overskrift { font-size: 2rem; }
   .hero-beskrivelse { font-size: 1rem; }
   .hero-billede-wrapper { display: none; }
 
-  /* Rabat bar wrapper: full width on mobile */
   #student-sektion { padding: 0 1rem 1rem; }
   .srb-højre { flex: 1 1 100%; }
   .srb-reward-kort { flex-direction: row; width: 100%; justify-content: center; gap: 0.75rem; padding: 0.75rem 1rem; }
   .srb-reward-ikon { margin-bottom: 0; font-size: 1.3rem; }
 
-  /* Sections: tighter side padding */
   .søgning { padding: 1.5rem 1rem; }
   .filtre-sektion { padding: 0 1rem 1.5rem; }
   .restauranter-sektion { padding: 1.5rem 1rem 3rem; }
 
-  /* Categories: horizontal scroll instead of wrap */
   .kategorier {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -64,11 +52,9 @@
   .kategori { flex-shrink: 0; }
   .kategori-cirkel { width: 70px; height: 70px; }
 
-  /* Footer: single column */
   .footer-kolonner { grid-template-columns: 1fr; }
   .footer-bund { flex-direction: column; text-align: center; }
 
-  /* Restaurant info bar: stack image + text vertically */
   .restaurant-info-bar { padding: 1rem 0; }
   .restaurant-info-container { padding: 0 1rem; }
   .restaurant-info-layout { flex-direction: column; gap: 0.75rem; }
@@ -76,32 +62,24 @@
   .restaurant-info-side { align-items: flex-start; }
   .restaurant-info-container h1 { font-size: 1.5rem; }
 
-  /* Category tabs: relative so it doesn't stick below the info bar on mobile */
   .menu-tabs-bar { top: 0; position: relative; }
   .menu-tabs-container { padding: 0 1rem; }
 
-  /* Popular grid: 2 columns on mobile */
   .menu-populær-grid { grid-template-columns: repeat(2, 1fr); }
 
-  /* Stack menu + cart vertically; extra bottom padding for floating button */
   .restaurant-content-layout { grid-template-columns: 1fr; padding: 1rem 1rem 6rem; }
 
-  /* Hide sidebar entirely — replaced by floating button below */
   .cart-sidebar { display: none !important; }
 
-  /* Show floating cart button when it has items */
   .mobil-kurv-knap.kurv-fyldt { display: flex; }
 
-  /* Kurv page: stack layout vertically */
   .kurv-layout { flex-direction: column; }
   .kurv-opsummering { width: 100%; position: static; }
 
-  /* Checkout page: stack layout vertically */
   .checkout-layout { flex-direction: column; }
   .checkout-højre { width: 100%; position: static; }
   .betaling-tabs { flex-wrap: wrap; }
 
-  /* Flow bar: smaller text */
   .flow-steg span { font-size: 0.7rem; }
   .flow-steg-cirkel { width: 28px; height: 28px; font-size: 0.75rem; }
   .flow-linje { margin-top: 13px; }
