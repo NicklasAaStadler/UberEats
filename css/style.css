@@ -15,8 +15,6 @@
     padding: 0;
 }
 
-/* Always reserve the scrollbar gutter so page width (and the navbar) stays
-   identical whether or not a page is tall enough to scroll. */
 html {
     scrollbar-gutter: stable;
 }
@@ -31,7 +29,7 @@ ul {
     list-style: none;
 }
 
-/* ===== HERO SEKTION ===== */
+
 
 .hero {
     background-color: #1a73e8b7;
@@ -39,7 +37,6 @@ ul {
     min-height: 340px;
 }
 
-/* Hide hero for students before any JS runs */
 html.ue-student .hero { display: none !important; }
 
 .hero-container {
@@ -51,7 +48,6 @@ html.ue-student .hero { display: none !important; }
     gap: 2rem;
 }
 
-/* --- Venstre tekst --- */
 .hero-tekst {
     flex: 1;
     color: #fff;
@@ -98,7 +94,6 @@ html.ue-student .hero { display: none !important; }
 
 
 
-/* --- Højre billede --- */
 .hero-billede-wrapper {
     position: relative;
     flex: 0 0 auto;
@@ -112,7 +107,6 @@ html.ue-student .hero { display: none !important; }
     border-radius: 1.25rem;
 }
 
-/* Badge: 0 kr. levering */
 .hero-badge {
     position: absolute;
     bottom: -1rem;
@@ -208,7 +202,6 @@ html.ue-student .hero { display: none !important; }
 }
 
 
-/* ===== FILTRE OG KATEGORIER ===== */
 
 .filtre-sektion {
     background-color: var(--background-color);
@@ -263,7 +256,6 @@ html.ue-student .hero { display: none !important; }
     border-color: var(--tilbud-color);
 }
 
-/* --- Kategoricirkler --- */
 .kategorier {
     display: flex;
     gap: 1.8rem;
@@ -322,7 +314,6 @@ html.ue-student .hero { display: none !important; }
 
 
 
-/* ===== RESTAURANT SEKTION ===== */
 
 .restauranter-sektion {
     background-color: var(--background-color);
@@ -347,7 +338,6 @@ html.ue-student .hero { display: none !important; }
     gap: 1.5rem;
 }
 
-/* --- Kort --- */
 .restaurant-kort {
     text-decoration: none;
     color: var(--text-color);
@@ -377,9 +367,7 @@ html.ue-student .hero { display: none !important; }
     display: block;
 }
 
-/* ===== STUDERENDE RABAT-BAR ===== */
 
-/* Wrapper on index.html — matches padding of surrounding sections */
 #student-sektion {
     background-color: var(--background-color);
     padding: 0 2rem 1rem;
@@ -525,7 +513,6 @@ html.ue-student .hero { display: none !important; }
     color: var(--student-color);
 }
 
-/* Badge-container på restaurantkort */
 .kort-badges {
     position: absolute;
     top: 0.65rem;
@@ -556,7 +543,6 @@ html.ue-student .hero { display: none !important; }
     background: #00875a;
 }
 
-/* Hjerte-knap */
 .favorit-knap {
     position: absolute;
     top: 0.75rem;
@@ -584,7 +570,6 @@ html.ue-student .hero { display: none !important; }
     color: var(--tilbud-color);
 }
 
-/* Kortinfo */
 .kort-info {
     padding: 0.75rem 0.25rem 0.5rem;
     display: flex;
@@ -620,7 +605,6 @@ html.ue-student .hero { display: none !important; }
 }
 
 
-/* ===== KURV KONFLIKT MODAL ===== */
 
 .kurv-konflikt-overlay {
     position: fixed;
@@ -688,7 +672,6 @@ html.ue-student .hero { display: none !important; }
 .kurv-konflikt-bekræft:hover { opacity: 0.85; }
 
 
-/* ===== FOOTER ===== */
 
 .footer {
     background-color: #1a1a1a;
@@ -702,7 +685,6 @@ html.ue-student .hero { display: none !important; }
     margin: 0 auto;
 }
 
-/* --- Kolonner --- */
 .footer-kolonner {
     display: grid;
     grid-template-columns: 1.8fr 1fr 1fr 1fr 1.2fr;
@@ -749,7 +731,6 @@ html.ue-student .hero { display: none !important; }
     color: #fff;
 }
 
-/* Social ikoner */
 .footer-social {
     display: flex;
     gap: 1rem;
@@ -767,7 +748,6 @@ html.ue-student .hero { display: none !important; }
     color: var(--brand-color);
 }
 
-/* --- Bundlinje --- */
 .footer-bund {
     display: flex;
     justify-content: space-between;
@@ -800,7 +780,6 @@ html.ue-student .hero { display: none !important; }
 }
 
 
-/* --- Login side --- */
     .login-wrapper {
       min-height: 100vh;
       display: flex;
