@@ -1,5 +1,4 @@
-// ===== CART PERSISTENCE =====
-// cart lives in localStorage so it survives page navigation
+
 
 function saveCart() {
   localStorage.setItem('ue-cart', JSON.stringify(cart));
@@ -13,8 +12,6 @@ function loadCart() {
 let cart = loadCart();
 
 
-// ===== NAVBAR BADGE =====
-// Called on every page to keep the icon count in sync
 
 function updateNavbarBadge() {
   const badge = document.getElementById('kurv-badge');
@@ -25,9 +22,7 @@ function updateNavbarBadge() {
 }
 
 
-// ===== SHARED HELPERS =====
 
-// One source of truth for every price calculation.
 function cartTotals({ tipPct = 0, withLevering = true } = {}) {
   const subtotal = cart.reduce((sum, c) => sum + c.price * c.quantity, 0);
   const rabatPct = getStudierabat();
@@ -37,13 +32,11 @@ function cartTotals({ tipPct = 0, withLevering = true } = {}) {
   return { subtotal, rabatPct, rabat, levering, tip, total: subtotal + levering - rabat + tip };
 }
 
-// Re-render whichever cart view is on the current page.
 function refreshCart() {
   if (document.getElementById('kurv-indhold')) renderKurvPage();
   else renderSidebarCart();
 }
 
-// Generic confirm modal (reused by login prompt + cart conflict).
 function visModal({ title, body, cancel, confirm, onConfirm }) {
   document.querySelector('.kurv-konflikt-overlay')?.remove();
   const el = document.createElement('div');
@@ -64,7 +57,6 @@ function visModal({ title, body, cancel, confirm, onConfirm }) {
 }
 
 
-// ===== HOMEPAGE =====
 
 let activeTag   = null;
 let activeSort  = null;
@@ -183,7 +175,7 @@ async function toggleFavorit(event, id) {
 }
 
 
-// ===== RESTAURANT PAGE =====
+// ===== RESTAURANT SIDE =====
 
 let currentRestaurant = null;
 
@@ -240,7 +232,6 @@ async function renderRestaurantPage() {
     document.getElementById('restaurant-hours-wrapper').style.display = 'flex';
   }
 
-  // ── Kategorifaner (vandret) ───────────────────────────
   const navEl = document.getElementById('menu-nav');
   if (navEl) {
     navEl.innerHTML = currentRestaurant.menu.map(section => `
@@ -250,7 +241,6 @@ async function renderRestaurantPage() {
     `).join('');
   }
 
-  // ── Levering/Afhentning toggle ────────────────────────
   const toggleEl = document.getElementById('levering-toggle');
   if (toggleEl) {
     toggleEl.innerHTML = `
@@ -264,7 +254,6 @@ async function renderRestaurantPage() {
       </button>`;
   }
 
-  // ── Menusektioner ─────────────────────────────────────
   document.getElementById('restaurant-menu').innerHTML = currentRestaurant.menu.map(section => {
     const id = `sektion-${slugify(section.category)}`;
     const erPopulær = section.category.toLowerCase().includes('populær');
@@ -315,7 +304,6 @@ async function renderRestaurantPage() {
       </div>`;
   }).join('');
 
-  // ── Scroll-spy: fremhæv aktiv kategori ───────────────
   if (navEl) {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -339,7 +327,6 @@ async function renderRestaurantPage() {
 }
 
 
-// ===== CART LOGIC =====
 
 function findItem(itemId) {
   for (const section of currentRestaurant.menu) {
@@ -424,7 +411,6 @@ function removeFromCart(itemId) {
 }
 
 
-// ===== SIDEBAR CART (restaurant page) =====
 
 function renderSidebarCart() {
   const tomEl    = document.getElementById('cart-tom');
@@ -484,7 +470,6 @@ function updateMobilKurvKnap() {
 }
 
 
-// ===== KURV PAGE =====
 
 function getLevering() {
   if (localStorage.getItem('ue-pickup') === 'true') return 0;
@@ -567,7 +552,7 @@ function renderKurvPage() {
 }
 
 
-// ===== CHECKOUT PAGE =====
+// = checkout delen -
 
 let tipProcent = 0;
 
@@ -626,7 +611,6 @@ function renderCheckoutPage() {
 }
 
 
-// ===== BEKRÆFTELSE PAGE =====
 
 async function renderBekræftelsePage() {
   const el = document.getElementById('bekræftelse-content');
@@ -647,7 +631,6 @@ async function renderBekræftelsePage() {
     time:     Date.now(),
   };
 
-  // Only save + clear cart on first load (not on refresh)
   if (!localStorage.getItem('ue-last-order')) {
     localStorage.setItem('ue-last-order', JSON.stringify(order));
     await sbSaveOrder(localStorage.getItem('ue-restaurant-id'), order.items, total);
@@ -658,7 +641,6 @@ async function renderBekræftelsePage() {
 
   const saved = JSON.parse(localStorage.getItem('ue-last-order'));
 
-  // Estimated delivery: order time + 30 min
   const eta = new Date(saved.time + 30 * 60 * 1000);
   const etaStr = eta.toLocaleTimeString('da-DK', { hour: '2-digit', minute: '2-digit' });
 
@@ -714,7 +696,6 @@ async function renderBekræftelsePage() {
 }
 
 
-// ===== LEVERING PAGE =====
 
 function visBeskedModal(navn) {
   const overlay = document.createElement('div');
@@ -820,7 +801,6 @@ function renderLeveringPage() {
 }
 
 
-// ===== INIT =====
 
 updateNavbarBadge();
 
