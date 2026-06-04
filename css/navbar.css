@@ -89,7 +89,6 @@
     border-radius: 2rem;
 }
 
-/* All left nav links — unified */
 .navbar-venstre ul li a {
     color: var(--text-color);
     text-decoration: none;
@@ -107,7 +106,6 @@
     font-weight: 600;
 }
 
-/* Right-side user area */
 .nav-bruger {
     display: flex;
     align-items: center;
