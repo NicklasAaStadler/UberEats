@@ -3,7 +3,6 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ── Auth ──────────────────────────────────────────────────────────────────────
 async function sbSignIn(email, password) {
   return sb.auth.signInWithPassword({ email, password });
 }
@@ -21,7 +20,6 @@ async function sbGetSession() {
   return session;
 }
 
-// ── Profil ────────────────────────────────────────────────────────────────────
 async function sbGetProfile() {
   const session = await sbGetSession();
   if (!session) return null;
@@ -35,8 +33,7 @@ async function sbUpsertProfile(displayName, role) {
   await sb.from('profiles').upsert({ id: session.user.id, display_name: displayName, role });
 }
 
-// ── Cache helper ────────────────────────────────────────────────────────────
-// Returns cached JSON if fresher than ttl (ms), otherwise fetches and stores it.
+
 async function cached(key, ttl, fetcher) {
   const raw = localStorage.getItem(key);
   const ts  = +localStorage.getItem(key + '-ts') || 0;
@@ -51,7 +48,6 @@ async function cached(key, ttl, fetcher) {
   return data;
 }
 
-// ── Restauranter ──────────────────────────────────────────────────────────────
 async function sbGetRestaurants() {
   return cached('ue-restaurants-v2', 300000, async () => {
     const { data } = await sb.from('restaurants').select('*');
@@ -84,7 +80,6 @@ async function sbGetRestaurantWithMenu(id) {
   return restaurant;
 }
 
-// ── Ordrer ────────────────────────────────────────────────────────────────────
 async function sbSaveOrder(restaurantId, items, total) {
   const session = await sbGetSession();
   if (!session) return null;
@@ -120,7 +115,6 @@ async function sbGetOrders() {
   return data || [];
 }
 
-// ── Favoritter ────────────────────────────────────────────────────────────────
 async function sbGetFavorites() {
   const session = await sbGetSession();
   if (!session) return [];
@@ -142,7 +136,6 @@ async function sbToggleFavorite(restaurantId) {
   } else {
     await sb.from('favorites').insert({ user_id: session.user.id, restaurant_id: restaurantId });
   }
-  // Invalidate favorites cache so next load is fresh
   localStorage.removeItem('ue-favorites');
   return !favs.includes(restaurantId);
 }
